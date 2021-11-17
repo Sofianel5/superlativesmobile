@@ -16,10 +16,9 @@ export async function getUser() {
 }
 
 export async function requestSignup(firstName: string, lastName: string, phone: string) {
-    const resp = await axios.post(Urls.REQUEST_SIGNUP, {
+    return axios.post(Urls.REQUEST_SIGNUP, {
         firstName,
         lastName,
         phone
     });
-    return resp.data;
 }

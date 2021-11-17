@@ -2,7 +2,7 @@ import React, { Component, useState, useRef } from 'react';
 import { View, Text, StyleSheet, Pressable, TextInput, Keyboard, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import { AsYouType, parsePhoneNumberFromString } from 'libphonenumber-js';
 import {useAppDispatch, useAppSelector} from '../../../app/hooks';
-import { requestSignup } from '../../../services/RemoteData';
+import { requestSignupAction } from '../authSlice';
 import { getUser } from '../authAPI';
 
 
@@ -27,11 +27,11 @@ const Name = () => {
         }
     }
 
-    // const handleSubmit = () => {
-    //     Keyboard.dismiss()
-    //     dispatch(requestSignup(firstName, lastName, phone))
-    //     // navigation.navigate('Verify', {phone, firstName, lastName})
-    // }
+    const handleSubmit = () => {
+        Keyboard.dismiss()
+        dispatch(requestSignupAction({firstName, lastName, phone}))
+        // navigation.navigate('Verify', {phone, firstName, lastName})
+    }
 
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -61,7 +61,7 @@ const Name = () => {
                     <TextInput style={styles.input} ref={phoneRef} returnKeyType="go" onSubmitEditing={() => handleSubmit()} selectionColor={'white'} placeholder="(420) 420-6969" placeholderTextColor="#94A1B2" onChangeText={num => onTextChange(num)} value={phone} keyboardType='phone-pad' />
                 </View>
                 {[firstName, lastName, phone].every(v => v && v !== '') && 
-                <TouchableOpacity onPress={() => getUser().then(res => console.log(res)).catch(res => console.log(res))}
+                <TouchableOpacity onPress={() => handleSubmit()}
                 style={styles.readyBtn}
                 >
                     <Text style={styles.readyText}>
