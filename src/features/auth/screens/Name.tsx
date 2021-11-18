@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, Pressable, TextInput, Keyboard, TouchableWithou
 import { AsYouType, parsePhoneNumberFromString } from 'libphonenumber-js';
 import {useAppDispatch, useAppSelector} from '../../../app/hooks';
 import { requestSignupAction } from '../authSlice';
-import { getUser } from '../authAPI';
 
 
 const Name = () => {
@@ -90,14 +89,14 @@ const styles = StyleSheet.create({
     header: {
         color: 'white',
         fontSize: 25,
-        fontFamily: 'Montserrat',
+        fontFamily: 'Montserrat-SemiBold',
         marginBottom: 5,
     },
 
     input: {
         height: 60,
         width: 300,
-        fontFamily: 'Montserrat',
+        fontFamily: 'Montserrat-SemiBold',
         fontSize: 28,
         padding: 10,
         backgroundColor: "#242629",
@@ -124,7 +123,7 @@ const styles = StyleSheet.create({
     },
     
     readyText: {
-        fontFamily: 'Montserrat',
+        fontFamily: 'Montserrat-SemiBold',
         color: 'white',
         fontSize: 23,
     },

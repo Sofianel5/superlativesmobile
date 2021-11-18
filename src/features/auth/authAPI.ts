@@ -16,9 +16,11 @@ export async function getUser() {
 }
 
 export async function requestSignup(firstName: string, lastName: string, phone: string) {
-    return axios.post(Urls.REQUEST_SIGNUP, {
-        firstName,
+    return axios({
+        url: Urls.REQUEST_SIGNUP, 
+        method: 'post',
+        params: {firstName,
         lastName,
-        phone
+        phone}
     });
 }

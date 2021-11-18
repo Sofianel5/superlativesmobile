@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     },
 
     superlatives: {
-        fontFamily: 'Montserrat',
+        fontFamily: 'Montserrat-SemiBold',
         color: 'white',
         fontSize: 42,
         marginBottom: 40,
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     },
 
     signupText: {
-        fontFamily: 'Montserrat',
+        fontFamily: 'Montserrat-SemiBold',
         color: 'white',
         fontSize: 23,
     }

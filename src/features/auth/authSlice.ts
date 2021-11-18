@@ -8,13 +8,15 @@ interface AuthState {
   user: User,
   formErrors: any,
   globalErrorMessage: string,
+  tempAuthToken: string,
 }
 
 const initialState: AuthState = {
   status: 'loading',
   user: null,
   formErrors: {},
-  globalErrorMessage: null
+  globalErrorMessage: null,
+  tempAuthToken: null,
 };
 
 export const getUserAction = createAsyncThunk('auth/getUser', async ({getState}) => {
@@ -41,10 +43,12 @@ export const requestSignupAction = createAsyncThunk('auth/requestSignup', async 
     return await requestSignup(data.firstName, data.lastName, data.phone)
     .then(res => res.data)
     .catch(err => {
-        if (err.response.status_code == 400) {
+        console.log(err);
+        if (err.response.status == 400) {
             return { globalErrorMessage: "Failed",
                      formErrors: err.response.data.reason }
-        }
+        } return { globalErrorMessage: "Unknown error. Check your internet connection",
+                     formErrors: {} }
     });
 });
 
@@ -66,6 +70,7 @@ export const authSlice = createSlice({
             state.status = 'loading';
           })
           .addCase(requestSignupAction.fulfilled, (state, action) => {
+              console.log(action)
             state.globalErrorMessage = action.payload.globalErrorMessage;
             state.formErrors = action.payload.formErrors;
           });
