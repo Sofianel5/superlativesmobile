@@ -60,10 +60,7 @@ export const verifyNumberAction = createAsyncThunk('auth/verifyNumber', async (v
     const {incompleteUser, tempAuthToken} = getState().auth;
     return await verifyNumber(tempAuthToken, incompleteUser.phone, verify)
     .then(res => res.data)
-    .catch(err => {
-        console.log(err);
-        console.log(err.response);
-    });
+    .catch(err => err.response.data);
 });
 
 export const authSlice = createSlice({
@@ -100,11 +97,30 @@ export const authSlice = createSlice({
                       lastName: action.meta.arg.lastName,
                       phone: action.meta.arg.phone
                   }
+                  state.globalErrorMessage = "";
+                  state.formErrors = {};
                   RootNavigator.navigate('Verify', {})
                   console.log(state.tempAuthToken);
               }
               state.status = 'unauthenticated';
-          });
+          })
+          .addCase(verifyNumberAction.pending, (state) => {
+            state.status = 'loading';
+          })
+          .addCase(verifyNumberAction.fulfilled, (state, action) => {
+            console.log(action)
+            if (action.payload.status == 'success') {
+                state.globalErrorMessage = "";
+                state.formErrors = {};
+                state.tempAuthToken = action.payload.id
+                state.incompleteUser["verified"] = true
+                state.status = 'authenticated';
+                RootNavigator.navigate('ProfilePic', {firstName: state.incompleteUser.firstName})
+            } else {
+                state.globalErrorMessage = "Failed to verify number";
+                state.formErrors = {phone: "Invalid verification code"};
+            }
+        })
       },
 });
 

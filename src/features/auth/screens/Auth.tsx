@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Name from './Name';
 import Splash from './Splash';
 import Verify from './Verify';
+import ProfilePic from './ProfilePic';
 
 const AuthStack = createNativeStackNavigator();
 
@@ -11,6 +12,7 @@ const AuthStackScreen = ({navigation}) => (
         <AuthStack.Screen name="Splash" component={Splash}/>
         <AuthStack.Screen name="Name" component={Name}/>
         <AuthStack.Screen name="Verify" component={Verify}/>
+        <AuthStack.Screen name="ProfilePic" component={ProfilePic}/>
     </AuthStack.Navigator>
 )
 

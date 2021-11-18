@@ -1,32 +1,49 @@
-import React, { Component } from 'react';
-import { View, Text, StyleSheet, Pressable, TextInput, Platform } from 'react-native';
-import { AsYouType } from 'libphonenumber-js';
+import React, { Component, useState } from 'react';
+import { View, Text, StyleSheet, Pressable, TextInput, Platform, Keyboard } from 'react-native';
+import {useAppDispatch } from '../../../app/hooks';
+import { verifyNumberAction } from '../authSlice';
 import PopinButton from 'react-native-popin-button';
 import Icon from 'react-native-vector-icons/Entypo';
 
 const Verify = ({navigation}) => {
+    const [verify, setVerify] = useState('')
+
+    const dispatch = useAppDispatch();
+
+    const onTextChange = (number: string) => {
+        setVerify(number)
+        if (number.length === 6) {
+            dispatch(verifyNumberAction(number));
+        }
+    }
+
+    const handleSubmit = () => {
+        Keyboard.dismiss()
+        dispatch(verifyNumberAction(verify))
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.flexTop}>
-                    <View>
-                        <Icon name="chevron-left" color="white" size={40} onPress={() => navigation.navigate('Splash')}/>
-                    </View>
-                    <View style={styles.circlesContainer}>
-                        <View style={styles.circles}>
-                            <View style={styles.unmarkedCircle}></View>
-                            <View style={styles.markedCircle} />
-                            <View style={styles.unmarkedCircle}></View>
-                            <View style={styles.unmarkedCircle}></View>
-                        </View>
+                <View>
+                    <Icon name="chevron-left" color="white" size={40} onPress={() => navigation.navigate('Splash')}/>
+                </View>
+                <View style={styles.circlesContainer}>
+                    <View style={styles.circles}>
+                        <View style={styles.unmarkedCircle}></View>
+                        <View style={styles.markedCircle} />
+                        <View style={styles.unmarkedCircle}></View>
+                        <View style={styles.unmarkedCircle}></View>
                     </View>
                 </View>
+            </View>
             <View style={styles.inputView}>
                 <Text style={styles.header}>
                     Verification code
                 </Text>
-                <TextInput style={styles.input} selectionColor={'white'} placeholder="42069" placeholderTextColor="#94A1B2" textAlign={'center'} keyboardType={Platform.OS === 'android' ? "numeric" : "number-pad"} />
+                <TextInput style={styles.input} autoFocus selectionColor={'white'} returnKeyType="go" onSubmitEditing={() => handleSubmit()} onChangeText={num => onTextChange(num)} placeholder="42069" placeholderTextColor="#94A1B2" textAlign={'center'} keyboardType={Platform.OS === 'android' ? "numeric" : "number-pad"} />
             </View>
-            <PopinButton onPress={() => console.log('hi')}
+            <PopinButton onPress={() => handleSubmit()}
             style={styles.readyBtn} shrinkTo={0.7}
             >
                 <Text style={styles.readyText}>
@@ -38,6 +55,7 @@ const Verify = ({navigation}) => {
 }
 
 const styles = StyleSheet.create({
+
     container: {
         paddingTop: '15%',
         flex: 1,
