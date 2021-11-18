@@ -3,9 +3,10 @@ import { View, Text, StyleSheet, Pressable, TextInput, Keyboard, TouchableWithou
 import { AsYouType, parsePhoneNumberFromString } from 'libphonenumber-js';
 import {useAppDispatch, useAppSelector} from '../../../app/hooks';
 import { requestSignupAction } from '../authSlice';
+import Icon from 'react-native-vector-icons/Entypo';
 
 
-const Name = () => {
+const Name = ({navigation}) => {
     const [phone, setPhone] = useState('')
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
@@ -35,12 +36,17 @@ const Name = () => {
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={styles.container}>
-                <View style={styles.circlesContainer}>
-                    <View style={styles.circles}>
-                        <View style={styles.markedCircle} />
-                        <View style={styles.unmarkedCircle}></View>
-                        <View style={styles.unmarkedCircle}></View>
-                        <View style={styles.unmarkedCircle}></View>
+                <View style={styles.flexTop}>
+                    <View>
+                        <Icon name="chevron-left" color="white" size={40} onPress={() => navigation.navigate('Splash')}/>
+                    </View>
+                    <View style={styles.circlesContainer}>
+                        <View style={styles.circles}>
+                            <View style={styles.markedCircle} />
+                            <View style={styles.unmarkedCircle}></View>
+                            <View style={styles.unmarkedCircle}></View>
+                            <View style={styles.unmarkedCircle}></View>
+                        </View>
                     </View>
                 </View>
                 <View style={styles.inputView}>
@@ -80,6 +86,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-start',
         backgroundColor: '#16161A',
+    },
+
+    flexTop: {
+        flexDirection: 'row',
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingLeft: '5%',
+        paddingBottom: '2%',
     },
 
     inputView: {
@@ -133,7 +148,6 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         alignItems: 'flex-end',
         justifyContent: 'flex-end',
-        width: '100%',
         paddingRight: '5%',
         paddingBottom: '5%',
     },
