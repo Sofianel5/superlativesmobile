@@ -19,8 +19,10 @@ export async function requestSignup(firstName: string, lastName: string, phone: 
     return axios({
         url: Urls.REQUEST_SIGNUP, 
         method: 'post',
-        params: {firstName,
-        lastName,
-        phone}
+        params: {
+            'first-name': firstName,
+            'last-name': lastName,
+            phone
+        }
     });
 }

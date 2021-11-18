@@ -44,6 +44,7 @@ export const requestSignupAction = createAsyncThunk('auth/requestSignup', async 
     .then(res => res.data)
     .catch(err => {
         console.log(err);
+        console.log(err.response);
         if (err.response.status == 400) {
             return { globalErrorMessage: "Failed",
                      formErrors: err.response.data.reason }

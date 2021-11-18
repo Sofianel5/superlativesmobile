@@ -28,7 +28,7 @@ const Name = () => {
 
     const handleSubmit = () => {
         Keyboard.dismiss()
-        dispatch(requestSignupAction({firstName, lastName, phone}))
+        dispatch(requestSignupAction({firstName, lastName, phone: parsePhoneNumberFromString(phone, 'US')?.format("E.164")}))
         // navigation.navigate('Verify', {phone, firstName, lastName})
     }
 
