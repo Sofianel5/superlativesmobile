@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import PopinButton from 'react-native-popin-button';
+import SuperlativesLogo from '../../../../assets/icons/SuperlativesLogo.js';
 
 const Splash = ({navigation}) => {
     return (
         <View style={styles.container}>
+            <SuperlativesLogo />
             <Text style={styles.superlatives}>
-            superlatives
+            Superlatives
             </Text>
             <PopinButton onPress={() => navigation.navigate('Name')}
             style={styles.signupBtn} shrinkTo={0.7}
