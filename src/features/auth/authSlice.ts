@@ -2,6 +2,7 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from '../../app/store';
 import User from '../../models/User';
 import { requestSignup, getUser } from './authAPI';
+import * as RootNavigator from '../../services/RootNavigation';
 
 interface AuthState {
   status: 'unauthenticated' | 'loading' | 'authenticated' | 'failed';
@@ -72,8 +73,14 @@ export const authSlice = createSlice({
           })
           .addCase(requestSignupAction.fulfilled, (state, action) => {
               console.log(action)
-            state.globalErrorMessage = action.payload.globalErrorMessage;
-            state.formErrors = action.payload.formErrors;
+              if (action.payload.globalErrorMessage) {
+                  state.globalErrorMessage = action.payload.globalErrorMessage;
+                  state.formErrors = action.payload.formErrors;
+              } else {
+                  state.tempAuthToken = action.payload.id
+                  RootNavigator.navigate('Verify', {})
+                  console.log(state.tempAuthToken);
+              }
           });
       },
 });
