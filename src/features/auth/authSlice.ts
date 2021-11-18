@@ -1,12 +1,13 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from '../../app/store';
 import User from '../../models/User';
-import { requestSignup, getUser } from './authAPI';
+import { requestSignup, getUser, verifyNumber } from './authAPI';
 import * as RootNavigator from '../../services/RootNavigation';
 
 interface AuthState {
   status: 'unauthenticated' | 'loading' | 'authenticated' | 'failed';
   user: User,
+  incompleteUser: any,
   formErrors: any,
   globalErrorMessage: string,
   tempAuthToken: string,
@@ -15,6 +16,7 @@ interface AuthState {
 const initialState: AuthState = {
   status: 'loading',
   user: null,
+  incompleteUser: {},
   formErrors: {},
   globalErrorMessage: null,
   tempAuthToken: null,
@@ -54,6 +56,16 @@ export const requestSignupAction = createAsyncThunk('auth/requestSignup', async 
     });
 });
 
+export const verifyNumberAction = createAsyncThunk('auth/verifyNumber', async (verify: string, {getState}) => {
+    const {incompleteUser, tempAuthToken} = getState().auth;
+    return await verifyNumber(tempAuthToken, incompleteUser.phone, verify)
+    .then(res => res.data)
+    .catch(err => {
+        console.log(err);
+        console.log(err.response);
+    });
+});
+
 export const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -65,8 +77,13 @@ export const authSlice = createSlice({
             state.status = 'loading';
           })
           .addCase(getUserAction.fulfilled, (state, action) => {
-            state.status = action.payload.status;
-            state.user = action.payload.user;
+              if (action.payload.user) {
+                    state.user = action.payload.user;
+                    state.status = 'authenticated';
+              } else {
+                    state.user = null;
+                    state.status = 'unauthenticated';
+              }
           })
           .addCase(requestSignupAction.pending, (state) => {
             state.status = 'loading';
@@ -78,9 +95,15 @@ export const authSlice = createSlice({
                   state.formErrors = action.payload.formErrors;
               } else {
                   state.tempAuthToken = action.payload.id
+                  state.incompleteUser = {
+                      firstName: action.meta.arg.firstName,
+                      lastName: action.meta.arg.lastName,
+                      phone: action.meta.arg.phone
+                  }
                   RootNavigator.navigate('Verify', {})
                   console.log(state.tempAuthToken);
               }
+              state.status = 'unauthenticated';
           });
       },
 });

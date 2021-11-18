@@ -2,13 +2,27 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Pressable, TextInput, Platform } from 'react-native';
 import { AsYouType } from 'libphonenumber-js';
 import PopinButton from 'react-native-popin-button';
+import Icon from 'react-native-vector-icons/Entypo';
 
 const Verify = ({navigation}) => {
     return (
         <View style={styles.container}>
+            <View style={styles.flexTop}>
+                    <View>
+                        <Icon name="chevron-left" color="white" size={40} onPress={() => navigation.navigate('Splash')}/>
+                    </View>
+                    <View style={styles.circlesContainer}>
+                        <View style={styles.circles}>
+                            <View style={styles.unmarkedCircle}></View>
+                            <View style={styles.markedCircle} />
+                            <View style={styles.unmarkedCircle}></View>
+                            <View style={styles.unmarkedCircle}></View>
+                        </View>
+                    </View>
+                </View>
             <View style={styles.inputView}>
                 <Text style={styles.header}>
-                    Verify
+                    Verification code
                 </Text>
                 <TextInput style={styles.input} selectionColor={'white'} placeholder="42069" placeholderTextColor="#94A1B2" textAlign={'center'} keyboardType={Platform.OS === 'android' ? "numeric" : "number-pad"} />
             </View>
@@ -19,22 +33,34 @@ const Verify = ({navigation}) => {
                     I'm Real
                 </Text>
             </PopinButton>
-            <View style={styles.circles}>
-                <View style={styles.unmarkedCircle1}></View>
-                <View style={styles.markedCircle} />
-                <View style={styles.unmarkedCircle}></View>
-                <View style={styles.unmarkedCircle}></View>
-            </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
+        paddingTop: '15%',
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         backgroundColor: '#16161A',
+    },
+
+    flexTop: {
+        flexDirection: 'row',
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingBottom: '2%',
+    },
+
+    circlesContainer:{
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
+        paddingRight: '5%',
+        paddingBottom: '5%',
     },
 
     inputView: {
@@ -46,7 +72,7 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 27,
         fontFamily: 'Montserrat-SemiBold',
-        marginBottom: 5,
+        marginBottom: 10,
     },
 
     input: {
@@ -91,28 +117,22 @@ const styles = StyleSheet.create({
         marginTop: 10,
         flexDirection: 'row',
         flexWrap: 'wrap',
-        alignItems: 'flex-start'
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
     },
 
     unmarkedCircle: {
         marginLeft: 13,
-        height: 16,
-        width: 16,
-        backgroundColor: "#C4C4C4",
-        borderRadius: 8,
-    },
-
-    unmarkedCircle1: {
-        height: 16,
-        width: 16,
+        height: 10,
+        width: 10,
         backgroundColor: "#C4C4C4",
         borderRadius: 8,
     },
 
     markedCircle: {
+        height: 10,
         marginLeft: 13,
-        height: 16,
-        width: 16,
+        width: 10,
         backgroundColor: "#2CB67D",
         borderRadius: 8,
     },
