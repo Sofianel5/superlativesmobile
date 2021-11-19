@@ -15,7 +15,7 @@ const Splash = ({navigation}) => {
                 What are you known for?
             </Text>
             <TouchableOpacity onPress={() => navigation.navigate('Name')}
-            style={styles.signupBtn} shrinkTo={0.7}
+            style={styles.signupBtn}
             >
                 <Text style={styles.signupText}>Get Started</Text>
             </TouchableOpacity>

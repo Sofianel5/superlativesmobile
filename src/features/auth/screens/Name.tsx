@@ -53,13 +53,13 @@ const Name = ({navigation}) => {
                     <Text style={styles.header}>
                         First Name
                     </Text>
-                    <TextInput style={styles.input} autoFocus autoCorrect={false} returnKeyType="next" onSubmitEditing={() => lastNameRef.current.focus()} selectionColor={'white'} placeholder="McLovin" placeholderTextColor="#94A1B2" value={firstName} onChangeText={text => setFirstName(text) }/>
+                    <TextInput style={styles.input} autoFocus autoCorrect={false} returnKeyType="next" onSubmitEditing={() => lastNameRef.current.focus()} selectionColor={'white'} placeholder="McLovin'" placeholderTextColor="#94A1B2" value={firstName} onChangeText={text => setFirstName(text) }/>
                 </View>
                 <View style={styles.inputView}>
                     <Text style={styles.header}>
                         Last Name
                     </Text>
-                    <TextInput style={styles.input} ref={lastNameRef} autoCorrect={false} returnKeyType="next" onSubmitEditing={() => phoneRef.current.focus()} selectionColor={'white'} placeholder="Just McLovin" placeholderTextColor="#94A1B2" value={lastName} onChangeText={text => setLastName(text) } />
+                    <TextInput style={styles.input} ref={lastNameRef} autoCorrect={false} returnKeyType="next" onSubmitEditing={() => phoneRef.current.focus()} selectionColor={'white'} placeholder="Just McLovin'" placeholderTextColor="#94A1B2" value={lastName} onChangeText={text => setLastName(text) } />
                 </View>
                 <View style={styles.inputView}>
                     <Text style={styles.header}>Phone Number</Text>
