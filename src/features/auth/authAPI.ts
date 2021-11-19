@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { getLocalUser } from '../../services/LocalData';
 import FormData from 'form-data';
-import fs from 'react-native-fs';
 
 const baseUrl = 'http://localhost:8000/api/';
 const Urls = {

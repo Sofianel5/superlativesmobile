@@ -153,6 +153,23 @@ export const authSlice = createSlice({
                 state.formErrors = {};
             }
         })
+        .addCase(setPasswordAction.pending, (state) => {
+            state.status = 'loading';
+            console.log("setPasswordAction.pending")
+        })
+        .addCase(setPasswordAction.fulfilled, (state, action) => {
+            console.log(action)
+            if (action.payload.status == 'success') {
+                state.globalErrorMessage = "";
+                state.formErrors = {};
+                state.user = action.payload.data
+                state.status = 'authenticated';
+                RootNavigator.navigate('Home', {})
+            } else {
+                state.globalErrorMessage = "Failed to set password";
+                state.formErrors = {};
+            }
+        })
       },
 });
 

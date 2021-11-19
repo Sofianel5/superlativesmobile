@@ -18,8 +18,8 @@ const SetPass = ({navigation}) => {
                     <View style={styles.circles}>
                         <View style={styles.unmarkedCircle}></View>
                         <View style={styles.unmarkedCircle}></View>
-                        <View style={styles.markedCircle} />
                         <View style={styles.unmarkedCircle}></View>
+                        <View style={styles.markedCircle} />
                     </View>
                 </View>
             </View>
@@ -88,9 +88,9 @@ const styles = StyleSheet.create({
         backgroundColor: "#242629",
         borderRadius: 10,
         color: 'white',
-        shadowColor: "#00000040",
+        shadowColor: "#ffffff",
         shadowOffset: {
-            width: 0,
+            width: 4,
             height: 4,
         },
         marginBottom: 5,
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
 
     kinky: {
         color: '#94A1B2',
-        fontFamily: 'Montserrat-SemiBold',
+        fontFamily: 'Montserrat',
         fontSize: 14,
         marginBottom: 20,
     },
