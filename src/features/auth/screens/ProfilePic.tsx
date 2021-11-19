@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Pressable, TouchableOpacity, ImageBackground } from 'react-native';
 import {useAppDispatch, useAppSelector} from '../../../app/hooks/';
+import { uploadProfilePictureAction } from '../authSlice';
 import PopinButton from 'react-native-popin-button';
 import Icon from 'react-native-vector-icons/Entypo';
 import { launchImageLibrary } from 'react-native-image-picker';
 
 const ProfilePic = ({route, navigation}) => {
     const [photo, setPhoto] = React.useState(null);
+
+    const dispatch = useAppDispatch();
 
     function handlePress() {
         launchImageLibrary({mediaType: 'photo'}, (result) => {
@@ -19,7 +22,7 @@ const ProfilePic = ({route, navigation}) => {
     }
 
     function handleSubmit() {
-        
+        dispatch(uploadProfilePictureAction(photo.uri));
     }
 
     return (
@@ -46,7 +49,7 @@ const ProfilePic = ({route, navigation}) => {
                 <View style={styles.plusSign}><Text style={styles.plus}>+</Text></View>
             </TouchableOpacity>
             {photo &&  
-            <PopinButton onPress={() => navigation.navigate('SetPass')} style={styles.meBtn} shrinkTo={0.7}>
+            <PopinButton onPress={() => handleSubmit()} style={styles.meBtn} shrinkTo={0.7}>
                 <Text style={styles.meText}>That's me</Text>
             </PopinButton>
             }

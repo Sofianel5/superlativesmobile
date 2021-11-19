@@ -7,6 +7,7 @@ const baseUrl = 'http://localhost:8000/api/';
 const Urls = {
     REQUEST_SIGNUP : baseUrl + 'auth/request-sign-up',
     VERIFY_NUMBER : baseUrl + 'auth/verify-phone',
+    UPLOAD_PROFILE_PIC : baseUrl + 'auth/upload-pfp',
 }
 
 export async function getUser() {
@@ -42,17 +43,23 @@ export async function verifyNumber(id: string, phone: string, verify: string) {
     });
 }
 
-export async function uploadProfilePicture(photoUri: string, authToken: string, phone: string) {
+export async function uploadProfilePicture(photoUri: string, id: string, phone: string) {
     const formData = new FormData();
-    formData.append("image", fs.createReadStream(photoUri));
+    formData.append("image", {
+        name: 'image',
+        type: 'image/jpg',
+        uri: photoUri,
+    });
+    console.log(formData)
     return axios({
-        url: baseUrl + 'auth/upload-profile-picture',
+        url: Urls.UPLOAD_PROFILE_PIC,
         headers: {
-            ...formData.getHeaders()
+            //...formData.getHeaders()
         },
         method: 'post',
+        data: formData,
         params: {
-            'id': authToken,
+            id,
             phone
         }
     })

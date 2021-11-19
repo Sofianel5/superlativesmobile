@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from '../../app/store';
 import User from '../../models/User';
-import { requestSignup, getUser, verifyNumber } from './authAPI';
+import { requestSignup, getUser, verifyNumber, uploadProfilePicture } from './authAPI';
 import * as RootNavigator from '../../services/RootNavigation';
 
 interface AuthState {
@@ -63,11 +63,11 @@ export const verifyNumberAction = createAsyncThunk('auth/verifyNumber', async (v
     .catch(err => err.response.data);
 });
 
-export const uploadProfilePictureAction = createAsyncThunk('auth/uploadPfp', async (photo: any, {getState}) => {
+export const uploadProfilePictureAction = createAsyncThunk('auth/uploadPfp', async (photoUri: string, {getState}) => {
     const {incompleteUser, tempAuthToken} = getState().auth;
-    return await verifyNumber(tempAuthToken, incompleteUser.phone, verify)
+    return await uploadProfilePicture(photoUri, tempAuthToken, incompleteUser.phone)
     .then(res => res.data)
-    .catch(err => err.response.data);
+    .catch(err => {console.log(err); return err.response.data});
 });
 
 export const authSlice = createSlice({
@@ -126,6 +126,23 @@ export const authSlice = createSlice({
             } else {
                 state.globalErrorMessage = "Failed to verify number";
                 state.formErrors = {phone: "Invalid verification code"};
+            }
+        })
+        .addCase(uploadProfilePictureAction.pending, (state) => {
+            state.status = 'loading';
+            console.log("uploadProfilePictureAction.pending")
+        })
+        .addCase(uploadProfilePictureAction.fulfilled, (state, action) => {
+            console.log(action)
+            if (action.payload.status == 'success') {
+                state.globalErrorMessage = "";
+                state.formErrors = {};
+                state.tempAuthToken = action.payload.id
+                state.incompleteUser["profile_picture"] = action.payload["profile-pic"]
+                RootNavigator.navigate('SetPass', {})
+            } else {
+                state.globalErrorMessage = "Failed to upload profile picture";
+                state.formErrors = {};
             }
         })
       },
