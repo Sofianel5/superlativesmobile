@@ -18,13 +18,15 @@ import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
 import AuthStackScreen from './src/features/auth/screens/Auth';
+import Profile from './src/features/auth/screens/Profile';
 
 declare const global: {HermesInternal: null | {}};
 
 const App = () => {
   return (
     <>
-      <AuthStackScreen/>
+      <Profile />
+      {/* <AuthStackScreen/> */}
     </>
   );
 };

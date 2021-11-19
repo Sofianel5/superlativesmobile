@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Pressable, TouchableOpacity, ImageBackground } from 'react-native';
 import {useAppDispatch, useAppSelector} from '../../../app/hooks/';
 import { uploadProfilePictureAction } from '../authSlice';
-import PopinButton from 'react-native-popin-button';
 import Icon from 'react-native-vector-icons/Entypo';
 import { launchImageLibrary } from 'react-native-image-picker';
 
@@ -49,9 +48,9 @@ const ProfilePic = ({route, navigation}) => {
                 <View style={styles.plusSign}><Text style={styles.plus}>+</Text></View>
             </TouchableOpacity>
             {photo &&  
-            <PopinButton onPress={() => handleSubmit()} style={styles.meBtn} shrinkTo={0.7}>
+            <TouchableOpacity onPress={() => handleSubmit()} style={styles.meBtn} shrinkTo={0.7}>
                 <Text style={styles.meText}>That's me</Text>
-            </PopinButton>
+            </TouchableOpacity>
             }
         </View>
     )
