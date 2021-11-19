@@ -26,7 +26,7 @@ const Verify = ({navigation}) => {
         <View style={styles.container}>
             <View style={styles.flexTop}>
                 <View>
-                    <Icon name="chevron-left" color="white" size={40} onPress={() => navigation.navigate('Splash')}/>
+                    <Icon name="chevron-left" color="white" size={40} onPress={() => navigation.pop()}/>
                 </View>
                 <View style={styles.circlesContainer}>
                     <View style={styles.circles}>
@@ -41,7 +41,7 @@ const Verify = ({navigation}) => {
                 <Text style={styles.header}>
                     Verification code
                 </Text>
-                <TextInput style={styles.input} autoFocus selectionColor={'white'} returnKeyType="go" onSubmitEditing={() => handleSubmit()} onChangeText={num => onTextChange(num)} placeholder="42069" placeholderTextColor="#94A1B2" textAlign={'center'} keyboardType={Platform.OS === 'android' ? "numeric" : "number-pad"} />
+                <TextInput style={styles.input} autoFocus selectionColor={'white'} returnKeyType="go" onSubmitEditing={() => handleSubmit()} onChangeText={num => onTextChange(num)} placeholder="042069" placeholderTextColor="#94A1B2" textAlign={'center'} keyboardType={Platform.OS === 'android' ? "numeric" : "number-pad"} />
             </View>
             <PopinButton onPress={() => handleSubmit()}
             style={styles.readyBtn} shrinkTo={0.7}

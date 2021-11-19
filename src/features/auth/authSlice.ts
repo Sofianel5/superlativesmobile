@@ -63,6 +63,13 @@ export const verifyNumberAction = createAsyncThunk('auth/verifyNumber', async (v
     .catch(err => err.response.data);
 });
 
+export const uploadProfilePictureAction = createAsyncThunk('auth/uploadPfp', async (photo: any, {getState}) => {
+    const {incompleteUser, tempAuthToken} = getState().auth;
+    return await verifyNumber(tempAuthToken, incompleteUser.phone, verify)
+    .then(res => res.data)
+    .catch(err => err.response.data);
+});
+
 export const authSlice = createSlice({
     name: 'auth',
     initialState,

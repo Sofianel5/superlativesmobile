@@ -13,16 +13,20 @@ const ProfilePic = ({route, navigation}) => {
             if (result.didCancel) {
                 console.log('User cancelled image picker');
             } else {
-                setPhoto(result);
+                setPhoto(result.assets[0]);
             }
         });
+    }
+
+    function handleSubmit() {
+        
     }
 
     return (
         <View style={styles.container}>
             <View style={styles.flexTop}>
                 <View>
-                    <Icon name="chevron-left" color="white" size={40} onPress={() => navigation.navigate('Splash')}/>
+                    <Icon name="chevron-left" color="white" size={40} onPress={() => navigation.pop()}/>
                 </View>
                 <View style={styles.circlesContainer}>
                     <View style={styles.circles}>
@@ -37,8 +41,8 @@ const ProfilePic = ({route, navigation}) => {
                 {route.params.firstName}, you're a certified G.
             </Text>
             <Text style={styles.subheader}>Add a photo of yourself</Text>
-            <TouchableOpacity onPress={() => console.log("none")} style={styles.profileSel}>
-                {photo && <ImageBackground source={{uri: photo.uri}} />}
+            <TouchableOpacity onPress={() => handlePress()} style={photo ? styles.profileSel : styles.profileSelNoImage}>
+                {photo && <ImageBackground style={styles.backgroundImage} imageStyle={{borderRadius: 20}} source={{uri: photo.uri}} />}
                 <View style={styles.plusSign}><Text style={styles.plus}>+</Text></View>
             </TouchableOpacity>
             {photo &&  
@@ -89,11 +93,22 @@ const styles = StyleSheet.create({
     profileSel: {
         height: 260,
         width: 200,
-        backgroundColor: '#4F4F4F',
         marginBottom: 70,
         borderRadius: 20,
         shadowOffset : { height: 4, width: 0},
         shadowOpacity: 0.8,
+        alignSelf: 'center',
+    },
+
+    profileSelNoImage: {
+        height: 260,
+        width: 200,
+        marginBottom: 70,
+        borderRadius: 20,
+        shadowOffset : { height: 4, width: 0},
+        shadowOpacity: 0.8,
+        alignSelf: 'center',
+        backgroundColor: '#4f4f4f',
     },
 
     circlesContainer:{
@@ -199,13 +214,24 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         shadowOffset : { height: 4, width: 0},
         shadowOpacity: 0.8,
+        alignSelf: 'center'
     },
 
     meText: {
         fontFamily: 'Montserrat-SemiBold',
         color: 'white',
         fontSize: 23,
+    },
+
+    backgroundImage: {
+        flex: 1,
+        justifyContent: "center",
+        height: 260,
+        width: 200,
+        //borderRadius: 20,
+        //overflow: "hidden",
     }
+
 })
 
 export default ProfilePic;

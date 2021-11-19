@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { getLocalUser } from '../../services/LocalData';
+import FormData from 'form-data';
+import fs from 'react-native-fs';
 
 const baseUrl = 'http://localhost:8000/api/';
 const Urls = {
@@ -38,4 +40,20 @@ export async function verifyNumber(id: string, phone: string, verify: string) {
             verify
         }
     });
+}
+
+export async function uploadProfilePicture(photoUri: string, authToken: string, phone: string) {
+    const formData = new FormData();
+    formData.append("image", fs.createReadStream(photoUri));
+    return axios({
+        url: baseUrl + 'auth/upload-profile-picture',
+        headers: {
+            ...formData.getHeaders()
+        },
+        method: 'post',
+        params: {
+            'id': authToken,
+            phone
+        }
+    })
 }
