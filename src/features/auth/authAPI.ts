@@ -8,6 +8,7 @@ const Urls = {
     REQUEST_SIGNUP : baseUrl + 'auth/request-sign-up',
     VERIFY_NUMBER : baseUrl + 'auth/verify-phone',
     UPLOAD_PROFILE_PIC : baseUrl + 'auth/upload-pfp',
+    SET_PASSWORD : baseUrl + 'auth/complete-user',
 }
 
 export async function getUser() {
@@ -43,6 +44,7 @@ export async function verifyNumber(id: string, phone: string, verify: string) {
     });
 }
 
+
 export async function uploadProfilePicture(photoUri: string, id: string, phone: string) {
     const formData = new FormData();
     formData.append("image", {
@@ -63,4 +65,16 @@ export async function uploadProfilePicture(photoUri: string, id: string, phone: 
             phone
         }
     })
+}
+
+export async function setPassword(id: string, phone: string, password: string) {
+    return axios({
+        url: Urls.SET_PASSWORD, 
+        method: 'post',
+        params: {
+            id,
+            phone,
+            password
+        }
+    });
 }
