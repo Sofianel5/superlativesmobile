@@ -5,12 +5,14 @@ import Splash from './Splash';
 import Verify from './Verify';
 import ProfilePic from './ProfilePic';
 import SetPass from './SetPass';
+import Login from './Login';
 
 const AuthStack = createNativeStackNavigator();
 
 const AuthStackScreen = ({navigation}) => (
     <AuthStack.Navigator screenOptions={{headerShown:false}} >
         <AuthStack.Screen name="Splash" component={Splash}/>
+        <AuthStack.Screen name="Login" component={Login}/>
         <AuthStack.Screen name="Name" component={Name}/>
         <AuthStack.Screen name="Verify" component={Verify}/>
         <AuthStack.Screen name="ProfilePic" component={ProfilePic}/>

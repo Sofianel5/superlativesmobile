@@ -8,6 +8,7 @@ const Urls = {
     VERIFY_NUMBER : baseUrl + 'auth/verify-phone',
     UPLOAD_PROFILE_PIC : baseUrl + 'auth/upload-pfp',
     SET_PASSWORD : baseUrl + 'auth/complete-user',
+    LOGIN: baseUrl + 'auth/login',
 }
 
 export async function getUser() {
@@ -72,6 +73,17 @@ export async function setPassword(id: string, phone: string, password: string) {
         method: 'post',
         params: {
             id,
+            phone,
+            password
+        }
+    });
+}
+
+export async function login(phone: string, password: string) {
+    return axios({
+        url: Urls.LOGIN, 
+        method: 'post',
+        params: {
             phone,
             password
         }

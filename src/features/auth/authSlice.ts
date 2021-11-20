@@ -1,9 +1,9 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from '../../app/store';
 import User from '../../models/User';
-import { requestSignup, getUser, verifyNumber, uploadProfilePicture, setPassword } from './authAPI';
+import { requestSignup, getUser, verifyNumber, uploadProfilePicture, setPassword, login } from './authAPI';
 import * as RootNavigator from '../../services/RootNavigation';
-import { saveUser, getLocalUser } from '../../services/LocalData';
+import { saveUser, getLocalUser, removeUser } from '../../services/LocalData';
 
 interface AuthState {
   status: 'unauthenticated' | 'loading' | 'authenticated' | 'failed';
@@ -80,6 +80,11 @@ export const setPasswordAction = createAsyncThunk('auth/setPassword', async (pas
     .catch(err => err.response.data);
 });
 
+export const loginAction = createAsyncThunk('auth/login', async (data: any, {dispatch}) => {
+    return await login(data.phone, data.password)
+    .then(res => res.data)
+    .catch(err => err.response.data);
+});
 
 export const authSlice = createSlice({
     name: 'auth',
@@ -93,13 +98,8 @@ export const authSlice = createSlice({
           })
           .addCase(getUserAction.fulfilled, (state, action) => {
               console.log(action);
-              if (action.payload.user) {
-                    state.user = action.payload.user;
-                    state.status = 'authenticated';
-              } else {
-                    state.user = null;
-                    state.status = 'unauthenticated';
-              }
+              state.user = action.payload.user;
+              state.status=action.payload.status;
           })
           .addCase(requestSignupAction.pending, (state) => {
             state.status = 'loading';
@@ -161,7 +161,7 @@ export const authSlice = createSlice({
             console.log("setPasswordAction.pending")
         })
         .addCase(setPasswordAction.fulfilled, (state, action) => {
-            console.log(action)
+            console.log(JSON.stringify(action))
             if (action.payload.status == 'success') {
                 state.globalErrorMessage = "";
                 state.formErrors = {};
@@ -171,6 +171,23 @@ export const authSlice = createSlice({
             } else {
                 state.globalErrorMessage = "Failed to set password";
                 state.formErrors = {};
+            }
+        })
+        .addCase(loginAction.pending, (state) => {
+            state.status = 'loading';
+            console.log("loginAction.pending")
+        })
+        .addCase(loginAction.fulfilled, (state, action) => {
+            console.log(action)
+            if (action.payload.status == 'success') {
+                state.globalErrorMessage = "";
+                state.formErrors = {};
+                state.user = action.payload.data
+                saveUser(state.user);
+                state.status = 'authenticated';
+            } else {
+                state.globalErrorMessage = "Failed to login";
+                state.formErrors = {"password": "Incorrect"}; // make this responsive to the error
             }
         })
       },
