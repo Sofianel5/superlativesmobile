@@ -1,28 +1,29 @@
 import React, { Component, useState, useRef } from 'react';
-import { View, Text, StyleSheet, Pressable, TextInput, Keyboard, TouchableWithoutFeedback, TouchableOpacity, ScrollableView, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Keyboard, TouchableOpacity, ScrollView, ImageBackground } from 'react-native';
 import {useAppDispatch, useAppSelector} from '../../../app/hooks/';
-// import { uploadProfilePictureAction } from '../authSlice';
-// import { launchImageLibrary } from 'react-native-image-picker';
+import { uploadProfilePictureAction } from '../authSlice';
+import { launchImageLibrary } from 'react-native-image-picker';
+import Icon from 'react-native-vector-icons/Entypo';
 
 const Profile = ({navigation}) => {
 
-    // const [photo, setPhoto] = React.useState(null);
+    const [photo, setPhoto] = React.useState(null);
 
-    // const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
 
-    // function handlePress() {
-    //     launchImageLibrary({mediaType: 'photo'}, (result) => {
-    //         if (result.didCancel) {
-    //             console.log('User cancelled image picker');
-    //         } else {
-    //             setPhoto(result.assets[0]);
-    //         }
-    //     });
-    // }
+    function handlePress() {
+        launchImageLibrary({mediaType: 'photo'}, (result) => {
+            if (result.didCancel) {
+                console.log('User cancelled image picker');
+            } else {
+                setPhoto(result.assets[0]);
+            }
+        });
+    }
 
-    // function handleSubmit() {
-    //     dispatch(uploadProfilePictureAction(photo.uri));
-    // }
+    function handleSubmit() {
+        dispatch(uploadProfilePictureAction(photo.uri));
+    }
 
     return (
         <View style={styles.container}>
@@ -31,16 +32,14 @@ const Profile = ({navigation}) => {
                     Jason Seo
                 </Text>
             </View>
-            <ScrollableView>
-                <TouchableOpacity style={styles.profileSelNoImage}>
-                    <ImageBackground style={styles.backgroundImage} />
-                <View style={styles.plusSign}><Text style={styles.plus}>+</Text></View>
+            <ScrollView>
+                <TouchableOpacity onPress={() => handlePress()} style={photo ? styles.profileSel : styles.profileSelNoImage}>
+                    {photo && <ImageBackground style={styles.backgroundImage} imageStyle={{borderRadius: 20}} source={{uri: photo.uri}} />}
+                    <View style={styles.plusSign}><Icon name="plus" size={22} color="white"/></View>
                 </TouchableOpacity>
-                {/* <TouchableOpacity onPress={() => handlePress()} style={photo ? styles.profileSel : styles.profileSelNoImage}>
-                {photo && <ImageBackground style={styles.backgroundImage} imageStyle={{borderRadius: 20}} source={{uri: photo.uri}} />}
-                <View style={styles.plusSign}><Text style={styles.plus}>+</Text></View>
-                </TouchableOpacity> */}
-            </ScrollableView>
+                <View>
+                </View>
+            </ScrollView>
         </View>
     )
 }
@@ -57,7 +56,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#16161A',
         alignItems: 'center',
         paddingTop: 55,
-        justifyContent: 'space-between',
         // flexDirection: 'row',
     },
 
@@ -70,8 +68,9 @@ const styles = StyleSheet.create({
     },
 
     profileSel: {
-        height: 260,
-        width: 200,
+        height: 130,
+        width: 100,
+        marginTop: 30,
         marginBottom: 70,
         borderRadius: 20,
         shadowOffset : { height: 4, width: 0},
@@ -80,8 +79,9 @@ const styles = StyleSheet.create({
     },
 
     profileSelNoImage: {
-        height: 260,
-        width: 200,
+        height: 130,
+        width: 100,
+        marginTop: 30,
         marginBottom: 70,
         borderRadius: 20,
         shadowOffset : { height: 4, width: 0},
@@ -93,27 +93,21 @@ const styles = StyleSheet.create({
     backgroundImage: {
         flex: 1,
         justifyContent: "center",
-        height: 260,
-        width: 200,
+        height: 130,
+        width: 100,
         //borderRadius: 20,
         //overflow: "hidden",
     },
 
     plusSign: {
-        height: 60,
-        width: 60,
-        borderRadius: 30,
+        height: 30,
+        width: 30,
+        borderRadius: 15,
         backgroundColor: '#2CB67D',
         justifyContent: 'center',
         alignItems: 'center',
-        marginLeft: 160,
-        marginTop: 220,
-    },
-
-    plus: {
-        color: 'white',
-        fontSize: 50,
-        fontFamily: 'Montserrat-SemiBold',
+        marginLeft: 80,
+        marginTop: 110,
     },
 
 })
