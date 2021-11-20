@@ -5,6 +5,7 @@ import { uploadProfilePictureAction } from '../../auth/authSlice';
 import { launchImageLibrary } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/Entypo';
 import SuperlativeIcon from '../../../../assets/icons/superlative';
+import InnerBadge from '../../../../assets/icons/InnerBadge';
 
 const Profile = ({navigation}) => {
 
@@ -36,33 +37,36 @@ const Profile = ({navigation}) => {
             <ScrollView>
                 <TouchableOpacity onPress={() => handlePress()} style={photo ? styles.profileSel : styles.profileSelNoImage}>
                     {photo && <ImageBackground style={styles.backgroundImage} imageStyle={{borderRadius: 20}} source={{uri: photo.uri}} />}
-                    <View style={styles.plusSign}><Icon name="plus" size={22} color="white"/></View>
+                    <View style={styles.plusSign}><Icon name="plus" size={35} color="white"/></View>
                 </TouchableOpacity>
                 <Text style={styles.mySuperlativeTxt}>My Superlatives</Text>
                 <View style={styles.superlativesCard}>
                     <View style={styles.superlativeRowTwo}>
-                        <View>
-                            <SuperlativeIcon width={123.75} height={108} style={styles.superlativeIcon} />
+                        <View style={styles.superlativeSuperContainer}>
+                            <SuperlativeIcon width={165} height={144} style={styles.superlativeIcon} />
+                            <InnerBadge fill="#7F5AF0" width={94} style={styles.innerBadge} />
                             <View style={styles.superlativeContainer}>
-                                <Text style={styles.superlativeGroup}>SAE</Text>
                                 <Text style={styles.superlativeTitle}>Best Head-Giver</Text>
                             </View>
+                            <Text style={styles.superlativeGroup}>SAE</Text>
                         </View>
-                        <View>
-                            <SuperlativeIcon width={123.75} height={108} style={styles.superlativeIcon}/>
+                        <View style={styles.superlativeSuperContainer}>
+                            <SuperlativeIcon width={165} height={144} style={styles.superlativeIcon} />
+                            <InnerBadge fill="#7F5AF0" width={94} style={styles.innerBadge} />
                             <View style={styles.superlativeContainer}>
-                                <Text style={styles.superlativeGroup}>SAE</Text>
                                 <Text style={styles.superlativeTitle}>Best Head-Giver</Text>
                             </View>
+                            <Text style={styles.superlativeGroup}>SAE</Text>
                         </View>
                     </View>
                     <View style={styles.superlativeRowOne}>
-                        <View>
-                            <SuperlativeIcon width={123.75} height={108} style={styles.superlativeIcon}/>
+                        <View style={styles.superlativeSuperContainer}>
+                            <SuperlativeIcon width={165} height={144} style={styles.superlativeIcon} />
+                            <InnerBadge fill="#7F5AF0" width={94} style={styles.innerBadge} />
                             <View style={styles.superlativeContainer}>
-                                <Text style={styles.superlativeGroup}>SAE</Text>
                                 <Text style={styles.superlativeTitle}>Best Head-Giver</Text>
                             </View>
+                            <Text style={styles.superlativeGroup}>SAE</Text>
                         </View>
                     </View>
                 </View>
@@ -70,21 +74,21 @@ const Profile = ({navigation}) => {
                 <View style={styles.rankingCard}>
                     <View style={styles.rankingRowTwo}>
                         <View>
-                            <Text style={styles.rankingGroup}>SAE</Text>
-                            <Text style={styles.rankingTitle}>Best Head-Giver</Text>
                             <Text style={styles.rankingNumber}>#2</Text>
+                            <Text style={styles.rankingTitle}>Best Head-Giver</Text>
+                            <Text style={styles.rankingGroup}>SAE</Text>
                         </View>
                         <View>
-                            <Text style={styles.rankingGroup}>SAE</Text>
-                            <Text style={styles.rankingTitle}>Best Head-Giver</Text>
                             <Text style={styles.rankingNumber}>#2</Text>
+                            <Text style={styles.rankingTitle}>Best Head-Giver</Text>
+                            <Text style={styles.rankingGroup}>SAE</Text>
                         </View>
                     </View>
                     <View style={styles.rankingRowOne}>
                         <View>
-                            <Text style={styles.rankingGroup}>SAE</Text>
-                            <Text style={styles.rankingTitle}>Best Head-Giver</Text>
                             <Text style={styles.rankingNumber}>#2</Text>
+                            <Text style={styles.rankingTitle}>Best Head-Giver</Text>
+                            <Text style={styles.rankingGroup}>SAE</Text>
                         </View>
                     </View>
                 </View>
@@ -117,8 +121,8 @@ const styles = StyleSheet.create({
     },
 
     profileSel: {
-        height: 130,
-        width: 100,
+        height: 173.3,
+        width: 133.3,
         marginTop: 30,
         marginBottom: 50,
         borderRadius: 20,
@@ -128,8 +132,8 @@ const styles = StyleSheet.create({
     },
 
     profileSelNoImage: {
-        height: 130,
-        width: 100,
+        height: 173.3,
+        width: 133.3,
         marginTop: 30,
         marginBottom: 50,
         borderRadius: 20,
@@ -142,21 +146,21 @@ const styles = StyleSheet.create({
     backgroundImage: {
         flex: 1,
         justifyContent: "center",
-        height: 130,
-        width: 100,
+        height: 173.3,
+        width: 133.3,
         //borderRadius: 20,
         //overflow: "hidden",
     },
 
     plusSign: {
-        height: 30,
-        width: 30,
-        borderRadius: 15,
+        height: 50,
+        width: 50,
+        borderRadius: 25,
         backgroundColor: '#2CB67D',
         justifyContent: 'center',
         alignItems: 'center',
-        marginLeft: 80,
-        marginTop: 110,
+        marginLeft: 105,
+        marginTop: 140,
     },
 
     mySuperlativeTxt: {
@@ -169,8 +173,8 @@ const styles = StyleSheet.create({
     superlativesCard: {
         paddingTop: 30,
         paddingBottom: 10,
-        paddingLeft: 30,
-        paddingRight: 30,
+        paddingLeft: 5,
+        paddingRight: 5,
         backgroundColor: 'black',
         borderRadius: 8,
         shadowOffset: {height: 4},
@@ -180,7 +184,6 @@ const styles = StyleSheet.create({
 
     superlativeRowTwo: {
         flexDirection: 'row',
-        alignItems: 'center',
         justifyContent: 'space-between',
         marginBottom: 20,
     },
@@ -200,10 +203,11 @@ const styles = StyleSheet.create({
     },
 
     superlativeGroup: {
-        color: '#7F5AF0',
+        color: 'white',
         fontFamily: 'Montserrat-SemiBold',
         textAlign: 'center',
         fontSize: 20,
+        marginTop: 5,
     },
 
     superlativeIcon: {
@@ -212,9 +216,10 @@ const styles = StyleSheet.create({
     },
 
     superlativeTitle: {
-        color: '#7F5AF0',
+        color: 'white',
         fontFamily: 'Montserrat-SemiBold',
         textAlign: 'center',
+        marginTop: 12,
         fontSize: 14,
     },
 
@@ -257,6 +262,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Montserrat-SemiBold',
         textAlign: 'center',
         fontSize: 20,
+        marginBottom: 20,
     },
 
     rankingTitle: {
@@ -270,8 +276,18 @@ const styles = StyleSheet.create({
         color: 'white',
         fontFamily: 'Montserrat-SemiBold',
         textAlign: 'center',
-        fontSize: 18,
-    }
+        fontSize: 30,
+    },
+
+    innerBadge: {
+        position: 'absolute',
+        bottom: 15,
+        alignSelf: 'center',
+    },
+
+    superlativeSuperContainer: {
+        
+    },
 })
 
 export default Profile;

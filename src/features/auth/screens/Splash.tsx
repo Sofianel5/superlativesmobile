@@ -19,7 +19,7 @@ const Splash = ({navigation}) => {
             >
                 <Text style={styles.signupText}>Get Started</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.login}>
+            <TouchableOpacity>
                 <Text style={styles.loginText}>Log In</Text>
             </TouchableOpacity>
             <Text style={styles.footer}>

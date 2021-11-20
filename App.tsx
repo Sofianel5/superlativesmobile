@@ -21,6 +21,7 @@ import AuthStackScreen from './src/features/auth/screens/Auth';
 import {useAppDispatch, useAppSelector} from './src/app/hooks';
 import Home from './src/components/Home';
 import { getUserAction } from './src/features/auth/authSlice';
+import Profile from './src/features/profile/screens/Profile'
 
 declare const global: {HermesInternal: null | {}};
 
@@ -30,7 +31,8 @@ const App = () => {
   const status = useAppSelector(state => state.auth.status);
   return (
     <>
-      {status === 'authenticated' ? <Home /> : <AuthStackScreen />}
+      {/* {status === 'authenticated' ? <Home /> : <AuthStackScreen />} */}
+      <Profile />
     </>
   );
 };

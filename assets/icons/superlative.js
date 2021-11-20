@@ -14,7 +14,7 @@ function SuperlativeIcon(props) {
       <Path
         fillRule="evenodd"
         clipRule="evenodd"
-        d="M7.939 19c.02.027.04.055.061.081V19h-.061zM3.006 2.692C.499 2.692-.902 5.585.65 7.552l3.85 4.875v2.198a9.375 9.375 0 0018.75 0v-2.198l3.85-4.875c1.555-1.967.153-4.86-2.354-4.86h-1.496V0H4.501v2.692H3.007zm0 2a1 1 0 00-.785 1.62L4.5 9.2V4.692H3.007zm22.526 1.62L23.252 9.2V4.692h1.495a1 1 0 01.785 1.62z"
+        d="M8.02 19l.051.067V19h-.05zM3.018 2.692c-2.512 0-3.912 2.905-2.346 4.87l3.87 4.856v2.124a9.458 9.458 0 0018.916 0v-2.124l3.87-4.856c1.566-1.965.166-4.87-2.346-4.87h-1.524V0H4.542v2.692H3.018zm0 2a1 1 0 00-.782 1.624l2.306 2.893V4.692H3.018zm22.746 1.624l-2.306 2.893V4.692h1.524a1 1 0 01.782 1.624z"
         fill="url(#prefix__paint0_radial_235_133)"
       />
       <Defs>
@@ -24,7 +24,7 @@ function SuperlativeIcon(props) {
           cy={0}
           r={1}
           gradientUnits="userSpaceOnUse"
-          gradientTransform="matrix(0 12 -13.8766 0 13.877 12)"
+          gradientTransform="matrix(0 12 -13.9872 0 14 12)"
         >
           <Stop stopColor="#FFE453" stopOpacity={0} />
           <Stop offset={0} stopColor="#fff" />
