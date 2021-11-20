@@ -29,18 +29,28 @@ const storage = new Storage({
 const USER_KEY = 'user'
 
 export const getLocalUser = async () => {
-    const userStr = await storage.load({
-        key: USER_KEY,
-        id: USER_KEY,
-    });
+    // const userStr = await storage.load({
+    //     key: USER_KEY,
+    //     id: USER_KEY,
+    // });
+    const userStr = await AsyncStorage.getItem(USER_KEY);
     return userStr ? JSON.parse(userStr) : null;
 }
 
 // Takes object user and saves it to AsyncStorage
 export const saveUser = (user: any) => {
-    return storage.save({
-        key: USER_KEY,
-        id: USER_KEY,
-        data: user,
-    });
+    // return storage.save({
+    //     key: USER_KEY,
+    //     id: USER_KEY,
+    //     data: user,
+    // });
+    return AsyncStorage.setItem(USER_KEY, JSON.stringify(user));
+}
+
+export const removeUser = () => {
+    // return storage.remove({
+    //     key: USER_KEY,
+    //     id: USER_KEY,
+    // });
+    return AsyncStorage.removeItem(USER_KEY);
 }

@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
 
     group: {
         color: 'white',
-        fontFamily: 'Montserrat',
+        fontFamily: 'Montserrat-SemiBold',
         fontSize: 30,
     },
 
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
 
     question: {
         color: 'black',
-        fontFamily: 'Montserrat',
+        fontFamily: 'Montserrat-SemiBold',
         fontSize: 25,
     },
     
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     },
     
     or: {
-        fontFamily: 'Montserrat',
+        fontFamily: 'Montserrat-SemiBold',
         marginTop: 10,
         fontSize: 25,
         color: 'white',
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
 
     name: {
         color: 'white',
-        fontFamily: 'Montserrat',
+        fontFamily: 'Montserrat-SemiBold',
         fontSize: 22,
         marginTop: 140,
     }
