@@ -4,6 +4,7 @@ import {useAppDispatch, useAppSelector} from '../../../app/hooks/';
 import { uploadProfilePictureAction } from '../authSlice';
 import { launchImageLibrary } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/Entypo';
+import SuperlativeIcon from '../../../../assets/icons/superlative';
 
 const Profile = ({navigation}) => {
 
@@ -37,7 +38,33 @@ const Profile = ({navigation}) => {
                     {photo && <ImageBackground style={styles.backgroundImage} imageStyle={{borderRadius: 20}} source={{uri: photo.uri}} />}
                     <View style={styles.plusSign}><Icon name="plus" size={22} color="white"/></View>
                 </TouchableOpacity>
-                <View>
+                <Text style={styles.mySuperlativeTxt}>My Superlatives</Text>
+                <View style={styles.superlativesCard}>
+                    <View style={styles.superlativeRowTwo}>
+                        <View>
+                            <SuperlativeIcon width={123.75} height={108}/>
+                            <View style={styles.superlativeContainer}>
+                                <Text style={styles.superlativeGroup}>SAE</Text>
+                                <Text style={styles.superlativeTitle}>Best Head-Giver</Text>
+                            </View>
+                        </View>
+                        <View>
+                            <SuperlativeIcon width={123.75} height={108}/>
+                            <View style={styles.superlativeContainer}>
+                                <Text style={styles.superlativeGroup}>SAE</Text>
+                                <Text style={styles.superlativeTitle}>Best Head-Giver</Text>
+                            </View>
+                        </View>
+                    </View>
+                    <View style={styles.superlativeRowOne}>
+                        <View>
+                            <SuperlativeIcon width={123.75} height={108}/>
+                            <View style={styles.superlativeContainer}>
+                                <Text style={styles.superlativeGroup}>SAE</Text>
+                                <Text style={styles.superlativeTitle}>Best Head-Giver</Text>
+                            </View>
+                        </View>
+                    </View>
                 </View>
             </ScrollView>
         </View>
@@ -71,7 +98,7 @@ const styles = StyleSheet.create({
         height: 130,
         width: 100,
         marginTop: 30,
-        marginBottom: 70,
+        marginBottom: 50,
         borderRadius: 20,
         shadowOffset : { height: 4, width: 0},
         shadowOpacity: 0.8,
@@ -82,7 +109,7 @@ const styles = StyleSheet.create({
         height: 130,
         width: 100,
         marginTop: 30,
-        marginBottom: 70,
+        marginBottom: 50,
         borderRadius: 20,
         shadowOffset : { height: 4, width: 0},
         shadowOpacity: 0.8,
@@ -108,6 +135,60 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginLeft: 80,
         marginTop: 110,
+    },
+
+    mySuperlativeTxt: {
+        alignSelf: 'center',
+        color: 'white',
+        fontFamily: 'Montserrat-SemiBold',
+        fontSize: 21,
+    },
+
+    superlativesCard: {
+        paddingTop: 30,
+        paddingBottom: 10,
+        paddingLeft: 30,
+        paddingRight: 30,
+        backgroundColor: 'black',
+        borderRadius: 8,
+        shadowOffset: {height: 4},
+        shadowOpacity: 0.8,
+        margin: 20,
+    },
+
+    superlativeRowTwo: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: 20,
+    },
+
+    superlativeRowOne: {
+        alignItems: 'center',
+        marginBottom: 20,
+        justifyContent: 'center',
+    },
+
+    superlativeContainer: {
+        alignItems: 'center',
+        position: 'absolute',
+        width: 80,
+        marginTop: 12,
+        alignSelf: 'center',
+    },
+
+    superlativeGroup: {
+        color: '#7F5AF0',
+        fontFamily: 'Montserrat-SemiBold',
+        textAlign: 'center',
+        fontSize: 20,
+    },
+
+    superlativeTitle: {
+        color: '#7F5AF0',
+        fontFamily: 'Montserrat-SemiBold',
+        textAlign: 'center',
+        fontSize: 14,
     },
 
 })
