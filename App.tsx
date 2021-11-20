@@ -18,15 +18,19 @@ import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
 import AuthStackScreen from './src/features/auth/screens/Auth';
-import Profile from './src/features/auth/screens/Profile';
+import {useAppDispatch, useAppSelector} from './src/app/hooks';
+import Home from './src/components/Home';
+import { getUserAction } from './src/features/auth/authSlice';
 
 declare const global: {HermesInternal: null | {}};
 
 const App = () => {
+  const dispatch = useAppDispatch();
+  React.useEffect(() => {dispatch(getUserAction());}, []);
+  const status = useAppSelector(state => state.auth.status);
   return (
     <>
-      {/* <Profile /> */}
-      <AuthStackScreen/>
+      {status === 'authenticated' ? <Home /> : <AuthStackScreen />}
     </>
   );
 };

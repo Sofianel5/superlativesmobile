@@ -14,7 +14,7 @@ const Splash = ({navigation}) => {
             <Text style={styles.subHeader}>
                 What are you known for?
             </Text>
-            <TouchableOpacity onPress={() => navigation.navigate('SetPass')}
+            <TouchableOpacity onPress={() => navigation.navigate('Name')}
             style={styles.signupBtn}
             >
                 <Text style={styles.signupText}>Get Started</Text>

@@ -3,10 +3,11 @@ import {RootState} from '../../app/store';
 import User from '../../models/User';
 import { requestSignup, getUser, verifyNumber, uploadProfilePicture, setPassword } from './authAPI';
 import * as RootNavigator from '../../services/RootNavigation';
+import { saveUser, getLocalUser } from '../../services/LocalData';
 
 interface AuthState {
   status: 'unauthenticated' | 'loading' | 'authenticated' | 'failed';
-  user: User,
+  user: any,
   incompleteUser: any,
   formErrors: any,
   globalErrorMessage: string,
@@ -22,9 +23,10 @@ const initialState: AuthState = {
   tempAuthToken: null,
 };
 
-export const getUserAction = createAsyncThunk('auth/getUser', async ({getState}) => {
+export const getUserAction = createAsyncThunk('auth/getUser', async () => {
     try {
         const userData = await getUser();
+        console.log(userData);
         if (userData) {
             return {
                 user: userData,
@@ -35,6 +37,7 @@ export const getUserAction = createAsyncThunk('auth/getUser', async ({getState})
             status: 'unauthenticated'
         }
     } catch (e) {
+        console.log(e);
         return {
             user: null,
             status: 'failed'
@@ -89,6 +92,7 @@ export const authSlice = createSlice({
             state.status = 'loading';
           })
           .addCase(getUserAction.fulfilled, (state, action) => {
+              console.log(action);
               if (action.payload.user) {
                     state.user = action.payload.user;
                     state.status = 'authenticated';
@@ -129,7 +133,6 @@ export const authSlice = createSlice({
                 state.formErrors = {};
                 state.tempAuthToken = action.payload.id
                 state.incompleteUser["verified"] = true
-                state.status = 'authenticated';
                 RootNavigator.navigate('ProfilePic', {firstName: state.incompleteUser.firstName})
             } else {
                 state.globalErrorMessage = "Failed to verify number";
@@ -163,8 +166,8 @@ export const authSlice = createSlice({
                 state.globalErrorMessage = "";
                 state.formErrors = {};
                 state.user = action.payload.data
+                saveUser(state.user);
                 state.status = 'authenticated';
-                RootNavigator.navigate('Home', {})
             } else {
                 state.globalErrorMessage = "Failed to set password";
                 state.formErrors = {};

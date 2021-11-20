@@ -26,6 +26,19 @@ const ProfilePic = ({route, navigation}) => {
 
     return (
         <View style={styles.container}>
+            <View style={styles.flexTop}>
+                <View>
+                    <Icon name="chevron-left" color="white" size={40} onPress={() => navigation.pop()}/>
+                </View>
+                <View style={styles.circlesContainer}>
+                    <View style={styles.circles}>
+                        <View style={styles.unmarkedCircle}></View>
+                        <View style={styles.unmarkedCircle}></View>
+                        <View style={styles.markedCircle} />
+                        <View style={styles.unmarkedCircle}></View>
+                    </View>
+                </View>
+            </View>
             <Text style={styles.headline}>
                 {route.params.firstName}, you're a certified G.
             </Text>

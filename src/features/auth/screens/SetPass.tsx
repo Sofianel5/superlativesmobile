@@ -1,12 +1,26 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
+import {useAppDispatch, useAppSelector} from '../../../app/hooks/';
+import { setPasswordAction } from '../authSlice';
 import PopinButton from 'react-native-popin-button';
 import Icon from 'react-native-vector-icons/Entypo';
 import { useWindowDimensions } from 'react-native';
 
 const SetPass = ({navigation}) => {
 
+    const [password, setPassword] = React.useState(null);
+
     const windowWidth = useWindowDimensions().width;
+
+    const dispatch = useAppDispatch();
+
+    function handleSubmit() {
+        dispatch(setPasswordAction(password));
+    }
+
+    function passwordValid(text: string) {
+        return !!(text && text.length >= 6);
+    }
 
     return (
         <View style={styles.container}>
@@ -30,16 +44,16 @@ const SetPass = ({navigation}) => {
             Set Password
             </Text>
             <View style={{width: '100%'}}>
-                <TextInput style={styles.input} selectionColor={'white'} placeholderTextColor="#94A1B2" secureTextEntry={true}/>
+                <TextInput style={styles.input} selectionColor={'white'} placeholderTextColor="#94A1B2" secureTextEntry={true} onChangeText={text => setPassword(text) }/>
                 <Text style={Object.assign({marginLeft: (windowWidth-300)/2}, styles.kinky)}>
                 Maybe something kinky?
                 </Text>
             </View>
-            <PopinButton onPress={() => console.log("done")}
+            {passwordValid(password) && <PopinButton onPress={() => handleSubmit()}
             style={styles.rollinBtn} shrinkTo={0.7}
             >
                 <Text style={styles.signupText}>Get Rollin'</Text>
-            </PopinButton>
+            </PopinButton>}
         </View>
     )
 }

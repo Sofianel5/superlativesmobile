@@ -32,11 +32,11 @@ export const getLocalUser = async () => {
     const userStr = await storage.load({
         key: USER_KEY,
     });
-    return userStr ? plainToClass(User, JSON.parse(userStr)) : null;
+    return userStr ? JSON.parse(userStr) : null;
 }
 
 // Takes object user and saves it to AsyncStorage
-export const setUser = (user: User) => {
+export const saveUser = (user: any) => {
     return storage.save({
         key: USER_KEY,
         data: user,
