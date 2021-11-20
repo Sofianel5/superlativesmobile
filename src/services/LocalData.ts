@@ -31,6 +31,7 @@ const USER_KEY = 'user'
 export const getLocalUser = async () => {
     const userStr = await storage.load({
         key: USER_KEY,
+        id: USER_KEY,
     });
     return userStr ? JSON.parse(userStr) : null;
 }
@@ -39,6 +40,7 @@ export const getLocalUser = async () => {
 export const saveUser = (user: any) => {
     return storage.save({
         key: USER_KEY,
+        id: USER_KEY,
         data: user,
     });
 }

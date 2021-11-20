@@ -93,13 +93,8 @@ export const authSlice = createSlice({
           })
           .addCase(getUserAction.fulfilled, (state, action) => {
               console.log(action);
-              if (action.payload.user) {
-                    state.user = action.payload.user;
-                    state.status = 'authenticated';
-              } else {
-                    state.user = null;
-                    state.status = 'unauthenticated';
-              }
+              state.user = action.payload.user;
+              state.status=action.payload.status;
           })
           .addCase(requestSignupAction.pending, (state) => {
             state.status = 'loading';
@@ -161,7 +156,7 @@ export const authSlice = createSlice({
             console.log("setPasswordAction.pending")
         })
         .addCase(setPasswordAction.fulfilled, (state, action) => {
-            console.log(action)
+            console.log(JSON.stringify(action))
             if (action.payload.status == 'success') {
                 state.globalErrorMessage = "";
                 state.formErrors = {};
