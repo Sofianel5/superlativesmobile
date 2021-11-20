@@ -25,8 +25,8 @@ declare const global: {HermesInternal: null | {}};
 const App = () => {
   return (
     <>
-      <Profile />
-      {/* <AuthStackScreen/> */}
+      {/* <Profile /> */}
+      <AuthStackScreen/>
     </>
   );
 };

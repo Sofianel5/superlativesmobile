@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from '../../app/store';
 import User from '../../models/User';
-import { requestSignup, getUser, verifyNumber, uploadProfilePicture } from './authAPI';
+import { requestSignup, getUser, verifyNumber, uploadProfilePicture, setPassword } from './authAPI';
 import * as RootNavigator from '../../services/RootNavigation';
 
 interface AuthState {
@@ -69,6 +69,14 @@ export const uploadProfilePictureAction = createAsyncThunk('auth/uploadPfp', asy
     .then(res => res.data)
     .catch(err => {console.log(err); return err.response.data});
 });
+
+export const setPasswordAction = createAsyncThunk('auth/setPassword', async (password: string, {getState}) => {
+    const {incompleteUser, tempAuthToken} = getState().auth;
+    return await setPassword(tempAuthToken, incompleteUser.phone, password)
+    .then(res => res.data)
+    .catch(err => err.response.data);
+});
+
 
 export const authSlice = createSlice({
     name: 'auth',
@@ -142,6 +150,23 @@ export const authSlice = createSlice({
                 RootNavigator.navigate('SetPass', {})
             } else {
                 state.globalErrorMessage = "Failed to upload profile picture";
+                state.formErrors = {};
+            }
+        })
+        .addCase(setPasswordAction.pending, (state) => {
+            state.status = 'loading';
+            console.log("setPasswordAction.pending")
+        })
+        .addCase(setPasswordAction.fulfilled, (state, action) => {
+            console.log(action)
+            if (action.payload.status == 'success') {
+                state.globalErrorMessage = "";
+                state.formErrors = {};
+                state.user = action.payload.data
+                state.status = 'authenticated';
+                RootNavigator.navigate('Home', {})
+            } else {
+                state.globalErrorMessage = "Failed to set password";
                 state.formErrors = {};
             }
         })
