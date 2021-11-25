@@ -1,9 +1,13 @@
-import React, { Component } from 'react';
+import React, { useRef } from 'react';
 import { View, Text, StyleSheet, Pressable, TextInput, Platform, Image, TouchableOpacity, ImageBackground, Animated } from 'react-native';
 import Card from '../../../components/Card';
+import Swiper from 'react-native-deck-swiper';
 
 const Vote = ({navigation}) => {
-
+    const useSwiper = useRef(null).current
+    const handleOnSwipedLeft = () => useSwiper.swipeLeft()
+    const handleOnSwipedTop = () => useSwiper.swipeTop()
+    const handleOnSwipedRight = () => useSwiper.swipeRight()
 
     return (
         <View style={styles.container}>
@@ -13,7 +17,23 @@ const Vote = ({navigation}) => {
             <View style={styles.questionBar}>
                 <Text style={styles.question}>Best Head</Text>
             </View>
-            <Card name="Liam Kronman" cardNum="1" image={require('../../../../assets/images/liam.jpg')} />
+            <View style={{height: '32%', width: '92%'}}>
+                <Swiper ref={useSwiper}
+                    // animateCardOpacity
+                    // onSwipedLeft={() => useSwiper.swipeLeft()}
+                    cards={[{name: "Liam Kronman", 
+                            cardNum:"1", 
+                            image:require('../../../../assets/images/liam.jpg')}, 
+                            {name: "Liam Kronman", 
+                            cardNum:"1", 
+                            image:require('../../../../assets/images/jason.jpeg')}]} 
+                            renderCard={card => <Card name={card.name} cardNum={card.cardNum} image={card.image}/> }
+                    // stackSize={2}
+                    // infinite
+                    // animateOverlayLabelsOpacity
+                    swipeBackCard
+                    />
+            </View>
             <Text style={styles.or}>OR</Text>
             <Card name="Jason Seo" cardNum="2" image={require('../../../../assets/images/jason.jpeg')} />
         </View>
