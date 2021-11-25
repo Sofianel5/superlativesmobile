@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         shadowOffset : {height: 4, width: 4},
         shadowOpacity: 0.8,
         borderRadius: 8,
-        // marginTop:30,
+        marginTop:30,
         flexDirection: 'row',
         padding: 10,
     },

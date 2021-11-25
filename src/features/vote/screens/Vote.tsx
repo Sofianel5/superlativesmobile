@@ -17,7 +17,7 @@ const Vote = ({navigation}) => {
             <View style={styles.questionBar}>
                 <Text style={styles.question}>Best Head</Text>
             </View>
-            <View style={{height: '32%', width: '92%'}}>
+            {/* <View style={{height: '32%', width: '92%'}}>
                 <Swiper ref={useSwiper}
                     // animateCardOpacity
                     // onSwipedLeft={() => useSwiper.swipeLeft()}
@@ -33,7 +33,8 @@ const Vote = ({navigation}) => {
                     // animateOverlayLabelsOpacity
                     swipeBackCard
                     />
-            </View>
+            </View> */}
+            <Card name="Liam Kronman" cardNum="1" image={require('../../../../assets/images/liam.jpg')} />
             <Text style={styles.or}>OR</Text>
             <Card name="Jason Seo" cardNum="2" image={require('../../../../assets/images/jason.jpeg')} />
         </View>
