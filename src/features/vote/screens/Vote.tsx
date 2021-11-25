@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Pressable, TextInput, Platform, Image, TouchableOpacity, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, Pressable, TextInput, Platform, Image, TouchableOpacity, ImageBackground, Animated } from 'react-native';
 import Card from '../../../components/Card';
 
 const Vote = ({navigation}) => {
+
+
     return (
         <View style={styles.container}>
             <View style={styles.topBar}>
@@ -11,9 +13,9 @@ const Vote = ({navigation}) => {
             <View style={styles.questionBar}>
                 <Text style={styles.question}>Best Head</Text>
             </View>
-            <Card name="Liam Kronman" cardNum="1" image='require("../../assets/images/liam.jpg")' />
+            <Card name="Liam Kronman" cardNum="1" image={require('../../../../assets/images/liam.jpg')} />
             <Text style={styles.or}>OR</Text>
-            <Card name="Liam Kronman" cardNum="2" image='require("../../assets/images/liam.jpg")' />
+            <Card name="Jason Seo" cardNum="2" image={require('../../../../assets/images/jason.jpeg')} />
         </View>
     )
 }

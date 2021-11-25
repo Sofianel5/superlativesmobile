@@ -1,15 +1,15 @@
 import * as React from "react";
-import { View, TouchableOpacity, StyleSheet, ImageBackground, Text } from "react-native";
+import { View, TouchableOpacity, StyleSheet, ImageBackground, Text, Image } from "react-native";
 // import Animated from "react-native-reanimated";
 
 const Card = (props) => {  
-    const image = props.image;
+    const img = props.image;
     const name = props.name;
     const cardNum = props.cardNum;
 
     return (
         <TouchableOpacity style={cardNum == "1" ? styles.card1 : styles.card2}>
-            <ImageBackground source={image} style={styles.image} imageStyle={{opacity: 0.7}}>
+            <ImageBackground source={img} style={styles.image} imageStyle={{opacity: 0.6}}>
             <View style={styles.nameContainer}>
                 <Text style={styles.name}>{name}</Text>
             </View>
