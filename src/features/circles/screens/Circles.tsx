@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     
     title: {
         color: 'white',
-        fontFamily: 'Montserrat',
+        fontFamily: 'Montserrat-SemiBold',
         fontSize: 30,
         marginTop: 40,
         marginBottom: 15,
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
 
     groupTitle: {
         color: 'white',
-        fontFamily: 'Montserrat',
+        fontFamily: 'Montserrat-SemiBold',
         fontSize: 25,
         marginLeft: 10,
         marginTop: 10,
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     },
 
     viewText: {
-        fontFamily: 'Montserrat',
+        fontFamily: 'Montserrat-SemiBold',
         color: 'white',
         fontSize: 18,
     },

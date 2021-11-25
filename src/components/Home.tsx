@@ -11,6 +11,7 @@ const Tab = createBottomTabNavigator();
 export default function Home() {
   return (
     <Tab.Navigator
+    initialRouteName="Vote"
     screenOptions={{
         headerShown:false,
         tabBarShowLabel: false,
