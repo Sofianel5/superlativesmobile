@@ -19,7 +19,7 @@ export default function Home() {
             borderTopWidth: 0,
         },
     }}>
-        <Tab.Screen name="Vote" component={Vote} options={{
+        <Tab.Screen name="Circles" component={Circles} options={{
                 tabBarIcon: ({focused}) => (
                     <View style={{alignItems: 'center', justifyContent: 'center'}}>
                         <Image 
@@ -35,7 +35,7 @@ export default function Home() {
                     </View>
                 )
             }}/>
-        <Tab.Screen name="Profile" component={Profile} options={{
+        <Tab.Screen name="Vote" component={Vote} options={{
                 tabBarIcon: ({focused}) => (
                     <View style={{alignItems: 'center', justifyContent: 'center'}}>
                         <Image 
@@ -51,7 +51,7 @@ export default function Home() {
                     </View>
                 )
             }} />
-        <Tab.Screen name="Circles" component={Circles} options={{
+        <Tab.Screen name="Profile" component={Profile} options={{
                 tabBarIcon: ({focused}) => (
                     <View style={{alignItems: 'center', justifyContent: 'center'}}>
                         <Image 

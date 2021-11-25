@@ -32,7 +32,7 @@ const App = () => {
   return (
     <>
       {/* {status === 'authenticated' ? <Home /> : <AuthStackScreen />} */}
-      <Profile />
+      <Home />
     </>
   );
 };
