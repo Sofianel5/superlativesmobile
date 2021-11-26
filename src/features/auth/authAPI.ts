@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getLocalUser } from '../../services/LocalData';
 import FormData from 'form-data';
 
-const baseUrl = 'http://localhost:8000/api/';
+const baseUrl = 'https://superlatives.app/api/';
 const Urls = {
     REQUEST_SIGNUP : baseUrl + 'auth/request-sign-up',
     VERIFY_NUMBER : baseUrl + 'auth/verify-phone',

@@ -4,6 +4,7 @@ import {useAppDispatch, useAppSelector} from '../../../app/hooks/';
 import { uploadProfilePictureAction } from '../authSlice';
 import Icon from 'react-native-vector-icons/Entypo';
 import { launchImageLibrary } from 'react-native-image-picker';
+import ImageResizer from 'react-native-image-resizer';
 
 const ProfilePic = ({route, navigation}) => {
     const [photo, setPhoto] = React.useState(null);
@@ -15,7 +16,12 @@ const ProfilePic = ({route, navigation}) => {
             if (result.didCancel) {
                 console.log('User cancelled image picker');
             } else {
-                setPhoto(result.assets[0]);
+                ImageResizer.createResizedImage(
+                    result.assets[0].uri, 
+                    200, 
+                    260,
+                    "JPEG",
+                    50).then(res=>setPhoto(res))
             }
         });
     }

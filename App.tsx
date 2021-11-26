@@ -31,8 +31,8 @@ const App = () => {
   const status = useAppSelector(state => state.auth.status);
   return (
     <>
-      {/* {status === 'authenticated' ? <Home /> : <AuthStackScreen />} */}
-      <Home />
+      {status === 'authenticated' ? <Home /> : <AuthStackScreen />}
+      {/* <Home /> */}
     </>
   );
 };
