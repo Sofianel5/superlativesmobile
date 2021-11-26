@@ -20,7 +20,7 @@ const ProfilePic = ({route, navigation}) => {
                     result.assets[0].uri, 
                     200, 
                     260,
-                    "JPEG",
+                    "PNG",
                     50).then(res=>setPhoto(res))
             }
         });
