@@ -2,20 +2,35 @@ import React, { useRef } from 'react';
 import { View, Text, StyleSheet, Pressable, TextInput, Platform, Image, TouchableOpacity, ImageBackground, Animated } from 'react-native';
 import Card from '../../../components/Card';
 import Swiper from 'react-native-deck-swiper';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { getQuestion, submitVoteAction } from '../voteSlice';
 
 const Vote = ({navigation}) => {
+    const {circles: {circles}, vote: {selectedCircle, question, userA, userB}} = useAppSelector((state) => state);
+    React.useEffect(() => {
+        if (circles && !selectedCircle) {
+            dispatch(getQuestion());
+        }
+    });
+    const dispatch = useAppDispatch();
     const useSwiper = useRef(null).current
     const handleOnSwipedLeft = () => useSwiper.swipeLeft()
     const handleOnSwipedTop = () => useSwiper.swipeTop()
     const handleOnSwipedRight = () => useSwiper.swipeRight()
 
+    function handleVote(winner: any, loser: any) {
+        console.log('handleVote', winner, loser);
+        dispatch(submitVoteAction({questionId: question["question/id"], winnerId: winner["user/id"], loserId: loser["user/id"]}));
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.topBar}>
-                <Text style={styles.group}>SAE MIT</Text>
+                {/* Replace loading... with skeleton loading box */}
+                <Text style={styles.group}>{selectedCircle ? selectedCircle["circle/name"] : "Loading..."}</Text> 
             </View>
             <View style={styles.questionBar}>
-                <Text style={styles.question}>Best Head</Text>
+                <Text style={styles.question}>{question ? question["question/text"] : "Loading..."}</Text>
             </View>
             {/* <View style={{height: '32%', width: '92%'}}>
                 <Swiper ref={useSwiper}
@@ -34,9 +49,9 @@ const Vote = ({navigation}) => {
                     swipeBackCard
                     />
             </View> */}
-            <Card name="Liam Kronman" cardNum="1" image={require('../../../../assets/images/liam.jpg')} />
+            {!!userA && <Card name={userA["user/first-name"].concat(" ", userA["user/last-name"])} cardNum="1" image={{uri: userA["user/profile-pic"]}} onPress={() => handleVote(userA, userB)} />}
             <Text style={styles.or}>OR</Text>
-            <Card name="Jason Seo" cardNum="2" image={require('../../../../assets/images/jason.jpeg')} />
+            {!!userB && <Card name={userB["user/first-name"].concat(" ", userB["user/last-name"])} cardNum="2" image={{uri: userB["user/profile-pic"]}} onPress={() => handleVote(userB, userA)} />}
         </View>
     )
 }

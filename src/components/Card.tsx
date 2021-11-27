@@ -6,9 +6,10 @@ const Card = (props) => {
     const img = props.image;
     const name = props.name;
     const cardNum = props.cardNum;
+    const onPress = props.onPress;
 
     return (
-        <TouchableOpacity style={cardNum == "1" ? styles.card1 : styles.card2}>
+        <TouchableOpacity style={cardNum == "1" ? styles.card1 : styles.card2} onPress={onPress}>
             <ImageBackground source={img} style={styles.image} imageStyle={{opacity: 0.6}}>
             <View style={styles.nameContainer}>
                 <Text style={styles.name}>{name}</Text>

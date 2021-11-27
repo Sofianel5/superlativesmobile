@@ -2,7 +2,7 @@ import React from "react";
 import { ScrollView, Text, View, TouchableOpacity, StyleSheet } from "react-native";
 
 function renderCircles({circles, navigation}) {
-    return circles.map((circle) => {
+    return Object.values(circles).map((circle) => {
         return (
             <View key={circle["circle/id"]} style={styles.group}>
                     <Text style={styles.groupTitle}>
@@ -12,7 +12,7 @@ function renderCircles({circles, navigation}) {
                         {Object.keys(circle["circle/members"]).length} members
                     </Text>
                     <View style={{alignItems: 'center'}}>
-                        <TouchableOpacity style={styles.view} onPress={() => navigation.navigate('GChild')}>
+                        <TouchableOpacity style={styles.view} onPress={() => navigation.navigate('CircleDetail', {circleId: circle["circle/id"]})}>
                             <Text style={styles.viewText}>
                                 View
                             </Text>

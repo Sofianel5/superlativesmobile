@@ -10,6 +10,9 @@ const Urls = {
     SET_PASSWORD : baseUrl + 'auth/complete-user',
     LOGIN: baseUrl + 'auth/login',
     GET_CIRCLES: baseUrl + 'circles/get-circles',
+    GET_CIRCLE_RANKINGS: baseUrl + 'circles/get-rankings-in-circle',
+    ADD_SUPERLATIVE: baseUrl + 'circles/add-question',
+    SUBMIT_VOTE: baseUrl + 'circles/submit-vote',
 }
 
 export const genAuthHeaders = (userId: string, authToken: string) => {

@@ -6,7 +6,6 @@ import {useAppDispatch, useAppSelector} from '../../../app/hooks';
 
 const Circles = ({navigation}) => {
     const circlesState = useAppSelector((state) => state.circles);
-    console.log('circlesState', circlesState);
     return (
         <View style={styles.container}>
             <Text style={styles.title}>

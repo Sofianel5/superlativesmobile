@@ -3,7 +3,7 @@ import { Text, View, Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Vote from '../features/vote/screens/Vote'
 import Profile from '../features/profile/screens/Profile'
-import Circles from '../features/circles/screens/Circles'
+import CirclesStackScreen from '../features/circles/screens/CirclesStack'
 import { useAppDispatch } from '../app/hooks';
 import { getCirclesAction } from '../features/circles/circlesSlice';
 
@@ -27,7 +27,7 @@ export default function Home() {
                 borderTopWidth: 0,
             },
         }}>
-            <Tab.Screen name="Circles" component={Circles} options={{
+            <Tab.Screen name="Circles" component={CirclesStackScreen} options={{
                     tabBarIcon: ({focused}) => (
                         <View style={{alignItems: 'center', justifyContent: 'center'}}>
                             <Image 

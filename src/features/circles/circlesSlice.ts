@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getCircles } from './circlesAPI';
+import { getCircles, getCircleRanking, addCustomSuperlative } from './circlesAPI';
 
 interface CirclesState {
     circles: any[];
@@ -21,7 +21,7 @@ export const getCirclesAction = createAsyncThunk('circles/getCircles', async (_,
     .catch(err => {
         console.log(err);
         console.log(err.response);
-        if (Math.floor(err.response.status/100) == 4) {
+        if (~~(err.response.status/100) == 4) {
             return { 
                 status: "failed",
                 error: err.response.data.reason
@@ -32,6 +32,41 @@ export const getCirclesAction = createAsyncThunk('circles/getCircles', async (_,
         }
     });
 })
+
+export const getRankingsForCircleAction = createAsyncThunk('circle/getCircleRankings', async (circleId: string, {getState}) => {
+    console.log('getRankingsForCircleAction');
+    const {auth: {user}} = getState();
+    return await getCircleRanking(user['id'], user['auth-token'], circleId)
+    .then(res => res.data)
+    .catch(err => {
+        console.log(err);
+        console.log(err.response);
+        if (Math.floor(err.response.status/100) == 4) {
+            return { 
+                status: "failed",
+                error: err.response.data.reason
+            }
+        } return { 
+            status: "failed",
+            error: "Unknown error. Check your internet connection"
+        }
+    });
+});
+
+export const addCustomSuperlativeAction = createAsyncThunk('circles/addCustomSuperlative', async (data: any, {getState}) => {
+    console.log('addCustomSuperlativeAction');
+    const {superlative, circleId } = data;
+    const {auth: {user}} = getState();
+    return await addCustomSuperlative(user['id'], user['auth-token'], circleId, superlative)
+    .then(res => res.data)
+    .catch(err => {
+        console.log(err);
+        console.log(err.response);
+        return {
+            status: "failed",
+        }
+    });
+});
 
 export const circleSlice = createSlice({
     name: 'circles',
@@ -44,18 +79,38 @@ export const circleSlice = createSlice({
                 state.loading = true;
             })
             .addCase(getCirclesAction.fulfilled, (state, action) => {
-                console.log(action);
                 if (action.payload.status === "success") {
                     state.circles = action.payload.data;
-                    console.log("circles", state.circles);
                     state.loading = false;
                 } else {
                     state.error = action.payload.error;
                     state.loading = false;
                 }
             })
+            .addCase(getRankingsForCircleAction.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(getRankingsForCircleAction.fulfilled, (state, action) => {
+                console.log("action:", action);
+                if (action.payload.status === "success") {
+                    console.log("Success in StateCircleRank")
+                    state.circles[action.meta.arg]["circle/questions"] = action.payload.data["circle/questions"]
+                    state.loading = false;
+                } else {
+                    state.error = action.payload.error;
+                    state.loading = false;
+                }
+            })
+            .addCase(addCustomSuperlativeAction.fulfilled, (state, action) => {
+                if (action.payload.status === "success") {
+                    state.circles[action.meta.arg.circleId]["circle/questions"].push(action.payload.data)
+                } else {
+                    state.error = action.payload.error;
+                }
+            })
+        }
     }
-    });
+);
 
 export const {  } = circleSlice.actions;
 
