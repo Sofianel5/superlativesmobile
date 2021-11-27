@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getRankings } from './rankingsAPI';
+import { getRankings } from './profileAPI';
 
 interface ProfileState {
     rankings: any[];

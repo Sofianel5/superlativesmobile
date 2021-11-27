@@ -6,14 +6,17 @@ import Profile from '../features/profile/screens/Profile'
 import CirclesStackScreen from '../features/circles/screens/CirclesStack'
 import { useAppDispatch } from '../app/hooks';
 import { getCirclesAction } from '../features/circles/circlesSlice';
+import { getRankingsAction } from '../features/profile/profileSlice';
 
 const Tab = createBottomTabNavigator();
 
 export default function Home() {
 
     const dispatch = useAppDispatch();
+
     React.useEffect(() => {
         dispatch(getCirclesAction());
+        dispatch(getRankingsAction())
     }, []);
     
     return (
