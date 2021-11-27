@@ -13,6 +13,7 @@ const Urls = {
     GET_CIRCLE_RANKINGS: baseUrl + 'circles/get-rankings-in-circle',
     ADD_SUPERLATIVE: baseUrl + 'circles/add-question',
     SUBMIT_VOTE: baseUrl + 'circles/submit-vote',
+    GET_RANKINGS: baseUrl + 'profile/get-rankings',
 }
 
 export const genAuthHeaders = (userId: string, authToken: string) => {

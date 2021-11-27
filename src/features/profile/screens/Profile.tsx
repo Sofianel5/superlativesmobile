@@ -6,19 +6,19 @@ import {useAppDispatch, useAppSelector} from '../../../app/hooks';
 
 const Profile = ({navigation}) => {
 
-    // const [photo, setPhoto] = React.useState(null);
+    const [photo, setPhoto] = React.useState(null);
 
-    // const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
 
-    // function handlePress() {
-    //     launchImageLibrary({mediaType: 'photo'}, (result) => {
-    //         if (result.didCancel) {
-    //             console.log('User cancelled image picker');
-    //         } else {
-    //             setPhoto(result.assets[0]);
-    //         }
-    //     });
-    // }
+    function handlePress() {
+        launchImageLibrary({mediaType: 'photo'}, (result) => {
+            if (result.didCancel) {
+                console.log('User cancelled image picker');
+            } else {
+                setPhoto(result.assets[0]);
+            }
+        });
+    }
 
     // function handleSubmit() {
     //     dispatch(uploadProfilePictureAction(photo.uri));
@@ -33,8 +33,10 @@ const Profile = ({navigation}) => {
             </View>
             <ScrollableView>
                 <TouchableOpacity style={styles.profileSelNoImage}>
-                    <ImageBackground style={styles.backgroundImage} />
-                <View style={styles.plusSign}><Text style={styles.plus}>+</Text></View>
+                    <ImageBackground style={styles.backgroundImage} source={{uri: "https://superlatives-files.s3.amazonaws.com/93d8437d-d9db-4b4b-bacc-efc1a9435a46.png"}} />
+                    <View style={styles.plusSign}>
+                        <Text style={styles.plus}>+</Text>
+                    </View>
                 </TouchableOpacity>
                 {/* <TouchableOpacity onPress={() => handlePress()} style={photo ? styles.profileSel : styles.profileSelNoImage}>
                 {photo && <ImageBackground style={styles.backgroundImage} imageStyle={{borderRadius: 20}} source={{uri: photo.uri}} />}
