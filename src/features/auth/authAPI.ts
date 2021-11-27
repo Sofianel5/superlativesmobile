@@ -1,15 +1,7 @@
 import axios from 'axios';
 import { getLocalUser } from '../../services/LocalData';
 import FormData from 'form-data';
-
-const baseUrl = 'https://superlatives.app/api/';
-const Urls = {
-    REQUEST_SIGNUP : baseUrl + 'auth/request-sign-up',
-    VERIFY_NUMBER : baseUrl + 'auth/verify-phone',
-    UPLOAD_PROFILE_PIC : baseUrl + 'auth/upload-pfp',
-    SET_PASSWORD : baseUrl + 'auth/complete-user',
-    LOGIN: baseUrl + 'auth/login',
-}
+import Urls from '../../services/RemoteData';
 
 export async function getUser() {
     try {

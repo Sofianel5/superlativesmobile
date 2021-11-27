@@ -1,23 +1,34 @@
-import React, { Component } from 'react';
-import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
-import Icon from 'react-native-vector-icons/Entypo';
-import CirclesList from '../components/CircleList';
-import {useAppDispatch, useAppSelector} from '../../../app/hooks';
+import React from "react";
+import { ScrollView, Text, View, TouchableOpacity, StyleSheet } from "react-native";
 
-const Circles = ({navigation}) => {
-    const circlesState = useAppSelector((state) => state.circles);
-    console.log('circlesState', circlesState);
+function renderCircles({circles, navigation}) {
+    return circles.map((circle) => {
+        return (
+            <View key={circle["circle/id"]} style={styles.group}>
+                    <Text style={styles.groupTitle}>
+                        {circle["circle/name"]}
+                    </Text>
+                    <Text style={styles.members}>
+                        {Object.keys(circle["circle/members"]).length} members
+                    </Text>
+                    <View style={{alignItems: 'center'}}>
+                        <TouchableOpacity style={styles.view} onPress={() => navigation.navigate('GChild')}>
+                            <Text style={styles.viewText}>
+                                View
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+        );
+    });
+}
+export default function CirclesList(circles, {navigation}) {
+
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>
-                Your Circles
-            </Text>
-            {circlesState.loading ? <Text>Loading...</Text> : <CirclesList circles={circlesState.circles} navigation={navigation} />}
-            <TouchableOpacity style={styles.newGroup} onPress={() => navigation.navigate('NewGroup')}>
-                <Icon name="plus" size={35} color="white" />
-            </TouchableOpacity>
-        </View>
-    )
+        <ScrollView style={{paddingRight: 20}}>
+            {renderCircles(circles, navigation)}
+        </ScrollView>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -98,5 +109,3 @@ const styles = StyleSheet.create({
         color: 'white',
     }
 })
-
-export default Circles;

@@ -28,6 +28,8 @@ const storage = new Storage({
 
 const USER_KEY = 'user'
 
+const CIRCLES_KEY = 'circles'
+
 export const getLocalUser = async () => {
     // const userStr = await storage.load({
     //     key: USER_KEY,
@@ -53,4 +55,13 @@ export const removeUser = () => {
     //     id: USER_KEY,
     // });
     return AsyncStorage.removeItem(USER_KEY);
+}
+
+export const getLocalCircles = async () => {
+    // const circlesStr = await storage.load({
+    //     key: CIRCLES_KEY,
+    //     id: CIRCLES_KEY,
+    // });
+    const circlesStr = await AsyncStorage.getItem(CIRCLES_KEY);
+    return circlesStr ? JSON.parse(circlesStr) : null;
 }
