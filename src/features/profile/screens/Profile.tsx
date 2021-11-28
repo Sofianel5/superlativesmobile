@@ -75,6 +75,7 @@ const Profile = ({navigation}) => {
                                     <InnerBadge fill="#7F5AF0" width={94} style={styles.innerBadge} />
                                     <View style={styles.superlativeContainer}>
                                         <Text style={styles.superlativeTitle}>{res[0]["rank/question"]["question/text"]}</Text>
+                                        <Text style={styles.superlativeOne}>#1</Text>
                                     </View>
                                     <Text style={styles.superlativeGroup}>{res[0]["rank/question"]["question/circle"]["circle/name"]}</Text>
                                 </View>
@@ -267,6 +268,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginTop: 12,
         fontSize: 14,
+    },
+
+    superlativeOne: {
+        color: 'yellow',
+        fontFamily: 'Montserrat-SemiBold',
+        fontSize: 37,
+        position: 'relative',
+        top: 13,
     },
 
     myRankingsTxt: {
