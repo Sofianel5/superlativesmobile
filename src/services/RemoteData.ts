@@ -1,7 +1,7 @@
 const devUrl = 'http://localhost:5000/api/';
 const prodUrl = 'https://superlatives.app/api/'
 
-const baseUrl = devUrl;
+const baseUrl = prodUrl;
 
 const Urls = {
     REQUEST_SIGNUP : baseUrl + 'auth/request-sign-up',
