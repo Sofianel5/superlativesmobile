@@ -4,9 +4,11 @@ import Card from '../../../components/Card';
 import Swiper from 'react-native-deck-swiper';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { getQuestion, submitVoteAction } from '../voteSlice';
+import TitleLoading from '../components/TitleLoading';
+import CardLoading from '../components/CardLoading';
 
 const Vote = ({navigation}) => {
-    const {circles: {circles}, vote: {selectedCircle, question, userA, userB}} = useAppSelector((state) => state);
+    const {circles: {circles, loading}, vote: {selectedCircle, question, userA, userB}} = useAppSelector((state) => state);
     React.useEffect(() => {
         if (circles && !selectedCircle) {
             dispatch(getQuestion());
@@ -25,10 +27,12 @@ const Vote = ({navigation}) => {
 
     return (
         <View style={styles.container}>
+            {loading ? <View style={{height: 120, width: '100%'}}>
+                <TitleLoading />
+            </View> :
             <View style={styles.topBar}>
-                {/* Replace loading... with skeleton loading box */}
-                <Text style={styles.group}>{selectedCircle ? selectedCircle["circle/name"] : "Loading..."}</Text> 
-            </View>
+                <Text style={styles.group}>{selectedCircle ? selectedCircle["circle/name"] : "Loading..."}</Text> }
+            </View>}
             <View style={styles.questionBar}>
                 <Text style={styles.question}>{question ? question["question/text"] : "Loading..."}</Text>
             </View>
@@ -49,9 +53,12 @@ const Vote = ({navigation}) => {
                     swipeBackCard
                     />
             </View> */}
-            {!!userA && <Card name={userA["user/first-name"].concat(" ", userA["user/last-name"])} cardNum="1" image={{uri: userA["user/profile-pic"]}} onPress={() => handleVote(userA, userB)} />}
+            {loading ? <View style={{justifyContent: 'center', height: 600, width: 300, marginTop: 30,}}>
+                <CardLoading />
+                <CardLoading />
+            </View> : {!!userA && <Card name={userA["user/first-name"].concat(" ", userA["user/last-name"])} cardNum="1" image={{uri: userA["user/profile-pic"]}} onPress={() => handleVote(userA, userB)} />}
             <Text style={styles.or}>OR</Text>
-            {!!userB && <Card name={userB["user/first-name"].concat(" ", userB["user/last-name"])} cardNum="2" image={{uri: userB["user/profile-pic"]}} onPress={() => handleVote(userB, userA)} />}
+            {!!userB && <Card name={userB["user/first-name"].concat(" ", userB["user/last-name"])} cardNum="2" image={{uri: userB["user/profile-pic"]}} onPress={() => handleVote(userB, userA)} />}}
         </View>
     )
 }
