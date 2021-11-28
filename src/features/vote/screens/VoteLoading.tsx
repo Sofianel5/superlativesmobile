@@ -14,7 +14,7 @@ export default function VoteLoading() {
                 { width: 180, height: 20, marginBottom: 6 },
                 // ...
             ]}
-            isLoading={false}
+            isLoading={true}
             boneColor="#121212"
             highlightColor="#333333"
         />
