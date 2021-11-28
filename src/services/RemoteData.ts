@@ -1,7 +1,7 @@
 const devUrl = 'http://localhost:5000/api/';
 const prodUrl = 'https://superlatives.app/api/'
 
-const baseUrl = devUrl;
+const baseUrl = prodUrl;
 
 const Urls = {
     REQUEST_SIGNUP : baseUrl + 'auth/request-sign-up',
@@ -15,6 +15,7 @@ const Urls = {
     SUBMIT_VOTE: baseUrl + 'circles/submit-vote',
     GET_QUESTION_PACKS: baseUrl + 'circles/question-packs',
     GET_RANKINGS: baseUrl + 'profile/get-rankings',
+    RESET_PROFILE_PIC: baseUrl + 'profile/reset-profile-pic',
 }
 
 export const genAuthHeaders = (userId: string, authToken: string) => {

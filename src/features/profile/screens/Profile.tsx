@@ -5,6 +5,8 @@ import InnerBadge from '../../../../assets/icons/InnerBadge';
 import {useAppDispatch, useAppSelector} from '../../../app/hooks';
 import SuperlativeIcon from '../../../components/SuperlativeIcon';
 import Icon from 'react-native-vector-icons/Entypo';
+import ImageResizer from 'react-native-image-resizer';
+import { resetProfilePicAction } from '../profileSlice';
 // import { uploadProfilePictureAction } from '../authSlice';
 // import { launchImageLibrary } from 'react-native-image-picker';
 
@@ -21,7 +23,12 @@ const Profile = ({navigation}) => {
             if (result.didCancel) {
                 console.log('User cancelled image picker');
             } else {
-                setPhoto(result.assets[0]);
+                ImageResizer.createResizedImage(
+                    result.assets[0].uri, 
+                    200, 
+                    260,
+                    "PNG",
+                    50).then(res=>dispatch(resetProfilePicAction(res.uri)))
             }
         });
     }
@@ -43,7 +50,7 @@ const Profile = ({navigation}) => {
     }
 
     // function handleSubmit() {
-    //     dispatch(uploadProfilePictureAction(photo.uri));
+    //     dispatch(resetProfilePicAction(photo.uri));
     // }
 
     function renderSuperlatives(rankings: any[]) {

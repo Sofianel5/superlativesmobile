@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getRankings } from './profileAPI';
+import { getRankings, resetProfilePic } from './profileAPI';
 
 interface ProfileState {
     rankings: any[];
@@ -31,7 +31,28 @@ export const getRankingsAction = createAsyncThunk('profile/getRankings', async (
             error: "Unknown error. Check your internet connection"
         }
     });
-})
+});
+
+export const resetProfilePicAction = createAsyncThunk('profile/resetProfilePic', async (newProfilePicUri: string, {getState}) => {
+    console.log('resetProfilePicAction');
+    const {auth: {user}} = getState();
+    return await resetProfilePic(user['id'], user['auth-token'], newProfilePicUri)
+    .then(res => res.data)
+    .catch(err => {
+        console.log(err);
+        console.log(err.response);
+        if (Math.floor(err.response.status/100) == 4) {
+            return {
+                status: "failed",
+                error: "Unauthorized"
+            }
+        } return {
+            status: "failed",
+            error: "Unknown error. Check your internet connection"
+        }
+    });
+});
+
 
 export const profileSlice = createSlice({
     name: 'profile',
@@ -50,7 +71,13 @@ export const profileSlice = createSlice({
                 state.error = action.payload.error;
             }
             state.loading = false;
-        });
+        })
+        .addCase(resetProfilePicAction.fulfilled, (state, action) => {
+            if (action.payload.status !== 'success') {
+                state.error = action.payload.error;
+            } 
+        })
+
     }
 });
 

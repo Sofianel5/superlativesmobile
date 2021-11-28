@@ -7,6 +7,7 @@ import { getQuestionPacksAction } from '../circlesSlice';
 import SuperlativeCard from '../components/SuperlativeCard';
 import QuestionPackPicker from '../../../components/QuestionPackPicker';
 import CheckBox from '@react-native-community/checkbox';
+import PopinButton from 'react-native-popin-button';
 
 const AddQuestionPackSuperlativesScreen = ({route, navigation}) => {
     const questionPacks = useAppSelector((state) => state.circles.questionPacks);
@@ -24,6 +25,7 @@ const AddQuestionPackSuperlativesScreen = ({route, navigation}) => {
             <View style={{paddingLeft: 20, paddingRight: 20,}}>
                 <QuestionPackPicker questionPacks={questionPacks} onChange={(i)=> {setValue(i); setChecked([])}}></QuestionPackPicker>
             </View>
+            <ScrollView style={styles.questionScroll}>
             {(questionPacks && (value != null)) && 
                 questionPacks[value]["questions"].map((question) => 
                 <View style={styles.superlativeContainer}>
@@ -45,6 +47,17 @@ const AddQuestionPackSuperlativesScreen = ({route, navigation}) => {
                     <Text style={styles.superlativeText}>{question}</Text>
                 </View>
             )}
+            </ScrollView>
+            {(checked.length > 0) && 
+            <View style={styles.buttonContainer}>
+                <PopinButton onPress={() => handleSubmit()}
+                style={styles.addBtn} shrinkTo={0.7}
+                >
+                    <Text style={styles.addText}>
+                        Add
+                    </Text>
+                </PopinButton>
+            </View>}
         </View>
     )
 }
@@ -83,7 +96,6 @@ const styles = StyleSheet.create({
     superlativeContainer: {
         flexDirection: 'row',
         marginLeft: 20,
-        zIndex: -1,
     },
 
     superlativeText: {
@@ -91,9 +103,38 @@ const styles = StyleSheet.create({
         fontFamily: 'Montserrat-SemiBold',
         fontSize: 18,
         marginLeft: 10,
-        zIndex: -1,
         lineHeight: 30,
-    }
+    },
+
+    questionScroll: {
+        paddingVertical: 20,
+        zIndex: -1,
+    },
+
+    buttonContainer : {
+        marginHorizontal: 50,
+    },
+
+    addBtn: {
+        marginTop: 25,
+        backgroundColor: '#7F5AF0',
+        paddingLeft: 50,
+        paddingRight: 50,
+        paddingVertical: 15,
+        borderRadius: 6,
+        alignItems: 'center',
+        shadowOffset : {height: 4},
+        shadowOpacity: 0.8,
+        position: 'absolute',
+        alignSelf: 'center',
+        bottom: 40,
+    },
+    
+    addText: {
+        fontFamily: 'Montserrat-SemiBold',
+        color: 'white',
+        fontSize: 23,
+    },
 
 })
 

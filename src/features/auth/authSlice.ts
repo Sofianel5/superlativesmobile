@@ -4,6 +4,7 @@ import User from '../../models/User';
 import { requestSignup, getUser, verifyNumber, uploadProfilePicture, setPassword, login } from './authAPI';
 import * as RootNavigator from '../../services/RootNavigation';
 import { saveUser, getLocalUser, removeUser } from '../../services/LocalData';
+import { resetProfilePicAction } from '../profile/profileSlice';
 
 interface AuthState {
   status: 'unauthenticated' | 'loading' | 'authenticated' | 'failed';
@@ -189,6 +190,11 @@ export const authSlice = createSlice({
                 state.globalErrorMessage = "Failed to login";
                 state.formErrors = {"password": "Incorrect"}; // make this responsive to the error
             }
+        })
+        .addCase(resetProfilePicAction.fulfilled, (state, action) => {
+            if (action.payload.status === 'success') {
+                state.user["profile-pic"] = action.payload.data.url;
+            } 
         })
       },
 });

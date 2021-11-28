@@ -41,7 +41,7 @@ export async function uploadProfilePicture(photoUri: string, id: string, phone: 
     const formData = new FormData();
     formData.append("image", {
         name: 'image',
-        type: 'image/jpg',
+        type: 'image/png',
         uri: photoUri,
     });
     console.log(formData)
