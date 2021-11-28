@@ -72,23 +72,6 @@ const Vote = ({navigation}) => {
         <View style={styles.container}>
             {renderTitle()}
             {renderQuestion()}
-            {/* <View style={{height: '32%', width: '92%'}}>
-                <Swiper ref={useSwiper}
-                    // animateCardOpacity
-                    // onSwipedLeft={() => useSwiper.swipeLeft()}
-                    cards={[{name: "Liam Kronman", 
-                            cardNum:"1", 
-                            image:require('../../../../assets/images/liam.jpg')}, 
-                            {name: "Liam Kronman", 
-                            cardNum:"1", 
-                            image:require('../../../../assets/images/jason.jpeg')}]} 
-                            renderCard={card => <Card name={card.name} cardNum={card.cardNum} image={card.image}/> }
-                    // stackSize={2}
-                    // infinite
-                    // animateOverlayLabelsOpacity
-                    swipeBackCard
-                    />
-            </View> */}
             {renderBody()}
         </View>
     )

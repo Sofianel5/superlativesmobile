@@ -59,34 +59,37 @@ const Profile = ({navigation}) => {
         if (loading) {
             return <View style={{}}><Text>Loading...</Text></View>
         } else if (!areSuperlatives(rankings)) {
-            return <View style={{}}><Text>No Superlatives</Text></View>
+            return <></>
         } return (
-            <View style={styles.superlativesCard}>
-                {getSuperlatives(rankings).reduce(function(accumulator, currentValue, currentIndex, array) {
-                        if (currentIndex % 2 === 0)
-                        accumulator.push(array.slice(currentIndex, currentIndex + 2));
-                        return accumulator;
-                    }, []).map(res => (
-                        <View style={styles.superlativeRowTwo}>
-                            <View style={styles.superlativeSuperContainer}>
-                                <SuperlativeIcon width={165} height={144} style={styles.superlativeIcon} />
-                                <InnerBadge fill="#7F5AF0" width={94} style={styles.innerBadge} />
-                                <View style={styles.superlativeContainer}>
-                                    <Text style={styles.superlativeTitle}>{res[0]["rank/question"]["question/text"]}</Text>
+            <>
+                <Text style={styles.mySuperlativeTxt}>My Superlatives</Text>
+                <View style={styles.superlativesCard}>
+                    {getSuperlatives(rankings).reduce(function(accumulator, currentValue, currentIndex, array) {
+                            if (currentIndex % 2 === 0)
+                            accumulator.push(array.slice(currentIndex, currentIndex + 2));
+                            return accumulator;
+                        }, []).map(res => (
+                            <View style={styles.superlativeRowTwo}>
+                                <View style={styles.superlativeSuperContainer}>
+                                    <SuperlativeIcon width={165} height={144} style={styles.superlativeIcon} />
+                                    <InnerBadge fill="#7F5AF0" width={94} style={styles.innerBadge} />
+                                    <View style={styles.superlativeContainer}>
+                                        <Text style={styles.superlativeTitle}>{res[0]["rank/question"]["question/text"]}</Text>
+                                    </View>
+                                    <Text style={styles.superlativeGroup}>{res[0]["rank/question"]["question/circle"]["circle/name"]}</Text>
                                 </View>
-                                <Text style={styles.superlativeGroup}>{res[0]["rank/question"]["question/circle"]["circle/name"]}</Text>
+                                {res[1] && <View style={styles.superlativeSuperContainer}>
+                                    <SuperlativeIcon width={165} height={144} style={styles.superlativeIcon} />
+                                    <InnerBadge fill="#7F5AF0" width={94} style={styles.innerBadge} />
+                                    <View style={styles.superlativeContainer}>
+                                        <Text style={styles.superlativeTitle}>{res[1]["rank/question"]["question/text"]}</Text>
+                                    </View>
+                                    <Text style={styles.superlativeGroup}>{res[1]["rank/question"]["question/circle"]["circle/name"]}</Text>
+                                </View>}
                             </View>
-                            {res[1] && <View style={styles.superlativeSuperContainer}>
-                                <SuperlativeIcon width={165} height={144} style={styles.superlativeIcon} />
-                                <InnerBadge fill="#7F5AF0" width={94} style={styles.innerBadge} />
-                                <View style={styles.superlativeContainer}>
-                                    <Text style={styles.superlativeTitle}>{res[1]["rank/question"]["question/text"]}</Text>
-                                </View>
-                                <Text style={styles.superlativeGroup}>{res[1]["rank/question"]["question/circle"]["circle/name"]}</Text>
-                            </View>}
-                        </View>
-                    ))}
-            </View>
+                        ))}
+                </View>
+            </>
         );
     }
 
@@ -132,7 +135,6 @@ const Profile = ({navigation}) => {
                     <ImageBackground style={styles.backgroundImage} imageStyle={{borderRadius: 20}} source={{uri: photo ? photo.uri : user["profile-pic"]}} />
                     <View style={styles.plusSign}><Icon name="plus" size={35} color="white"/></View>
                 </TouchableOpacity>
-                <Text style={styles.mySuperlativeTxt}>My Superlatives</Text>
                 {renderSuperlatives(rankings)}
                 <Text style={styles.myRankingsTxt}>My Rankings</Text>
                 {renderNonSuperlatives(rankings)}
