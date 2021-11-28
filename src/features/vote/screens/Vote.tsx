@@ -4,9 +4,11 @@ import Card from '../../../components/Card';
 import Swiper from 'react-native-deck-swiper';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { getQuestion, submitVoteAction } from '../voteSlice';
+import TitleLoading from '../components/TitleLoading';
+import CardLoading from '../components/CardLoading';
 
 const Vote = ({navigation}) => {
-    const {circles: {circles}, vote: {selectedCircle, question, userA, userB}} = useAppSelector((state) => state);
+    const {circles: {circles, loading}, vote: {selectedCircle, question, userA, userB}} = useAppSelector((state) => state);
     React.useEffect(() => {
         if (circles && !selectedCircle) {
             dispatch(getQuestion());
@@ -23,15 +25,52 @@ const Vote = ({navigation}) => {
         dispatch(submitVoteAction({questionId: question["question/id"], winnerId: winner["user/id"], loserId: loser["user/id"]}));
     }
 
+    function renderBody() {
+        if (loading) {
+            return (<View style={{justifyContent: 'center', height: 600, width: 300, marginTop: 30,}}>
+                        <CardLoading />
+                        <CardLoading />
+                    </View> )
+        } else if ( userA && userB ) {
+            return (<View>
+                        <Card name={userA["user/first-name"].concat(" ", userA["user/last-name"])} cardNum="1" image={{uri: userA["user/profile-pic"]}} onPress={() => handleVote(userA, userB)} />
+                        <Card name={userB["user/first-name"].concat(" ", userB["user/last-name"])} cardNum="2" image={{uri: userB["user/profile-pic"]}} onPress={() => handleVote(userB, userA)} />
+                    </View>);
+        } else {
+            return (<View style={{justifyContent: 'center', height: 600, width: 300, marginTop: 30,}}>
+                        <Text>Error</Text>
+                    </View>);
+        }
+    }
+
+    function renderTitle() {
+        if (loading) {
+            return (<View style={{height: 120, width: '100%'}}>
+                        <TitleLoading />
+                    </View> )
+        } else {
+            return (<View style={styles.topBar}>
+                        <Text style={styles.group}>{selectedCircle ? selectedCircle["circle/name"] : "Loading..."}</Text>
+                    </View>)
+        }
+    }
+    
+    function renderQuestion() {
+        if (question) {
+            return (<View style={styles.questionBar}>
+                <Text style={styles.question}>{question["question/text"]}</Text>
+            </View>)
+        } else {
+            return (<View style={styles.questionBar}>
+                        <Text style={styles.question}>Loading...</Text>
+                    </View>)
+        }
+    }
+
     return (
         <View style={styles.container}>
-            <View style={styles.topBar}>
-                {/* Replace loading... with skeleton loading box */}
-                <Text style={styles.group}>{selectedCircle ? selectedCircle["circle/name"] : "Loading..."}</Text> 
-            </View>
-            <View style={styles.questionBar}>
-                <Text style={styles.question}>{question ? question["question/text"] : "Loading..."}</Text>
-            </View>
+            {renderTitle()}
+            {renderQuestion()}
             {/* <View style={{height: '32%', width: '92%'}}>
                 <Swiper ref={useSwiper}
                     // animateCardOpacity
@@ -49,9 +88,7 @@ const Vote = ({navigation}) => {
                     swipeBackCard
                     />
             </View> */}
-            {!!userA && <Card name={userA["user/first-name"].concat(" ", userA["user/last-name"])} cardNum="1" image={{uri: userA["user/profile-pic"]}} onPress={() => handleVote(userA, userB)} />}
-            <Text style={styles.or}>OR</Text>
-            {!!userB && <Card name={userB["user/first-name"].concat(" ", userB["user/last-name"])} cardNum="2" image={{uri: userB["user/profile-pic"]}} onPress={() => handleVote(userB, userA)} />}
+            {renderBody()}
         </View>
     )
 }
