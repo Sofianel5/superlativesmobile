@@ -5,12 +5,14 @@ import CircleDetail from './CircleDetail';
 import SelectSuperlativeSourceScreen from './SelectSuperlativeSource';
 import AddQuestionPackSuperlativesScreen from './AddQuestionPackSuperlative';
 import CustomSuperlativeScreen from './CustomSuperlative';
+import NewCircle from './NewCircle';
 
 const CirclesStack = createNativeStackNavigator();
 
 const CirclesStackScreen = ({navigation}) => (
     <CirclesStack.Navigator screenOptions={{headerShown:false}} >
         <CirclesStack.Screen name="Circles" component={Circles}/>
+        <CirclesStack.Screen name="NewCircle" component={NewCircle}/>
         <CirclesStack.Screen name="CircleDetail" component={CircleDetail}/>
         <CirclesStack.Screen name="SelectSuperlativeSource" component={SelectSuperlativeSourceScreen}/>
         <CirclesStack.Screen name="AddQuestionPackSuperlatives" component={AddQuestionPackSuperlativesScreen}/>

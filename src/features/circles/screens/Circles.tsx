@@ -12,7 +12,7 @@ const Circles = ({navigation}) => {
                 Your Circles
             </Text>
             {circlesState.loading ? <Text>Loading...</Text> : <CirclesList circles={circlesState.circles} navigation={navigation} />}
-            <TouchableOpacity style={styles.newGroup} onPress={() => navigation.navigate('NewGroup')}>
+            <TouchableOpacity style={styles.newGroup} onPress={() => navigation.navigate('NewCircle')}>
                 <Icon name="plus" size={35} color="white" />
             </TouchableOpacity>
         </View>

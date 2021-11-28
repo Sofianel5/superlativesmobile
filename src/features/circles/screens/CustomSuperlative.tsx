@@ -19,6 +19,9 @@ const CustomSuperlativeScreen = ({route, navigation}) => {
                 duration: Snackbar.LENGTH_SHORT,
             });
             dispatch(addCustomSuperlativeAction({circleId: route.params.circleId, superlative: question}));
+            navigation.pop();
+            navigation.pop();
+            navigation.navigate('Vote');
         }
     }
 
@@ -103,7 +106,7 @@ const styles = StyleSheet.create({
     groupTitle: {
         color: 'white',
         fontFamily: 'Montserrat-SemiBold',
-        fontSize: 30,
+        fontSize: 25,
         alignSelf: 'center',
         marginTop: 8,
     },
