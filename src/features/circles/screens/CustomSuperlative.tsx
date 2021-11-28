@@ -13,12 +13,12 @@ const CustomSuperlativeScreen = ({route, navigation}) => {
 
     function handleSubmit() {
         if (question && question.trim().length > 0) {
-            dispatch(addCustomSuperlativeAction({circleId: route.params.circleId, superlative: question}));
             setQuestion('');
             Snackbar.show({
                 text: 'Superlative added!',
                 duration: Snackbar.LENGTH_SHORT,
             });
+            dispatch(addCustomSuperlativeAction({circleId: route.params.circleId, superlative: question}));
         }
     }
 
@@ -31,7 +31,7 @@ const CustomSuperlativeScreen = ({route, navigation}) => {
                 </Text>
             </View>
             <View style={{paddingLeft: 20, paddingRight: 20,}}>
-                <TextInput style={styles.addSuperlativeContainer} autoFocus selectionColor={'white'} onSubmitEditing={() => handleSubmit()} onChangeText={text => setQuestion(text)} placeholder="Best wingman..." placeholderTextColor="#94A1B2" keyboardType={Platform.OS === 'android' ? "numeric" : "number-pad"} />
+                <TextInput style={styles.addSuperlativeContainer} autoFocus selectionColor={'white'} onSubmitEditing={() => handleSubmit()} onChangeText={text => setQuestion(text)} placeholder="Best wingman..." placeholderTextColor="#94A1B2" />
                 <PopinButton onPress={() => handleSubmit()}
                 style={styles.readyBtn} shrinkTo={0.7}
                 >

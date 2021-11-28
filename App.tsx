@@ -32,11 +32,11 @@ const App = () => {
   const status = useAppSelector(state => state.auth.status);
   return (
     <>
-      {/* {status === 'authenticated' ? <Home /> : <AuthStackScreen />} */}
+      {status === 'authenticated' ? <Home /> : <AuthStackScreen />}
       {/* <Home /> */}
-      <View>
+      {/* <View>
         <VoteLoading />
-      </View>
+      </View> */}
     </>
   );
 };

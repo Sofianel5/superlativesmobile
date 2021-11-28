@@ -21,9 +21,6 @@ export async function resetProfilePic(userId: string, authToken: string, newProf
         method: 'post',
         url: Urls.RESET_PROFILE_PIC,
         data: formData,
-        params: {
-            "new-profile-pic": newProfilePicUrl,
-        },
         headers: genAuthHeaders(userId, authToken),
     });
 }

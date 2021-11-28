@@ -194,6 +194,7 @@ export const authSlice = createSlice({
         .addCase(resetProfilePicAction.fulfilled, (state, action) => {
             if (action.payload.status === 'success') {
                 state.user["profile-pic"] = action.payload.data.url;
+                saveUser(state.user);
             } 
         })
       },
