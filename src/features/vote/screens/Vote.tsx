@@ -32,10 +32,11 @@ const Vote = ({navigation}) => {
                         <CardLoading />
                     </View> )
         } else if ( userA && userB ) {
-            return (<View>
+            return (<>
                         <Card name={userA["user/first-name"].concat(" ", userA["user/last-name"])} cardNum="1" image={{uri: userA["user/profile-pic"]}} onPress={() => handleVote(userA, userB)} />
+                        <Text style={styles.or}>OR</Text>
                         <Card name={userB["user/first-name"].concat(" ", userB["user/last-name"])} cardNum="2" image={{uri: userB["user/profile-pic"]}} onPress={() => handleVote(userB, userA)} />
-                    </View>);
+                    </>);
         } else {
             return (<View style={{justifyContent: 'center', height: 600, width: 300, marginTop: 30,}}>
                         <Text>Error</Text>
