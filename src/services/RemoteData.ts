@@ -1,7 +1,7 @@
 const devUrl = 'http://localhost:5000/api/';
 const prodUrl = 'https://superlatives.app/api/'
 
-const baseUrl = prodUrl;
+const baseUrl = devUrl;
 
 const Urls = {
     REQUEST_SIGNUP : baseUrl + 'auth/request-sign-up',
@@ -13,6 +13,7 @@ const Urls = {
     GET_CIRCLE_RANKINGS: baseUrl + 'circles/get-rankings-in-circle',
     ADD_SUPERLATIVE: baseUrl + 'circles/add-question',
     SUBMIT_VOTE: baseUrl + 'circles/submit-vote',
+    GET_QUESTION_PACKS: baseUrl + 'circles/question-packs',
     GET_RANKINGS: baseUrl + 'profile/get-rankings',
 }
 

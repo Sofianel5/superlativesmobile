@@ -32,3 +32,10 @@ export async function addCustomSuperlative(userId: string, authToken: string, ci
         headers: genAuthHeaders(userId, authToken),
     });
 }
+
+export async function getQuestionPacks() {
+    return axios({
+        method: 'get',
+        url: Urls.GET_QUESTION_PACKS,
+    });
+}

@@ -3,11 +3,15 @@ import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image, TextInput,
 import Icon from 'react-native-vector-icons/Entypo';
 import SuperlativeIcon from '../../../components/SuperlativeIcon';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { getRankingsForCircleAction } from '../circlesSlice';
+import { getQuestionPacksAction } from '../circlesSlice';
 import SuperlativeCard from '../components/SuperlativeCard';
 
-const SelectSuperlativeSourceScreen = ({route, navigation}) => {
 
+const SelectSuperlativeSourceScreen = ({route, navigation}) => {
+    const dispatch = useAppDispatch();
+    React.useEffect(() => {
+        dispatch(getQuestionPacksAction());
+    }, []);
     return (
         <View style={styles.container}>
             <Icon name="chevron-left" size={40} style={styles.back} color="white" onPress={() => navigation.pop()}/> 
@@ -17,7 +21,7 @@ const SelectSuperlativeSourceScreen = ({route, navigation}) => {
                 </Text>
             </View>
             <View style={{paddingLeft: 20, paddingRight: 20,}}>
-                <TouchableOpacity style={styles.addSuperlativeContainer} onPress={() => navigation.navigate('NewSuperlative')}>
+                <TouchableOpacity style={styles.addSuperlativeContainer} onPress={() => navigation.navigate('AddQuestionPackSuperlatives')}>
                     <Text style={styles.superlativeText}>Select from our superlatives</Text>
                     <Icon name="chevron-right" size={30} style={styles.superlativeRight} color="white" /> 
                 </TouchableOpacity>
