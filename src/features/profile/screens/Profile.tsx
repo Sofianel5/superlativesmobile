@@ -71,24 +71,24 @@ const Profile = ({navigation}) => {
                             return accumulator;
                         }, []).map(res => (
                             <View style={styles.superlativeRowTwo}>
-                                <View style={styles.superlativeSuperContainer}>
-                                    <SuperlativeIcon width={165} height={144} style={styles.superlativeIcon} />
-                                    <InnerBadge fill="#7F5AF0" width={94} style={styles.innerBadge} />
+                                <TouchableOpacity style={styles.superlativeSuperContainer} onPress={() => navigation.navigate('SuperlativeDetails')}>
+                                    <SuperlativeIcon width={148.5} height={129.6} style={styles.superlativeIcon} />
+                                    <InnerBadge fill="#7F5AF0" width={84.6} style={styles.innerBadge} />
                                     <View style={styles.superlativeContainer}>
-                                        <Text style={styles.superlativeTitle}>{res[0]["rank/question"]["question/text"]}</Text>
+                                        <Text style={styles.superlativeTitle} numberOfLines={3}>{res[0]["rank/question"]["question/text"]}</Text>
                                         <Text style={styles.superlativeOne}>#1</Text>
                                     </View>
                                     <Text style={styles.superlativeGroup}>{res[0]["rank/question"]["question/circle"]["circle/name"]}</Text>
-                                </View>
-                                {res[1] && <View style={styles.superlativeSuperContainer}>
-                                    <SuperlativeIcon width={165} height={144} style={styles.superlativeIcon} />
-                                    <InnerBadge fill="#7F5AF0" width={94} style={styles.innerBadge} />
+                                </TouchableOpacity>
+                                {res[1] && <TouchableOpacity style={styles.superlativeSuperContainer} onPress={() => navigation.navigate('SuperlativeDetails')}>
+                                    <SuperlativeIcon width={148.5} height={129.6} style={styles.superlativeIcon} />
+                                    <InnerBadge fill="#7F5AF0" width={84.6} style={styles.innerBadge} />
                                     <View style={styles.superlativeContainer}>
                                         <Text style={styles.superlativeTitle}>{res[1]["rank/question"]["question/text"]}</Text>
                                         <Text style={styles.superlativeOne}>#1</Text>
                                     </View>
                                     <Text style={styles.superlativeGroup}>{res[1]["rank/question"]["question/circle"]["circle/name"]}</Text>
-                                </View>}
+                                </TouchableOpacity>}
                             </View>
                         ))}
                 </View>
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
         color: 'white',
         fontFamily: 'Montserrat-SemiBold',
         textAlign: 'center',
-        fontSize: 20,
+        fontSize: 18.5,
         marginTop: 5,
     },
 
@@ -268,16 +268,16 @@ const styles = StyleSheet.create({
         color: 'white',
         fontFamily: 'Montserrat-SemiBold',
         textAlign: 'center',
-        marginTop: 12,
+        marginTop: 7,
         fontSize: 14,
     },
 
     superlativeOne: {
         color: 'yellow',
         fontFamily: 'Montserrat-SemiBold',
-        fontSize: 37,
-        position: 'relative',
-        top: 13,
+        fontSize: 32,
+        position: 'absolute',
+        top: 52,
     },
 
     myRankingsTxt: {
@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
         color: 'white',
         fontFamily: 'Montserrat-SemiBold',
         textAlign: 'center',
-        fontSize: 20,
+        fontSize: 18.5,
         marginBottom: 20,
     },
 
