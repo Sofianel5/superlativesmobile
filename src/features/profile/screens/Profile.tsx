@@ -275,9 +275,9 @@ const styles = StyleSheet.create({
     superlativeOne: {
         color: 'yellow',
         fontFamily: 'Montserrat-SemiBold',
-        fontSize: 32,
+        fontSize: 31,
         position: 'absolute',
-        top: 52,
+        top: 54,
     },
 
     myRankingsTxt: {
