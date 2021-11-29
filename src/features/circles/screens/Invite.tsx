@@ -6,7 +6,14 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { getContactsAction } from '../circlesSlice';
 import SuperlativeCard from '../components/SuperlativeCard';
 import ContactRow from '../../../components/ContactRow';
+import BigList from "react-native-big-list";
 
+
+const renderItem = ({item}) => <ContactRow contact={item} onPress={() => console.log(item)} />
+
+const getItemLayout = (data, index) => {return {length: 60, offset: 60 * index, index}}
+
+const keyExtractor = (item) => item.recordID
 
 const InviteScreen = ({route, navigation}) => {
     const dispatch = useAppDispatch();
@@ -26,7 +33,7 @@ const InviteScreen = ({route, navigation}) => {
                     </Text>
                 </View>
                 <View style={{paddingLeft: 20, paddingRight: 20,}}>
-                    <TextInput style={styles.addSuperlativeContainer} selectionColor={'white'} onSubmitEditing={() => handleSubmit()} onChangeText={text => setQuestion(text)} placeholder="Search contacts" placeholderTextColor="#94A1B2" />
+                    <TextInput style={styles.addSuperlativeContainer} selectionColor={'white'} placeholder="Search contacts" placeholderTextColor="#94A1B2" />
                     <View style={styles.contactContainer}>
                         <View style={styles.contactElementsRow}>
                             <View style={styles.contactLeft}>
@@ -40,7 +47,7 @@ const InviteScreen = ({route, navigation}) => {
                             </View>
                         </View>
                     </View>
-                    {!!contacts ? <FlatList data={contacts} renderItem={(contact) => <ContactRow contact={contact} onPress={() => console.log(contact)}></ContactRow>}/> : <View></View>}
+                    {!!contacts ? <FlatList data={contacts} keyExtractor={keyExtractor} renderItem={renderItem} getItemLayout={getItemLayout}/> : <View></View>}
                 </View>
             </View>
         </TouchableWithoutFeedback>

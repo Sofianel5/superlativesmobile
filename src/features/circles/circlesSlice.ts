@@ -148,6 +148,7 @@ export const circleSlice = createSlice({
                 console.log("action:", action);
                 if (action.payload.status === "success") {
                     state.contacts = action.payload.data;
+                    console.log(state.contacts.length)
                     state.loading = false;
                 } else {
                     state.error = action.payload.error;

@@ -48,7 +48,7 @@ export async function getContacts() {
             return Contacts.getAllWithoutPhotos().then(contacts => {
                 return {
                     status: "success", 
-                    data: contacts.filter(contact => contact.phoneNumbers.length > 0).map(contact => {return {givenName: contact.givenName, phoneNumbers: contact.phoneNumbers, familyName: contact.familyName}})
+                    data: contacts.filter(contact => contact.phoneNumbers.length > 0).map(contact => {return {recordID: contact.recordID, givenName: contact.givenName, phoneNumbers: contact.phoneNumbers, familyName: contact.familyName}})
 
                 };
             });
