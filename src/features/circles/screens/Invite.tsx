@@ -34,19 +34,6 @@ const InviteScreen = ({route, navigation}) => {
                 </View>
                 <View style={{paddingLeft: 20, paddingRight: 20,}}>
                     <TextInput style={styles.addSuperlativeContainer} selectionColor={'white'} placeholder="Search contacts" placeholderTextColor="#94A1B2" />
-                    <View style={styles.contactContainer}>
-                        <View style={styles.contactElementsRow}>
-                            <View style={styles.contactLeft}>
-                                <View style={styles.contactIcon}></View>
-                                <Text style={styles.contactName}>Sofiane Larbi</Text>
-                            </View>
-                            <View style={styles.contactButtonContainer}>
-                                <TouchableOpacity style={styles.contactInviteButtonUnselected}>
-                                    <Text style={styles.contactInviteButtonUnselectedText}>Send</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </View>
                     {!!contacts ? <FlatList data={contacts} keyExtractor={keyExtractor} renderItem={renderItem} getItemLayout={getItemLayout}/> : <View></View>}
                 </View>
             </View>
