@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Keyboard, TextInput, TouchableWithoutFeedback } from 'react-native';
+import { FlatList, View, Text, StyleSheet, TouchableOpacity, Keyboard, TextInput, TouchableWithoutFeedback } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import SuperlativeIcon from '../../../components/SuperlativeIcon';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
@@ -40,10 +40,7 @@ const InviteScreen = ({route, navigation}) => {
                             </View>
                         </View>
                     </View>
-                    <ScrollView>
-                    {!!contacts ? contacts.map((contact) => <ContactRow contact={contact} onPress={() => console.log(contact)}></ContactRow>) : <View></View>}
-                    </ScrollView>
-                    
+                    {!!contacts ? <FlatList data={contacts} renderItem={(contact) => <ContactRow contact={contact} onPress={() => console.log(contact)}></ContactRow>}/> : <View></View>}
                 </View>
             </View>
         </TouchableWithoutFeedback>
