@@ -129,6 +129,7 @@ export const circleSlice = createSlice({
             .addCase(addCustomSuperlativeAction.fulfilled, (state, action) => {
                 if (action.payload.status === "success") {
                     state.circles[action.meta.arg.circleId]["circle/questions"].push(action.payload.data)
+                    console.log(state.circles[action.meta.arg.circleId]["circle/questions"])
                 } else {
                     state.error = action.payload.error;
                 }
