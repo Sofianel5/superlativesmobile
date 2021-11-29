@@ -1,6 +1,5 @@
 import React from 'react';
 import SkeletonContent from 'react-native-skeleton-content-nonexpo';
-import {View} from 'react-native'
 
 export default function CardLoading() {
     return (

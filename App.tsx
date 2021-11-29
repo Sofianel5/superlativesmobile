@@ -21,8 +21,7 @@ import AuthStackScreen from './src/features/auth/screens/Auth';
 import {useAppDispatch, useAppSelector} from './src/app/hooks';
 import Home from './src/components/Home';
 import { getUserAction } from './src/features/auth/authSlice';
-import Profile from './src/features/profile/screens/Profile';
-import VoteLoading from './src/features/vote/screens/VoteLoading';
+import SuperlativeDetails from './src/components/SuperlativeDetails';
 
 declare const global: {HermesInternal: null | {}};
 
@@ -33,10 +32,6 @@ const App = () => {
   return (
     <>
       {status === 'authenticated' ? <Home /> : <AuthStackScreen />}
-      {/* <Home /> */}
-      {/* <View>
-        <VoteLoading />
-      </View> */}
     </>
   );
 };

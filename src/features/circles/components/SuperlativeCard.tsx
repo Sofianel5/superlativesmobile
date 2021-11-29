@@ -17,7 +17,7 @@ function getAssocUser(userId: string, circle: any) {
 function SuperlativeCard({ question, navigation, circle }) {
     console.log(question);
     return (
-        <TouchableOpacity style={styles.superlativeCard}>
+        <TouchableOpacity style={styles.superlativeCard} onPress={() => navigation.navigate('SuperlativeDetails')}>
             {hasRanking(question) ? (
                 <View>
                     <View style={styles.superlativeWinner}>
