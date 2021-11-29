@@ -1,57 +1,113 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ImageBackground } from 'react-native';
+import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Keyboard, TextInput, TouchableWithoutFeedback } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import SuperlativeIcon from '../../../components/SuperlativeIcon';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { getRankingsForCircleAction } from '../circlesSlice';
+import { getContactsAction } from '../circlesSlice';
 import SuperlativeCard from '../components/SuperlativeCard';
+import ContactRow from '../../../components/ContactRow';
 
-const CircleDetail = ({route, navigation}) => {
 
-    const circle = useAppSelector((state) => state.circles.circles[route.params.circleId]);
-
+const InviteScreen = ({route, navigation}) => {
     const dispatch = useAppDispatch();
     React.useEffect(() => {
-        dispatch(getRankingsForCircleAction(circle["circle/id"]));
+        dispatch(getContactsAction());
     }, []);
 
+    const contacts = useAppSelector((state) => state.circles.contacts);
+
     return (
-        <View style={styles.container}>
-            <Icon name="chevron-left" size={40} style={styles.back} color="white" onPress={() => navigation.pop()}/> 
-            <View style={styles.topBar}>
-                <Text style={styles.groupTitle}>
-                    {circle["circle/name"]}
-                </Text>
-            </View>
-            <ScrollView>
-                <View style={{paddingLeft: 20, paddingRight: 20,}}>
-                    <TouchableOpacity style={styles.addSuperlativeContainer} onPress={() => navigation.navigate('SelectSuperlativeSource', {circleId: route.params.circleId})}>
-                        <Text style={styles.superlativeText}>Add a Superlative</Text>
-                        <Icon name="chevron-right" size={30} style={styles.superlativeRight} color="white" /> 
-                    </TouchableOpacity>
-                    <Text style={styles.membersTitle}>Members ({Object.keys(circle["circle/members"]).length})</Text>
-                    {Object.values(circle["circle/members"]).slice(0, 3).map((member: any) => (
-                        <View key={member["user/id"]} style={styles.memberCard}>
-                            <Image source={{uri: member["user/profile-pic"]}} style={styles.profilePic} />
-                            <Text style={styles.member}>{member["user/first-name"]} {member["user/last-name"]} {member["user/id"] == circle["circle/admin"]["user/id"] ? "(Admin)" : ""}</Text>
-                        </View>
-                    ))}
-                    {Object.keys(circle["circle/members"]).length > 3 && <Text style={styles.seeAll} onPress={() => navigation.navigate('GroupMembers')}>See all...</Text>}
-                    <Text style={styles.leaderboardsTitle}>Superlatives</Text>
-                    {Object.values(circle["circle/questions"]).map((question: any) => (
-                        <SuperlativeCard key={question["question/id"]} question={question} circle={circle} navigation={navigation} />
-                    ))}
-                    <View style={{height: 100}}></View>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <View style={styles.container}>
+                <Icon name="chevron-left" size={40} style={styles.back} color="white" onPress={() => navigation.pop()}/> 
+                <View style={styles.topBar}>
+                    <Text style={styles.groupTitle}>
+                        Invite members
+                    </Text>
                 </View>
-            </ScrollView>
-            <TouchableOpacity style={styles.inviteBtn} onPress={() => navigation.navigate('Invite')}>
-                <Text style={styles.inviteText}>Invite</Text>
-            </TouchableOpacity>
-        </View>
+                <View style={{paddingLeft: 20, paddingRight: 20,}}>
+                    <TextInput style={styles.addSuperlativeContainer} selectionColor={'white'} onSubmitEditing={() => handleSubmit()} onChangeText={text => setQuestion(text)} placeholder="Search contacts" placeholderTextColor="#94A1B2" />
+                    <View style={styles.contactContainer}>
+                        <View style={styles.contactElementsRow}>
+                            <View style={styles.contactLeft}>
+                                <View style={styles.contactIcon}></View>
+                                <Text style={styles.contactName}>Sofiane Larbi</Text>
+                            </View>
+                            <View style={styles.contactButtonContainer}>
+                                <TouchableOpacity style={styles.contactInviteButtonUnselected}>
+                                    <Text style={styles.contactInviteButtonUnselectedText}>Send</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                    <ScrollView>
+                    {!!contacts ? contacts.map((contact) => <ContactRow contact={contact} onPress={() => console.log(contact)}></ContactRow>) : <View></View>}
+                    </ScrollView>
+                    
+                </View>
+            </View>
+        </TouchableWithoutFeedback>
     )
 }
 
 const styles = StyleSheet.create({
+
+    contactContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingVertical: 10,
+        paddingHorizontal: 0,
+    },
+
+    contactElementsRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%'
+    },
+
+    contactLeft: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+    },
+
+    contactIcon: {
+        width: 40,
+        height: 40,
+        borderRadius: 10,
+        backgroundColor: '#C4C4C4',
+        marginRight: 10,
+    },
+
+    contactName: {
+        fontSize: 20,
+        color: 'white',
+        lineHeight: 40,
+        fontFamily: 'Montserrat-SemiBold'
+    },
+
+    contactButtonContainer: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 40,
+    },
+
+    contactInviteButtonUnselected: {
+        width: 75,
+        height: 33,
+        borderRadius: 8,
+        backgroundColor: '#7F5AF0',
+        alignItems: 'center',
+    },
+
+    contactInviteButtonUnselectedText: {
+        color: 'white',
+        lineHeight: 30,
+        fontSize: 15,
+        fontFamily: 'Montserrat-SemiBold',
+    },
+
     container: {
         flex: 1,
         backgroundColor: '#242629',
@@ -77,7 +133,6 @@ const styles = StyleSheet.create({
     addSuperlativeContainer: {
         flexDirection: 'row',
         backgroundColor: '#16161A',
-        marginTop: 10,
         alignItems: 'center',
         padding: 10,
         paddingLeft: 15,
@@ -86,6 +141,8 @@ const styles = StyleSheet.create({
         shadowOffset : {height: 4},
         shadowOpacity: 0.8,
         justifyContent: 'space-between',
+        marginBottom: 7.5,
+        marginTop: 15,
     },
 
     superlativeText: {
@@ -284,4 +341,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default CircleDetail;
+export default InviteScreen;

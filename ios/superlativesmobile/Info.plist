@@ -38,7 +38,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Montserrat-Regular.ttf</string>
@@ -76,5 +76,7 @@
 	<false/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>So I can see ur pfp bruh</string>
+	<key>NSContactsUsageDescription</key>
+	<string>So you can have fun with friends!</string>
 </dict>
 </plist>

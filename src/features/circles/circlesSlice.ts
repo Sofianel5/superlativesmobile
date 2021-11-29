@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getCircles, getCircleRanking, addCustomSuperlative, getQuestionPacks } from './circlesAPI';
+import { getCircles, getCircleRanking, addCustomSuperlative, getQuestionPacks, getContacts } from './circlesAPI';
 
 interface CirclesState {
     circles: any[];
     loading: boolean;
     error: string;
     questionPacks: any[];
+    contacts: any[];
 }
 
 const initialState: CirclesState = {
@@ -13,6 +14,7 @@ const initialState: CirclesState = {
     loading: true,
     error: null,
     questionPacks: null,
+    contacts: null,
 };
 
 export const getCirclesAction = createAsyncThunk('circles/getCircles', async (_, {getState}) => {
@@ -80,6 +82,11 @@ export const addCustomSuperlativeAction = createAsyncThunk('circles/addCustomSup
     });
 });
 
+export const getContactsAction = createAsyncThunk('circles/getContacts', async (_, {getState}) => {
+    console.log('getContactsAction');
+    return await getContacts()
+});
+
 export const circleSlice = createSlice({
     name: 'circles',
     initialState,
@@ -132,6 +139,19 @@ export const circleSlice = createSlice({
                     console.log(state.circles[action.meta.arg.circleId]["circle/questions"])
                 } else {
                     state.error = action.payload.error;
+                }
+            })
+            .addCase(getContactsAction.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(getContactsAction.fulfilled, (state, action) => {
+                console.log("action:", action);
+                if (action.payload.status === "success") {
+                    state.contacts = action.payload.data;
+                    state.loading = false;
+                } else {
+                    state.error = action.payload.error;
+                    state.loading = false;
                 }
             })
         }

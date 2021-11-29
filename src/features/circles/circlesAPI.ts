@@ -1,6 +1,7 @@
 import axios from 'axios';
 import FormData from 'form-data';
 import Urls, { genAuthHeaders } from '../../services/RemoteData';
+import Contacts from 'react-native-contacts';
 
 export async function getCircles(userId: string, authToken: string) {
     return axios({
@@ -38,4 +39,15 @@ export async function getQuestionPacks() {
         method: 'get',
         url: Urls.GET_QUESTION_PACKS,
     });
+}
+
+export async function getContacts() {
+    return Contacts.checkPermission().then(res => {
+        console.log(res);
+        if (res) {
+            return Contacts.getAllWithoutPhotos().then(contacts => {
+                return {status: "success", data: contacts};
+            });
+        } return {status: "error", error: "Permission denied"};
+    })
 }
