@@ -191,9 +191,9 @@ const styles = StyleSheet.create({
         bottom: 57,
     },
 
-    closeComers: {
-        paddingLeft: 50,
-    },
+    // closeComers: {
+    //     paddingLeft: 50,
+    // },
 
     closeComer: {
         flexDirection: 'row',
