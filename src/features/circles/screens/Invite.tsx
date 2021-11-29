@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useCallback } from 'react';
 import { FlatList, View, Text, StyleSheet, TouchableOpacity, Keyboard, TextInput, TouchableWithoutFeedback } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import SuperlativeIcon from '../../../components/SuperlativeIcon';
@@ -9,17 +9,17 @@ import ContactRow from '../../../components/ContactRow';
 import BigList from "react-native-big-list";
 
 
-const renderItem = ({item}) => <ContactRow contact={item} onPress={() => console.log(item)} />
-
-const getItemLayout = (data, index) => {return {length: 60, offset: 60 * index, index}}
-
-const keyExtractor = (item) => item.recordID
-
 const InviteScreen = ({route, navigation}) => {
     const dispatch = useAppDispatch();
     React.useEffect(() => {
         dispatch(getContactsAction());
     }, []);
+
+    const renderItem = useCallback(({item}) => <ContactRow contact={item} onPress={() => console.log(item)} />, [])
+
+    const getItemLayout = useCallback((data, index) => {return {length: 60, offset: 60 * index, index}}, [])
+
+    const keyExtractor = useCallback((item) => item.recordID, [])
 
     const contacts = useAppSelector((state) => state.circles.contacts);
 
@@ -34,19 +34,6 @@ const InviteScreen = ({route, navigation}) => {
                 </View>
                 <View style={{paddingLeft: 20, paddingRight: 20,}}>
                     <TextInput style={styles.addSuperlativeContainer} selectionColor={'white'} placeholder="Search contacts" placeholderTextColor="#94A1B2" />
-                    <View style={styles.contactContainer}>
-                        <View style={styles.contactElementsRow}>
-                            <View style={styles.contactLeft}>
-                                <View style={styles.contactIcon}></View>
-                                <Text style={styles.contactName}>Sofiane Larbi</Text>
-                            </View>
-                            <View style={styles.contactButtonContainer}>
-                                <TouchableOpacity style={styles.contactInviteButtonUnselected}>
-                                    <Text style={styles.contactInviteButtonUnselectedText}>Send</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </View>
                     {!!contacts ? <FlatList data={contacts} keyExtractor={keyExtractor} renderItem={renderItem} getItemLayout={getItemLayout}/> : <View></View>}
                 </View>
             </View>

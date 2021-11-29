@@ -3,18 +3,18 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const ContactRow = ({contact, onPress}) => {
     return (<View style={styles.contactContainer}>
-        <View style={styles.contactElementsRow}>
-            <View style={styles.contactLeft}>
-                <View style={styles.contactIcon}></View>
-                <Text style={styles.contactName}>{contact.givenName}</Text>
+            <View style={styles.contactElementsRow}>
+                <View style={styles.contactLeft}>
+                    <View style={styles.contactIcon}></View>
+                    <Text style={styles.contactName}>{contact.givenName}</Text>
+                </View>
+                <View style={styles.contactButtonContainer}>
+                    <TouchableOpacity style={styles.contactInviteButtonUnselected}>
+                        <Text style={styles.contactInviteButtonUnselectedText}>Send</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-            <View style={styles.contactButtonContainer}>
-                <TouchableOpacity style={styles.contactInviteButtonUnselected}>
-                    <Text style={styles.contactInviteButtonUnselectedText}>Send</Text>
-                </TouchableOpacity>
-            </View>
-        </View>
-    </View>);
+        </View>);
 };
 
 const styles = StyleSheet.create({
@@ -76,4 +76,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ContactRow;
+export default React.memo(ContactRow);
