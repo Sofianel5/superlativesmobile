@@ -19,9 +19,9 @@ function SuperlativeCard({ question, navigation, circle }) {
     return (
         <TouchableOpacity style={styles.superlativeCard} onPress={() => navigation.navigate('SuperlativeDetails')}>
             {hasRanking(question) ? (
-                <View>
+                <>
                     <View style={styles.superlativeWinner}>
-                        <Text style={styles.superlativeTitle}>{question["question/text"]}</Text>
+                        <Text style={styles.superlativeTitle} numberOfLines={1}>{question["question/text"]}</Text>
                         <View style={styles.superlativeBadge}>
                             <SuperlativeIcon width={82.5} height={72}/>
                         </View>
@@ -29,7 +29,7 @@ function SuperlativeCard({ question, navigation, circle }) {
                         <Text style={styles.superlativeWinnerName}>
                             {getAssocUser(question["question/ranks"][0]["rank/user"]["user/id"], circle)["user/first-name"]}
                             {" "} 
-                            {getAssocUser(question["question/ranks"][0]["rank/user"]["user/id"], circle)["user/last-name"]}
+                            {getAssocUser(question["question/ranks"][0]["rank/user"]["user/id"], circle)["user/last-name"].charAt(0)}.
                         </Text>
                     </View>
                     <View style={styles.closeComers}>
@@ -37,11 +37,11 @@ function SuperlativeCard({ question, navigation, circle }) {
                         {shouldShowRunnersUp(question) && question["question/ranks"].slice(1).map((rank: any) => (
                             <View key={rank["rank/user"]["user/id"]} style={styles.closeComer}>
                                 <Image source={{uri: getAssocUser(rank["rank/user"]["user/id"], circle)["user/profile-pic"]}} style={styles.closeComerPic} />
-                                <Text style={styles.closeComerName}>{getAssocUser(rank["rank/user"]["user/id"], circle)["user/first-name"]} {getAssocUser(rank["rank/user"]["user/id"], circle)["user/last-name"]}</Text>
+                                <Text style={styles.closeComerName}>{getAssocUser(rank["rank/user"]["user/id"], circle)["user/first-name"]} {getAssocUser(rank["rank/user"]["user/id"], circle)["user/last-name"].charAt(0)}.</Text>
                             </View>
                         ))}
                     </View>
-                </View>
+                </>
                 
             ) : <Text>No rankings yet</Text>}
         </TouchableOpacity>
@@ -146,6 +146,7 @@ const styles = StyleSheet.create({
 
     superlativeCard: {
         flexDirection: 'row',
+        justifyContent: 'space-between',
         backgroundColor: '#16161A',
         padding: 20,
         marginTop: 15,
@@ -169,6 +170,8 @@ const styles = StyleSheet.create({
 
     superlativeWinner: {
         alignItems: 'center',
+        marginLeft: 25,
+        width: 120,
     },
 
     superlativeWinnerPic: {
@@ -212,7 +215,7 @@ const styles = StyleSheet.create({
     },
 
     closeComerName: {
-        fontFamily: "Montserrat-SemiBold",
+        fontFamily: "Montserrat",
         color: 'white',
         fontSize: 16,
     },

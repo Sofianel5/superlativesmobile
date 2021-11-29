@@ -7,6 +7,7 @@ import SuperlativeIcon from '../../../components/SuperlativeIcon';
 import Icon from 'react-native-vector-icons/Entypo';
 import ImageResizer from 'react-native-image-resizer';
 import { resetProfilePicAction } from '../profileSlice';
+import { navigate } from '../../../services/RootNavigation';
 // import { uploadProfilePictureAction } from '../authSlice';
 // import { launchImageLibrary } from 'react-native-image-picker';
 
