@@ -109,16 +109,16 @@ const Profile = ({navigation}) => {
                         return accumulator;
                     }, []).map(res => (
                         <View key={res[0]["rank/question"]["question/id"]} style={styles.rankingRowTwo}>
-                            <View>
-                                <Text style={styles.rankingNumber}>#{res[0]["index"]}</Text>
-                                <Text style={styles.rankingTitle}>{res[0]["rank/question"]["question/text"]}</Text>
-                                <Text style={styles.rankingGroup}>{res[0]["rank/question"]["question/circle"]["circle/name"]}</Text>
-                            </View>
-                            {res[1] && <View>
-                                <Text style={styles.rankingNumber}>#{res[1]["index"]}</Text>
-                                <Text style={styles.rankingTitle}>{res[1]["rank/question"]["question/text"]}</Text>
-                                <Text style={styles.rankingGroup}>{res[1]["rank/question"]["question/circle"]["circle/name"]}</Text>
-                            </View>}
+                            <TouchableOpacity style={styles.rankingContainer} onPress={() => navigation.navigate('SuperlativeDetails')}>
+                                <Text style={styles.rankingNumber} numberOfLines={1}>#{res[0]["index"]}</Text>
+                                <Text style={styles.rankingTitle} numberOfLines={1}>{res[0]["rank/question"]["question/text"]}</Text>
+                                <Text style={styles.rankingGroup} numberOfLines={1}>{res[0]["rank/question"]["question/circle"]["circle/name"]}</Text>
+                            </TouchableOpacity>
+                            {res[1] && <TouchableOpacity style={styles.rankingContainer} onPress={() => navigation.navigate('SuperlativeDetails')}>
+                                <Text style={styles.rankingNumber} numberOfLines={1}>#{res[1]["index"]}</Text>
+                                <Text style={styles.rankingTitle} numberOfLines={1}>{res[1]["rank/question"]["question/text"]}</Text>
+                                <Text style={styles.rankingGroup} numberOfLines={1}>{res[1]["rank/question"]["question/circle"]["circle/name"]}</Text>
+                            </TouchableOpacity>}
                         </View>
                     ))}
             </View>
@@ -344,6 +344,11 @@ const styles = StyleSheet.create({
 
     superlativeSuperContainer: {
         
+    },
+
+    rankingContainer: {
+        width: 130,
+        margin: 8,
     },
 })
 

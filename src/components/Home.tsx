@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Text, View, Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Vote from '../features/vote/screens/Vote'
-import Profile from '../features/profile/screens/Profile'
+import ProfileStackScreen from '../features/profile/screens/ProfileStack'
 import CirclesStackScreen from '../features/circles/screens/CirclesStack'
 import { useAppDispatch } from '../app/hooks';
 import { getCirclesAction } from '../features/circles/circlesSlice';
@@ -62,7 +62,7 @@ export default function Home() {
                         </View>
                     )
                 }} />
-            <Tab.Screen name="Profile" component={Profile} options={{
+            <Tab.Screen name="Profile" component={ProfileStackScreen} options={{
                     tabBarIcon: ({focused}) => (
                         <View style={{alignItems: 'center', justifyContent: 'center'}}>
                             <Image 
