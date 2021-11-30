@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { getQuestion, submitVoteAction } from '../voteSlice';
 import TitleLoading from '../components/TitleLoading';
 import CardLoading from '../components/CardLoading';
+import VoteResults from '../components/VoteResults';
 
 const Vote = ({navigation}) => {
     const {circles: {circles, loading}, vote: {selectedCircle, question, userA, userB}} = useAppSelector((state) => state);
@@ -36,6 +37,7 @@ const Vote = ({navigation}) => {
                         <Card name={userA["user/first-name"].concat(" ", userA["user/last-name"])} cardNum="1" image={{uri: userA["user/profile-pic"]}} onPress={() => handleVote(userA, userB)} />
                         <Text style={styles.or}>OR</Text>
                         <Card name={userB["user/first-name"].concat(" ", userB["user/last-name"])} cardNum="2" image={{uri: userB["user/profile-pic"]}} onPress={() => handleVote(userB, userA)} />
+                        {/* <VoteResults /> */}
                     </>);
         } else {
             return (<View style={{justifyContent: 'center', height: 600, width: 300, marginTop: 30,}}>

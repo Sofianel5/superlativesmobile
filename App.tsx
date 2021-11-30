@@ -21,7 +21,7 @@ import AuthStackScreen from './src/features/auth/screens/Auth';
 import {useAppDispatch, useAppSelector} from './src/app/hooks';
 import Home from './src/components/Home';
 import { getUserAction } from './src/features/auth/authSlice';
-import SuperlativeDetails from './src/components/SuperlativeDetails';
+import VoteResults from './src/features/vote/components/VoteResults';
 
 declare const global: {HermesInternal: null | {}};
 
