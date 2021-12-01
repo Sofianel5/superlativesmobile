@@ -2,6 +2,7 @@ import React from "react";
 import { ScrollView, Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import Icon from 'react-native-vector-icons/Entypo';
+import { useNavigation } from '@react-navigation/native';
 
 const options = {
     enableVibrateFallback: true,
@@ -30,7 +31,8 @@ function renderCircles({circles, navigation}) {
     });
 }
 
-export default function CirclesList(circles, {navigation}) {
+export default function CirclesList(circles, ) {
+    const navigation = useNavigation();
     return (
         <ScrollView style={{paddingRight: 20}} keyboardShouldPersistTaps={"always"}>
             {renderCircles(circles, navigation)}
