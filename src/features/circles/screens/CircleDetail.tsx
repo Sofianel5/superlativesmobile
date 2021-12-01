@@ -9,6 +9,7 @@ import SuperlativeCard from '../components/SuperlativeCard';
 const CircleDetail = ({route, navigation}) => {
 
     const circle = useAppSelector((state) => state.circles.circles[route.params.circleId]);
+    const user = useAppSelector((state) => state.auth.user);
 
     const dispatch = useAppDispatch();
     React.useEffect(() => {
@@ -25,6 +26,14 @@ const CircleDetail = ({route, navigation}) => {
             </View>
             <ScrollView>
                 <View style={{paddingLeft: 20, paddingRight: 20,}}>
+                    { (user.id === circle["circle/admin"]["user/id"]) ? <TouchableOpacity style={styles.addSuperlativeContainer} onPress={() => navigation.navigate('SelectSuperlativeSource', {circleId: route.params.circleId})}>
+                        <Text style={styles.superlativeText}>Manage superlatives</Text>
+                        <Icon name="chevron-right" size={30} style={styles.superlativeRight} color="white" /> 
+                    </TouchableOpacity> : <View></View> }
+                    { (user.id === circle["circle/admin"]["user/id"]) ? <TouchableOpacity style={styles.addSuperlativeContainer} onPress={() => navigation.navigate('SelectSuperlativeSource', {circleId: route.params.circleId})}>
+                        <Text style={styles.superlativeText}>Modify members</Text>
+                        <Icon name="chevron-right" size={30} style={styles.superlativeRight} color="white" /> 
+                    </TouchableOpacity> : <View></View> }
                     <TouchableOpacity style={styles.addSuperlativeContainer} onPress={() => navigation.navigate('SelectSuperlativeSource', {circleId: route.params.circleId})}>
                         <Text style={styles.superlativeText}>Add a Superlative</Text>
                         <Icon name="chevron-right" size={30} style={styles.superlativeRight} color="white" /> 
