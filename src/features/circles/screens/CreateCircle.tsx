@@ -1,38 +1,69 @@
-import React, { Component } from 'react';
-import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ImageBackground } from 'react-native';
+import React, { Component, useState } from 'react';
+import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ImageBackground, Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
+import PopinButton from 'react-native-popin-button';
 import SuperlativeIcon from '../../../components/SuperlativeIcon';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { getQuestionPacksAction } from '../circlesSlice';
-import SuperlativeCard from '../components/SuperlativeCard';
+import { addCustomSuperlativeAction } from '../circlesSlice';
+import Snackbar from 'react-native-snackbar';
+import CheckBox from '@react-native-community/checkbox';
+import QuestionPackPicker from '../../../components/QuestionPackPicker';
 
-
-const SelectSuperlativeSourceScreen = ({route, navigation}) => {
+const CreateCircleScreen = ({route, navigation}) => {
+    const questionPacks = useAppSelector((state) => state.circles.questionPacks);
     const dispatch = useAppDispatch();
+    const [circleName, setCircleName] = useState('');
+    const [value, setValue] = useState(null);
+
+    function handleSubmit() {
+        if (circleName && circleName.trim().length > 0) {
+            setCircleName('');
+            Snackbar.show({
+                text: 'Superlative added!',
+                duration: Snackbar.LENGTH_SHORT,
+            });
+            //dispatch(addCustomSuperlativeAction({circleId: route.params.circleId, superlative: question}));
+            navigation.pop();
+        }
+    }
 
     return (
         <View style={styles.container}>
             <Icon name="chevron-left" size={40} style={styles.back} color="white" onPress={() => navigation.pop()}/> 
             <View style={styles.topBar}>
                 <Text style={styles.groupTitle}>
-                    Add a Superlative
+                    Create Circle
                 </Text>
             </View>
             <View style={{paddingLeft: 20, paddingRight: 20,}}>
-                <TouchableOpacity style={styles.addSuperlativeContainer} onPress={() => navigation.navigate('AddQuestionPackSuperlatives')}>
-                    <Text style={styles.superlativeText}>Select from our superlatives</Text>
-                    <Icon name="chevron-right" size={30} style={styles.superlativeRight} color="white" /> 
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.addSuperlativeContainer} onPress={() => navigation.navigate('CustomSuperlative', {circleId: route.params.circleId})}>
-                    <Text style={styles.superlativeText}>Add custom superlative</Text>
-                    <Icon name="chevron-right" size={30} style={styles.superlativeRight} color="white" /> 
-                </TouchableOpacity>
+                <View>
+                    <Text style={styles.inputTitle}>Circle Name</Text>
+                </View>
+                <TextInput style={styles.addSuperlativeContainer} autoFocus selectionColor={'white'} onSubmitEditing={() => handleSubmit()} onChangeText={text => setCircleName(text)} placeholder="Phi Psi @ Stanford" placeholderTextColor="#94A1B2" />
+                <View style={{}}>
+                    <QuestionPackPicker questionPacks={questionPacks} onChange={(i)=> {setValue(i)}}></QuestionPackPicker>
+                </View>
+                <PopinButton onPress={() => handleSubmit()}
+                style={styles.readyBtn} shrinkTo={0.7}
+                >
+                    <Text style={styles.readyText}>
+                        Create
+                    </Text>
+                </PopinButton>
             </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
+
+    inputTitle: {
+        fontSize: 20,
+        color: 'white',
+        fontFamily: 'Montserrat-SemiBold',
+        marginTop: 20,
+    },
+
     container: {
         flex: 1,
         backgroundColor: '#242629',
@@ -56,18 +87,18 @@ const styles = StyleSheet.create({
     },
 
     addSuperlativeContainer: {
-        flexDirection: 'row',
         backgroundColor: '#16161A',
-        alignItems: 'center',
-        padding: 10,
-        paddingLeft: 15,
-        paddingRight: 15,
+        paddingVertical: 15,
+        paddingHorizontal: 15,
         borderRadius: 8,
         shadowOffset : {height: 4},
         shadowOpacity: 0.8,
-        justifyContent: 'space-between',
         marginBottom: 7.5,
-        marginTop: 15,
+        marginTop: 10,
+        color: 'white',
+        fontFamily: 'Montserrat-SemiBold',
+        fontSize: 16,
+        textAlign: 'left',
     },
 
     superlativeText: {
@@ -90,7 +121,7 @@ const styles = StyleSheet.create({
     groupTitle: {
         color: 'white',
         fontFamily: 'Montserrat-SemiBold',
-        fontSize: 30,
+        fontSize: 25,
         alignSelf: 'center',
         marginTop: 8,
     },
@@ -264,6 +295,26 @@ const styles = StyleSheet.create({
         fontSize: 22,
         fontFamily: "Montserrat-SemiBold",
     },
+
+    readyBtn: {
+        marginTop: 25,
+        backgroundColor: '#7F5AF0',
+        paddingLeft: 50,
+        paddingRight: 50,
+        paddingVertical: 15,
+        borderRadius: 6,
+        alignItems: 'center',
+        shadowOffset : {height: 4},
+        shadowOpacity: 0.8,
+        zIndex: -1
+    },
+    
+    readyText: {
+        fontFamily: 'Montserrat-SemiBold',
+        color: 'white',
+        fontSize: 23,
+    },
+
 })
 
-export default SelectSuperlativeSourceScreen;
+export default CreateCircleScreen;

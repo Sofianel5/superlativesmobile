@@ -47,7 +47,7 @@ const Login = ({navigation}) => {
                 </View>
                 <View style={styles.inputView}>
                     <Text style={styles.header}>Password</Text>
-                    <TextInput style={styles.input} ref={passwordRef} selectionColor={'white'} placeholderTextColor="#94A1B2" secureTextEntry={true} onChangeText={text => setPassword(text) }/>
+                    <TextInput style={styles.input} ref={passwordRef} onSubmitEditing={handleSubmit} selectionColor={'white'} placeholderTextColor="#94A1B2" secureTextEntry={true} onChangeText={text => setPassword(text) }/>
                 </View>
                 {[phone, password].every(v => v && v !== '') && 
                 <TouchableOpacity onPress={() => handleSubmit()}

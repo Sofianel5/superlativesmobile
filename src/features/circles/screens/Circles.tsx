@@ -2,17 +2,28 @@ import React, { Component } from 'react';
 import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import CirclesList from '../components/CircleList';
-import {useAppDispatch, useAppSelector} from '../../../app/hooks';
+import {useAppDispatch, useAppSelector } from '../../../app/hooks';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import { getQuestionPacksAction } from '../circlesSlice';
+
+const options = {
+    enableVibrateFallback: true,
+    ignoreAndroidSystemSettings: false
+}
 
 const Circles = ({navigation}) => {
     const circlesState = useAppSelector((state) => state.circles);
+    const dispatch = useAppDispatch();
+    React.useEffect(() => {
+        dispatch(getQuestionPacksAction());
+    }, []);
     return (
         <View style={styles.container}>
             <Text style={styles.title}>
                 Your Circles
             </Text>
             {circlesState.loading ? <Text>Loading...</Text> : <CirclesList circles={circlesState.circles} navigation={navigation} />}
-            <TouchableOpacity style={styles.newGroup} onPress={() => navigation.navigate('NewCircle')}>
+            <TouchableOpacity style={styles.newGroup} onPress={() => {ReactNativeHapticFeedback.trigger("impactHeavy", options);navigation.navigate('CreateCircle')}}>
                 <Icon name="plus" size={35} color="white" />
             </TouchableOpacity>
         </View>

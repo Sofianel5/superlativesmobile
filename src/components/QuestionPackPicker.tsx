@@ -18,6 +18,7 @@ function QuestionPackPicker({questionPacks, onChange}) {
         open={open}
         value={value}
         items={items}
+        placeholder="Choose pack"
         zIndex={1000}
         onChangeValue={onChange}
         style={
