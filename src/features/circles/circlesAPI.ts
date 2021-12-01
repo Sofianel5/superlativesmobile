@@ -55,3 +55,15 @@ export async function getContacts() {
         } return {status: "error", error: "Permission denied"};
     })
 }
+
+export async function createCircle(userId: string, authToken: string, circleName: string, packName: string) {
+    return axios({
+        method: 'post',
+        params: {
+            "circle-name": circleName,
+            "question-pack": packName,
+        },
+        url: Urls.CREATE_CIRCLE,
+        headers: genAuthHeaders(userId, authToken),
+    });
+}

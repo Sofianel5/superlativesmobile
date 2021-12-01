@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import PopinButton from 'react-native-popin-button';
 import SuperlativeIcon from '../../../components/SuperlativeIcon';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { addCustomSuperlativeAction } from '../circlesSlice';
+import { createCircleAction } from '../circlesSlice';
 import Snackbar from 'react-native-snackbar';
 import CheckBox from '@react-native-community/checkbox';
 import QuestionPackPicker from '../../../components/QuestionPackPicker';
@@ -16,13 +16,8 @@ const CreateCircleScreen = ({route, navigation}) => {
     const [value, setValue] = useState(null);
 
     function handleSubmit() {
-        if (circleName && circleName.trim().length > 0) {
-            setCircleName('');
-            Snackbar.show({
-                text: 'Superlative added!',
-                duration: Snackbar.LENGTH_SHORT,
-            });
-            //dispatch(addCustomSuperlativeAction({circleId: route.params.circleId, superlative: question}));
+        if (circleName && circleName.trim().length > 0 && (value !== null)) {
+            dispatch(createCircleAction({circleName, questionPack: questionPacks[value].name}));
             navigation.pop();
         }
     }
@@ -44,7 +39,7 @@ const CreateCircleScreen = ({route, navigation}) => {
                     <Text style={styles.inputTitle}>Superlatives</Text>
                     <QuestionPackPicker questionPacks={questionPacks} onChange={(i)=> {setValue(i)}}></QuestionPackPicker>
                 </View>
-                <PopinButton onPress={() => handleSubmit()}
+                <PopinButton onPress={handleSubmit}
                 style={styles.readyBtn} shrinkTo={0.7}
                 >
                     <Text style={styles.readyText}>

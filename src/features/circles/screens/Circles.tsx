@@ -23,9 +23,9 @@ const Circles = ({navigation}) => {
                 Your Circles
             </Text>
             {circlesState.loading ? <Text>Loading...</Text> : <CirclesList circles={circlesState.circles} navigation={navigation} />}
-            <TouchableOpacity style={styles.newGroup} onPress={() => {ReactNativeHapticFeedback.trigger("impactHeavy", options);navigation.navigate('CreateCircle')}}>
+            {/* <TouchableOpacity style={styles.newGroup} onPress={() => {ReactNativeHapticFeedback.trigger("impactHeavy", options);navigation.navigate('CreateCircle')}}>
                 <Icon name="plus" size={35} color="white" />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
         </View>
     )
 }

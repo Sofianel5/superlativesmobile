@@ -16,6 +16,7 @@ const Urls = {
     GET_QUESTION_PACKS: baseUrl + 'circles/question-packs',
     GET_RANKINGS: baseUrl + 'profile/get-rankings',
     RESET_PROFILE_PIC: baseUrl + 'profile/reset-profile-pic',
+    CREATE_CIRCLE: baseUrl + 'circles/create-circle',
 }
 
 export const genAuthHeaders = (userId: string, authToken: string) => {
