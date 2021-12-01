@@ -7,6 +7,12 @@ import CirclesStackScreen from '../features/circles/screens/CirclesStack'
 import { useAppDispatch } from '../app/hooks';
 import { getCirclesAction } from '../features/circles/circlesSlice';
 import { getRankingsAction } from '../features/profile/profileSlice';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+
+const options = {
+    enableVibrateFallback: true,
+    ignoreAndroidSystemSettings: false
+}
 
 const Tab = createBottomTabNavigator();
 
@@ -45,7 +51,12 @@ export default function Home() {
                             />
                         </View>
                     )
-                }}/>
+                }} listeners={{
+                    tabPress: e => {
+                      // e.preventDefault(); // Use this to navigate somewhere else
+                      ReactNativeHapticFeedback.trigger("impactHeavy", options);
+                    },
+                  }}/>
             <Tab.Screen name="Vote" component={Vote} options={{
                     tabBarIcon: ({focused}) => (
                         <View style={{alignItems: 'center', justifyContent: 'center'}}>
@@ -61,7 +72,12 @@ export default function Home() {
                             />
                         </View>
                     )
-                }} />
+                }} listeners={{
+                    tabPress: e => {
+                      // e.preventDefault(); // Use this to navigate somewhere else
+                      ReactNativeHapticFeedback.trigger("impactHeavy", options);
+                    },
+                  }}/>
             <Tab.Screen name="Profile" component={ProfileStackScreen} options={{
                     tabBarIcon: ({focused}) => (
                         <View style={{alignItems: 'center', justifyContent: 'center'}}>
@@ -77,7 +93,12 @@ export default function Home() {
                             />
                         </View>
                     )
-                }}/>
+                }} listeners={{
+                    tabPress: e => {
+                      // e.preventDefault(); // Use this to navigate somewhere else
+                      ReactNativeHapticFeedback.trigger("impactHeavy", options);
+                    },
+                  }}/>
         </Tab.Navigator>
     );
 }
