@@ -75,7 +75,7 @@ const Profile = ({navigation}) => {
                                     <SuperlativeIcon width={148.5} height={129.6} style={styles.superlativeIcon} />
                                     <InnerBadge fill="#7F5AF0" width={84.6} style={styles.innerBadge} />
                                     <View style={styles.superlativeContainer}>
-                                        <Text style={styles.superlativeTitle} numberOfLines={3}>{res[0]["rank/question"]["question/text"]}</Text>
+                                        <Text style={styles.superlativeTitle} numberOfLines={2}>{res[0]["rank/question"]["question/text"]}</Text>
                                         <Text style={styles.superlativeOne}>#1</Text>
                                     </View>
                                     <Text style={styles.superlativeGroup}>{res[0]["rank/question"]["question/circle"]["circle/name"]}</Text>
@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
     superlativeContainer: {
         alignItems: 'center',
         position: 'absolute',
-        width: 80,
+        width: 70,
         marginTop: 12,
         alignSelf: 'center',
     },

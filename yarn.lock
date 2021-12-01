@@ -6128,6 +6128,11 @@
     "invariant" "^2.2.4"
     "prop-types" "^15.7.2"
 
+"react-native-haptic-feedback@^1.13.0":
+  "integrity" "sha512-g8G5QURitDeC/zRlobDvUXLxKYfMlIM2HQNWJKbHPSu61qfs0djnK4s1NZuQzihkeAO0KJ4AS2XWvKBzUmlXtA=="
+  "resolved" "https://registry.npmjs.org/react-native-haptic-feedback/-/react-native-haptic-feedback-1.13.0.tgz"
+  "version" "1.13.0"
+
 "react-native-image-picker@^4.3.0":
   "integrity" "sha512-YJtpuNHK7PS4ujbsSVAL6rKW4QQEDTf80MxuPmwByYgMi01VbfkXZ/8+pf61ctOED3Z0ZZKbk7/3pJ0dQHVAbg=="
   "resolved" "https://registry.npmjs.org/react-native-image-picker/-/react-native-image-picker-4.3.0.tgz"
@@ -6227,7 +6232,7 @@
     "prop-types" "^15.7.2"
     "yargs" "^16.1.1"
 
-"react-native@*", "react-native@^0.0.0-0 || ^0.60.6 || ^0.61.5 || ^0.62.2 || ^0.63.2 || ^0.64.0 || ^0.65.0 || ^0.66.0 || 1000.0.0", "react-native@^0.49.1", "react-native@>= 0.62", "react-native@>=0.50.0", "react-native@>=0.55", "react-native@>=0.60", "react-native@>=0.64.0", "react-native@>=v0.40.0", "react-native@0.66.3":
+"react-native@*", "react-native@^0.0.0-0 || ^0.60.6 || ^0.61.5 || ^0.62.2 || ^0.63.2 || ^0.64.0 || ^0.65.0 || ^0.66.0 || 1000.0.0", "react-native@^0.49.1", "react-native@>= 0.62", "react-native@>=0.50.0", "react-native@>=0.55", "react-native@>=0.60", "react-native@>=0.60.0", "react-native@>=0.64.0", "react-native@>=v0.40.0", "react-native@0.66.3":
   "integrity" "sha512-B/dQpuvta9YvF5MihDWefoGlTvxzUHK5X5RjdrXHAu/ihTehJXxEA+m6z/tufp1ZUMDjU+tMZK6gnehzCuYfzw=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.66.3.tgz"
   "version" "0.66.3"

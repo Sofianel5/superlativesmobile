@@ -7,6 +7,12 @@ import { getQuestion, submitVoteAction } from '../voteSlice';
 import TitleLoading from '../components/TitleLoading';
 import CardLoading from '../components/CardLoading';
 import VoteResults from '../components/VoteResults';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+
+const options = {
+    enableVibrateFallback: true,
+    ignoreAndroidSystemSettings: false
+}
 
 const Vote = ({navigation}) => {
     const {circles: {circles, loading}, vote: {selectedCircle, question, userA, userB}} = useAppSelector((state) => state);
@@ -23,6 +29,7 @@ const Vote = ({navigation}) => {
 
     function handleVote(winner: any, loser: any) {
         console.log('handleVote', winner, loser);
+        ReactNativeHapticFeedback.trigger("impactHeavy", options);
         dispatch(submitVoteAction({questionId: question["question/id"], winnerId: winner["user/id"], loserId: loser["user/id"]}));
     }
 
