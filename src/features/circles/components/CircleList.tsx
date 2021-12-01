@@ -3,6 +3,7 @@ import { ScrollView, Text, View, TouchableOpacity, StyleSheet } from "react-nati
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import Icon from 'react-native-vector-icons/Entypo';
 import { useNavigation } from '@react-navigation/native';
+import { useAppSelector } from "../../../app/hooks";
 
 const options = {
     enableVibrateFallback: true,
@@ -10,6 +11,7 @@ const options = {
 }
 
 function renderCircles({circles, navigation}) {
+    const user = useAppSelector((state) => state.auth.user);
     return Object.values(circles).map((circle) => {
         return (
             <View key={circle["circle/id"]} style={styles.group}>
@@ -20,9 +22,9 @@ function renderCircles({circles, navigation}) {
                     {Object.keys(circle["circle/members"]).length} members
                 </Text>
                 <View style={{alignItems: 'center'}}>
-                    <TouchableOpacity style={styles.view} onPress={() => {ReactNativeHapticFeedback.trigger("impactHeavy", options);navigation.navigate('CircleDetail', {circleId: circle["circle/id"]})}}>
+                    <TouchableOpacity style={user.id === circle["circle/admin"]["user/id"] ? styles.manage : styles.view} onPress={() => {ReactNativeHapticFeedback.trigger("impactHeavy", options);navigation.navigate('CircleDetail', {circleId: circle["circle/id"]})}}>
                         <Text style={styles.viewText}>
-                            View
+                            {user.id === circle["circle/admin"]["user/id"] ? "Manage" : "View"}
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -35,13 +37,13 @@ export default function CirclesList(circles, ) {
     const navigation = useNavigation();
     return (
         <ScrollView style={{paddingRight: 20}} keyboardShouldPersistTaps={"always"}>
-            {renderCircles(circles, navigation)}
+            {renderCircles(circles)}
             <View>
                 <TouchableOpacity style={styles.newGroup} onPress={() => {ReactNativeHapticFeedback.trigger("impactHeavy", options);navigation.navigate('CreateCircle')}}>
                     <Icon name="plus" size={35} color="white" />
                 </TouchableOpacity>
             </View>
-            <View style={{height: 150}}></View>
+            <View style={{height: 50}}></View>
         </ScrollView>
     );
 }
@@ -91,6 +93,16 @@ const styles = StyleSheet.create({
     view: {
         width: 250,
         backgroundColor: '#2CB67D',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 50,
+        height: 40,
+        borderRadius: 8,
+    },
+
+    manage: {
+        width: 250,
+        backgroundColor: '#7F5AF0',
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 50,
