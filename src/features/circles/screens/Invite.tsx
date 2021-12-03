@@ -1,4 +1,4 @@
-import React, { Component, useCallback } from 'react';
+import React, { Component, useCallback, useState } from 'react';
 import { FlatList, View, Text, StyleSheet, TouchableOpacity, Keyboard, TextInput, TouchableWithoutFeedback } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import SuperlativeIcon from '../../../components/SuperlativeIcon';
@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { getContactsAction, inviteUserAction } from '../circlesSlice';
 import SuperlativeCard from '../components/SuperlativeCard';
 import ContactRow from '../../../components/ContactRow';
-import BigList from "react-native-big-list";
+import { AsYouType, parsePhoneNumberFromString } from 'libphonenumber-js';
 
 
 const InviteScreen = ({route, navigation}) => {
@@ -15,13 +15,33 @@ const InviteScreen = ({route, navigation}) => {
         dispatch(getContactsAction());
     }, []);
 
-    const renderItem = useCallback(({item}) => <ContactRow contact={item} onPress={() => dispatch(inviteUserAction({circleId: route.params.circleId, phone: item.phoneNums[0]}))} />, [])
+    const renderItem = useCallback(({item}, sent) => <ContactRow contact={item} onPress={submitInvite} />, [])
 
     const getItemLayout = useCallback((data, index) => {return {length: 60, offset: 60 * index, index}}, [])
 
     const keyExtractor = useCallback((item) => item.recordID, [])
 
-    const contacts = useAppSelector((state) => state.circles.contacts);
+    const allContacts = useAppSelector((state) => state.circles.contacts);
+
+    const invites = useAppSelector((state) => state.circles.invitedContacts);
+
+    const [contacts, setContacts] = useState(allContacts);
+
+    function filterContacts(text) {
+        const newContacts = allContacts.filter((contact) => {
+            return contact.givenName.toLowerCase().includes(text.toLowerCase()) || contact.familyName.toLowerCase().includes(text.toLowerCase());
+        })
+        setContacts(newContacts);
+    }
+
+    function submitInvite(contact) {
+        console.log("contact:", contact)
+        for (let i = 0; i < contact.phoneNumbers.length; i++) {
+            dispatch(inviteUserAction({circleId: route.params.circleId, phone: parsePhoneNumberFromString(contact.phoneNumbers[i].number, 'US')?.format("E.164"), contactId: contact.recordID}));
+            console.log("phone:", parsePhoneNumberFromString(contact.phoneNumbers[i].number, 'US')?.format("E.164"))
+        }
+        console.log("sent invites");
+    }
 
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -37,8 +57,8 @@ const InviteScreen = ({route, navigation}) => {
                         <Text style={styles.superlativeText}>Invite phone</Text>
                         <Icon name="chevron-right" size={30} style={styles.superlativeRight} color="white" /> 
                     </TouchableOpacity>
-                    <TextInput style={styles.addSuperlativeContainer} selectionColor={'white'} placeholder="Search contacts" placeholderTextColor="#94A1B2" />
-                    {!!contacts ? <FlatList data={contacts} keyExtractor={keyExtractor} renderItem={renderItem} getItemLayout={getItemLayout}/> : <View></View>}
+                    <TextInput onChangeText={filterContacts} style={styles.addSuperlativeContainer} selectionColor={'white'} placeholder="Search contacts" placeholderTextColor="#94A1B2" />
+                    {!!contacts ? <FlatList style={{marginTop: 20}} data={contacts} keyExtractor={keyExtractor} renderItem={(item) => renderItem(item, invites.includes(item.item.recordID))} getItemLayout={getItemLayout}/> : <View></View>}
                 </View>
             </View>
         </TouchableWithoutFeedback>
@@ -131,6 +151,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 10,
         paddingLeft: 15,
+        height: 50,
         paddingRight: 15,
         borderRadius: 8,
         shadowOffset : {height: 4},
@@ -138,6 +159,9 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginBottom: 7.5,
         marginTop: 15,
+        color: 'white',
+        fontFamily: 'Montserrat-SemiBold',
+        fontSize: 18,
     },
 
     superlativeText: {

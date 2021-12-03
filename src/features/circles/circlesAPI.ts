@@ -22,13 +22,13 @@ export async function getCircleRanking(userId: string, authToken: string, circle
     });
 }
 
-export async function addCustomSuperlative(userId: string, authToken: string, circleId: string, superlative: string) {
+export async function addCustomSuperlatives(userId: string, authToken: string, circleId: string, superlatives: string[]) {
     return axios({
         method: 'post',
-        url: Urls.ADD_SUPERLATIVE,
+        url: Urls.ADD_SUPERLATIVES,
         params: {
             "circle-id": circleId,
-            "new-question": superlative,
+            "new-questions": superlatives,
         },
         headers: genAuthHeaders(userId, authToken),
     });
@@ -66,4 +66,17 @@ export async function createCircle(userId: string, authToken: string, circleName
         url: Urls.CREATE_CIRCLE,
         headers: genAuthHeaders(userId, authToken),
     });
+}
+
+export async function inviteUser(userId: string, authToken: string, circleId: string, phoneNumber: string) {
+    console.log([circleId, phoneNumber]);
+    return axios({
+        method: 'post',
+        params: {
+            "circle-id": circleId,
+            "phone": phoneNumber,
+        },
+        url: Urls.INVITE_USER,
+        headers: genAuthHeaders(userId, authToken),
+    }).then(res => console.log(res)).catch(err => console.log(err, err.response));
 }

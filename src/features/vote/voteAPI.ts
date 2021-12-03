@@ -83,3 +83,16 @@ export async function saveVote(superlativeId: string, userA: string, userB: stri
 export async function validateUniqueVote(votes: string, superlativeId: string, userA: string, userB: string) {
     return !(votes?.includes(superlativeId + userA + userB) || votes?.includes(superlativeId + userB + userA));
 }
+
+export async function getResults(userId: string, authToken: string, superlativeId: string, userA: string, userB: string) {
+    return axios({
+        method: 'get',
+        url: Urls.GET_RESULTS,
+        params: {
+            "question-id":superlativeId,
+            "user-1": userA,
+            "user-2": userB
+        },
+        headers: genAuthHeaders(userId, authToken),
+    });
+}

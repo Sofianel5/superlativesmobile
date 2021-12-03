@@ -7,6 +7,7 @@ interface CirclesState {
     error: string;
     questionPacks: any[];
     contacts: any[];
+    invitedContacts: string[];
 }
 
 const initialState: CirclesState = {
@@ -15,6 +16,7 @@ const initialState: CirclesState = {
     error: null,
     questionPacks: null,
     contacts: null,
+    invitedContacts: [],
 };
 
 export const getCirclesAction = createAsyncThunk('circles/getCircles', async (_, {getState}) => {
@@ -187,6 +189,9 @@ export const circleSlice = createSlice({
                     state.error = action.payload.error;
                     state.loading = false;
                 }
+            })
+            .addCase(inviteUserAction.pending, (state, action) => {
+                state.invitedContacts.push(action.meta.arg.contactId);
             })
         }
     }

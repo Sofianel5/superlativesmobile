@@ -6,19 +6,34 @@ import SuperlativeIcon from '../../../components/SuperlativeIcon';
 import { useAppDispatch } from '../../../app/hooks';
 import { inviteUserAction } from '../circlesSlice';
 import Snackbar from 'react-native-snackbar';
+import { AsYouType, parsePhoneNumberFromString } from 'libphonenumber-js';
 
 const InvitePhoneScreen = ({route, navigation}) => {
     const dispatch = useAppDispatch();
     const [phone, setPhone] = useState('');
 
     function handleSubmit() {
-        if (phone && phone.trim().length > 0) {
+        const parsedPhone = parsePhoneNumberFromString(phone, 'US')?.format("E.164")
+        if (parsedPhone && parsedPhone.trim().length > 0) {
             Snackbar.show({
                 text: 'Invited!',
                 duration: Snackbar.LENGTH_SHORT,
-            });
-            dispatch(inviteUserAction({circleId: route.params.circleId, phone}));
+            })
+            dispatch(inviteUserAction({circleId: route.params.circleId, phone: parsedPhone}));
             setPhone('');
+        }
+    }
+
+    const onTextChange = (number: string) => {
+        const num = parsePhoneNumberFromString(number, 'US')
+        let reg = /^[0-9]/
+        if (!!num && phone.length > number.length && !reg.test(phone[phone.length - 1])){
+          let phoneNums = num.nationalNumber.split('')
+          phoneNums.pop()
+          let phoneNum = phoneNums.join('')
+          setPhone(phoneNum)
+        } else {
+            setPhone(new AsYouType('US').input(number))
         }
     }
 
@@ -31,7 +46,7 @@ const InvitePhoneScreen = ({route, navigation}) => {
                 </Text>
             </View>
             <View style={{paddingLeft: 20, paddingRight: 20,}}>
-                <TextInput style={styles.addSuperlativeContainer} autoFocus selectionColor={'white'} onSubmitEditing={() => handleSubmit()} onChangeText={text => setQuestion(text)} placeholder="(420) 420 6969" placeholderTextColor="#94A1B2" />
+                <TextInput style={styles.addSuperlativeContainer} value={phone} autoFocus selectionColor={'white'} onSubmitEditing={handleSubmit} onChangeText={onTextChange} placeholder="(420) 420 6969" placeholderTextColor="#94A1B2" />
                 <PopinButton onPress={handleSubmit}
                 style={styles.readyBtn} shrinkTo={0.7}
                 >

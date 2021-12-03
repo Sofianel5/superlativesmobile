@@ -1,20 +1,27 @@
-import React from "react";
+import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const ContactRow = ({contact, onPress}) => {
-    return (<View style={styles.contactContainer}>
+    const [isSelected, setIsSelected] = useState(false);
+    return (
+        <View style={styles.contactContainer}>
             <View style={styles.contactElementsRow}>
                 <View style={styles.contactLeft}>
-                    <View style={styles.contactIcon}></View>
-                    <Text style={styles.contactName}>{contact.givenName}</Text>
+                    <View style={styles.contactIcon}><Text style={styles.contactIconText}>{contact.givenName.charAt(0)}{contact.familyName.charAt(0)}</Text></View>
+                    <Text style={styles.contactName}>{contact.givenName} {contact.familyName ?? ""}</Text>
                 </View>
                 <View style={styles.contactButtonContainer}>
-                    <TouchableOpacity style={styles.contactInviteButtonUnselected}>
+                    {(contact["invited"] || isSelected) ?
+                    <TouchableOpacity style={styles.contactInviteButtonSelected}>
+                        <Text style={styles.contactInviteButtonUnselectedText}>Sent</Text>
+                    </TouchableOpacity> :
+                    <TouchableOpacity style={styles.contactInviteButtonUnselected} onPress={() => {onPress(contact); setIsSelected(true)}}>
                         <Text style={styles.contactInviteButtonUnselectedText}>Send</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity>}
                 </View>
             </View>
-        </View>);
+        </View>
+    );
 };
 
 const styles = StyleSheet.create({
@@ -46,6 +53,14 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
 
+    contactIconText: {
+        alignSelf: 'center', 
+        fontFamily: 'MontSerrat-SemiBold',
+        color: 'white',
+        lineHeight: 40,
+        fontSize: 20,
+    },
+
     contactName: {
         fontSize: 20,
         color: 'white',
@@ -65,6 +80,14 @@ const styles = StyleSheet.create({
         height: 33,
         borderRadius: 8,
         backgroundColor: '#7F5AF0',
+        alignItems: 'center',
+    },
+
+    contactInviteButtonSelected: {
+        width: 75,
+        height: 33,
+        borderRadius: 8,
+        backgroundColor: 'grey',
         alignItems: 'center',
     },
 

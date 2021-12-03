@@ -33,7 +33,7 @@ function renderCircles({circles, navigation}) {
     });
 }
 
-export default function CirclesList(circles, ) {
+export default function CirclesList(circles) {
     const navigation = useNavigation();
     console.log("CirclesHere:", circles)
     return (

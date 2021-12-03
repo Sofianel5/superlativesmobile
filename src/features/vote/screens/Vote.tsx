@@ -3,10 +3,11 @@ import { View, Text, StyleSheet, Pressable, TextInput, Platform, Image, Touchabl
 import Card from '../../../components/Card';
 import Swiper from 'react-native-deck-swiper';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { getQuestion, submitVoteAction, getVotesAction } from '../voteSlice';
+import { getQuestion, submitVoteAction, getVotesAction, selectCircleAction } from '../voteSlice';
 import TitleLoading from '../components/TitleLoading';
 import CardLoading from '../components/CardLoading';
 import VoteResults from '../components/VoteResults';
+import CirclePicker from '../components/CirclePicker';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 const options = {
@@ -59,6 +60,10 @@ const Vote = ({navigation}) => {
         }
     }
 
+    function selectNewCircle(circle: string) {
+        dispatch(selectCircleAction(circle));
+    }
+
     function renderTitle() {
         if (loading) {
             return (<View style={{height: 120, width: '100%'}}>
@@ -66,7 +71,8 @@ const Vote = ({navigation}) => {
                     </View> )
         } else {
             return (<View style={styles.topBar}>
-                        <Text style={styles.group}>{selectedCircle ? selectedCircle["circle/name"] : Object.values(circles)[0]["circle/name"]}</Text>
+                        {/* <Text style={styles.group}>{selectedCircle ? selectedCircle["circle/name"] : Object.values(circles)[0]["circle/name"]}</Text> */}
+                        <CirclePicker circles={circles} onChange={(i) => selectNewCircle(Object.values(circles)[i]["circle/id"])} />
                     </View>)
         }
     }
@@ -109,9 +115,10 @@ const styles = StyleSheet.create({
         height: 120,
         backgroundColor: '#16161A',
         alignItems: 'center',
-        paddingTop: 55,
-        justifyContent: 'space-between',
-        // flexDirection: 'row',
+        paddingTop: 25,
+        justifyContent: 'center',
+        width: '100%',
+        flexDirection: 'row',
     },
 
     group: {
@@ -126,6 +133,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#C4C4C4',
         alignItems: 'center',
         justifyContent: 'center',
+        zIndex: -1,
     },
 
     question: {

@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getVotes } from '../../services/LocalData';
-import { getCirclesAction, addCustomSuperlativeAction } from '../circles/circlesSlice';
-import { submitVote, getNewQuestion, getVoteStr, saveVote } from './voteAPI';
+import { submitVote, getNewQuestion, getVoteStr, saveVote, getResults} from './voteAPI';
 
 interface VoteState {
     selectedCircle: any;
@@ -12,6 +11,7 @@ interface VoteState {
     user: any,
     error: string;
     votes: string;
+    results: any;
 }
 
 const initialState: VoteState = {
@@ -22,17 +22,19 @@ const initialState: VoteState = {
     userB: null,
     user: null,
     error: null,
-    votes: null
+    votes: null,
+    results: null
 };
 
 export const getQuestion = createAsyncThunk('vote/getQuestion', async (_, {getState}) => {
     console.log('getQuestion');
-    var {circles: {circles}, vote: {selectedCircle, votes}, auth: {user}} = getState();
+    var {circles: {circles}, vote: {selectedCircle, votes, question}, auth: {user}} = getState();
     if (!selectedCircle) {
         // Make sure that this circle has at least 2 other users
         selectedCircle = Object.values(circles)[0];
     }
-    return getNewQuestion(selectedCircle, user, votes);
+    console.log('selectedCircle', selectedCircle);
+    return getNewQuestion(selectedCircle, user, votes, question);
 })
 
 export const submitVoteAction = createAsyncThunk('vote/submitVote', async (data: any, {getState}) => {
@@ -57,6 +59,15 @@ export const getVotesAction = createAsyncThunk('vote/getVotes', async (_, {getSt
     return await getVotes()
 })
 
+export const selectCircleAction = createAsyncThunk('vote/selectCircle', async (circleId: string, {dispatch, getState}) => {
+    console.log('selectCircle');
+    var { auth: {user}, vote: {selectedCircle}, circles: {circles}} = getState();
+    if (selectedCircle && selectedCircle.id == circleId) {
+        return;
+    }
+    return circles[circleId];
+});
+
 export const voteSlice = createSlice({
     name: 'vote',
     initialState,
@@ -77,6 +88,13 @@ export const voteSlice = createSlice({
                 state.userB = action.payload.userB;
                 state.user = action.payload.user;
                 state.loading = false;
+                getResults(state.user['id'], state.user['auth-token'], state.question["question/id"], state.userA["user/id"], state.userB["user/id"]).then(res => {
+                    const [votesA, votesB] = res.data;
+                    state.results = {
+                        votesA,
+                        votesB
+                    }
+                });
             } else {
                 state.loading = false;
                 state.error = "No more questions";
@@ -89,7 +107,7 @@ export const voteSlice = createSlice({
         .addCase(submitVoteAction.fulfilled, (state, action) => {
             console.log('submitVoteAction.fulfilled');
             state.loading = false;
-            const res = getNewQuestion(state.selectedCircle, state.user, state.votes + getVoteStr(state.selectedCircle, action.meta.arg.winnerId, action.meta.arg.loserId));
+            const res = getNewQuestion(state.selectedCircle, state.user, state.votes + getVoteStr(state.selectedCircle, action.meta.arg.winnerId, action.meta.arg.loserId), state.question);
             state.votes = state.votes + getVoteStr(state.selectedCircle, action.meta.arg.winnerId, action.meta.arg.loserId);
             if (res) {
                 state.question = res.selectedQuestion;
@@ -97,6 +115,27 @@ export const voteSlice = createSlice({
                 state.userB = res.userB;
             } else {
                 state.error = "No more questions";
+            }
+        })
+        .addCase(selectCircleAction.pending, (state) => {
+            console.log('selectCircle.pending');
+            state.loading = true;
+        })
+        .addCase(selectCircleAction.fulfilled, (state, action) => {
+            if (action.payload) {
+                state.selectedCircle = action.payload;
+                const res = getNewQuestion(state.selectedCircle, state.user, state.votes + getVoteStr(state.selectedCircle, action.meta.arg.winnerId, action.meta.arg.loserId), state.question);
+                state.votes = state.votes + getVoteStr(state.selectedCircle, action.meta.arg.winnerId, action.meta.arg.loserId);
+                if (res) {
+                    state.question = res.selectedQuestion;
+                    state.userA = res.userA;
+                    state.userB = res.userB;
+                } else {
+                    state.error = "No more questions";
+                    state.question = null;
+                    state.userA = null;
+                    state.userB = null;
+                }
             }
         })
     }

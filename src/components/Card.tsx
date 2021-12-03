@@ -22,6 +22,7 @@ const Card = (props) => {
 
 const styles = StyleSheet.create({
     card1: {
+        zIndex: -1,
         backgroundColor: '#7F5AF0',
         height: '32%',
         width: '92%',
