@@ -46,13 +46,15 @@ const ProfilePic = ({route, navigation}) => {
                 </View>
             </View>
             <Text style={styles.headline}>
-                {route.params.firstName}, you're a certified G.
+                {/* {route.params.firstName}, you're a certified G. */}
+                You're a certified G.
             </Text>
             <Text style={styles.subheader}>Add a photo of yourself</Text>
             <TouchableOpacity onPress={() => handlePress()} style={photo ? styles.profileSel : styles.profileSelNoImage}>
                 {photo && <ImageBackground style={styles.backgroundImage} imageStyle={{borderRadius: 20}} source={{uri: photo.uri}} />}
                 <View style={styles.plusSign}><Text style={styles.plus}>+</Text></View>
             </TouchableOpacity>
+            <Text style={styles.error}>Error</Text>
             {photo &&  
             <TouchableOpacity onPress={() => handleSubmit()} style={styles.meBtn} shrinkTo={0.7}>
                 <Text style={styles.meText}>That's me</Text>
@@ -101,7 +103,7 @@ const styles = StyleSheet.create({
     profileSel: {
         height: 260,
         width: 200,
-        marginBottom: 70,
+        // marginBottom: 70,
         borderRadius: 20,
         shadowOffset : { height: 4, width: 0},
         shadowOpacity: 0.8,
@@ -111,7 +113,7 @@ const styles = StyleSheet.create({
     profileSelNoImage: {
         height: 260,
         width: 200,
-        marginBottom: 70,
+        // marginBottom: 70,
         borderRadius: 20,
         shadowOffset : { height: 4, width: 0},
         shadowOpacity: 0.8,
@@ -215,6 +217,7 @@ const styles = StyleSheet.create({
 
     meBtn: {
         backgroundColor: '#7F5AF0',
+        marginTop: 70,
         paddingLeft: 80,
         paddingRight: 80,
         paddingTop: 20,
@@ -238,6 +241,14 @@ const styles = StyleSheet.create({
         width: 200,
         //borderRadius: 20,
         //overflow: "hidden",
+    },
+
+    error: {
+        color: 'red',
+        fontFamily: 'Montserrat',
+        fontSize: 20,
+        alignSelf: 'center',
+        marginTop: 30,
     }
 
 })

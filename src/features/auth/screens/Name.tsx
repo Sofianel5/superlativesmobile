@@ -50,7 +50,6 @@ const Name = ({navigation}) => {
                     </View>
                 </View>
                 <View style={styles.inputView}>
-                    <Text style={styles.error}>Error</Text>
                     <Text style={styles.header}>
                         First Name
                     </Text>
@@ -175,13 +174,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#2CB67D",
         borderRadius: 8,
     },
-
-    error: {
-        color: 'red',
-        fontFamily: 'Montserrat',
-        fontSize: 20,
-        marginBottom: 5,
-    }
 })
 
 export default Name
