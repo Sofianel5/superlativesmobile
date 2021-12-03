@@ -43,6 +43,7 @@ const SetPass = ({navigation}) => {
             <Text style={styles.prompt}>
             Set Password
             </Text>
+            <Text style={styles.error}>Error</Text>
             <View style={{width: '100%'}}>
                 <TextInput style={styles.input} selectionColor={'white'} placeholderTextColor="#94A1B2" secureTextEntry={true} onChangeText={text => setPassword(text) }/>
                 <Text style={Object.assign({marginLeft: (windowWidth-300)/2}, styles.kinky)}>
@@ -167,6 +168,15 @@ const styles = StyleSheet.create({
         width: 10,
         backgroundColor: "#2CB67D",
         borderRadius: 8,
+    },
+
+    error: {
+        color: 'red',
+        fontFamily: 'Montserrat',
+        fontSize: 20,
+        alignSelf: 'flex-start',
+        marginLeft: 40,
+        marginBottom: 10,
     },
 })
 

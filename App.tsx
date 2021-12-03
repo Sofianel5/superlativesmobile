@@ -22,6 +22,7 @@ import {useAppDispatch, useAppSelector} from './src/app/hooks';
 import Home from './src/components/Home';
 import { getUserAction } from './src/features/auth/authSlice';
 import VoteResults from './src/features/vote/components/VoteResults';
+import SetPass from './src/features/auth/screens/SetPass';
 
 declare const global: {HermesInternal: null | {}};
 

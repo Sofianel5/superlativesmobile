@@ -37,7 +37,7 @@ const CreateCircleScreen = ({route, navigation}) => {
                 <TextInput style={styles.addSuperlativeContainer} autoFocus selectionColor={'white'} onSubmitEditing={() => handleSubmit()} onChangeText={text => setCircleName(text)} placeholder="MIT SAE" placeholderTextColor="#94A1B2" />
                 <View style={{}}>
                     <Text style={styles.inputTitle}>Superlatives</Text>
-                    <QuestionPackPicker questionPacks={questionPacks} onChange={(i)=> {setValue(i)}}></QuestionPackPicker>
+                    <QuestionPackPicker questionPacks={questionPacks} onChange={(i)=> {setValue(i)}} style={styles.packChooser}></QuestionPackPicker>
                 </View>
                 <PopinButton onPress={handleSubmit}
                 style={styles.readyBtn} shrinkTo={0.7}
@@ -310,6 +310,10 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 23,
     },
+
+    packChooser: {
+        fontFamily: 'Montserrat-SemiBold',
+    }
 
 })
 

@@ -43,6 +43,7 @@ const Verify = ({navigation}) => {
                 </Text>
                 <TextInput style={styles.input} autoFocus selectionColor={'white'} returnKeyType="go" onSubmitEditing={() => handleSubmit()} onChangeText={num => onTextChange(num)} placeholder="042069" placeholderTextColor="#94A1B2" textAlign={'center'} keyboardType={Platform.OS === 'android' ? "numeric" : "number-pad"} />
             </View>
+            <Text style={styles.error}>Incorrect code</Text>
             <PopinButton onPress={() => handleSubmit()}
             style={styles.readyBtn} shrinkTo={0.7}
             >
@@ -82,7 +83,6 @@ const styles = StyleSheet.create({
     },
 
     inputView: {
-        marginBottom: 17,
         alignItems: 'center',
     },
 
@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
     },
 
     readyBtn: {
+        marginTop: 17,
         marginBottom: 70,
         backgroundColor: '#7F5AF0',
         paddingLeft: 102,
@@ -153,6 +154,15 @@ const styles = StyleSheet.create({
         width: 10,
         backgroundColor: "#2CB67D",
         borderRadius: 8,
+    },
+
+    error: {
+        color: 'red',
+        fontFamily: 'Montserrat',
+        fontSize: 20,
+        alignSelf: 'flex-start',
+        marginLeft: 40,
+        marginBottom: 10,
     },
 })
 

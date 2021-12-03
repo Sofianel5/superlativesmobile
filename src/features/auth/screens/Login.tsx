@@ -42,6 +42,7 @@ const Login = ({navigation}) => {
                     </View>
                 </View>
                 <View style={styles.inputView}>
+                    <Text style={styles.error}>Error</Text>
                     <Text style={styles.header}>Phone Number</Text>
                     <TextInput style={styles.input} autoFocus ref={phoneRef} returnKeyType="go" onSubmitEditing={() => passwordRef.current.focus()} selectionColor={'white'} placeholder="(420) 420-6969" placeholderTextColor="#94A1B2" onChangeText={num => onTextChange(num)} value={phone} keyboardType='phone-pad' />
                 </View>
@@ -158,6 +159,13 @@ const styles = StyleSheet.create({
         backgroundColor: "#2CB67D",
         borderRadius: 8,
     },
+
+    error: {
+        color: 'red',
+        fontFamily: 'Montserrat',
+        fontSize: 22,
+        marginBottom: 6,
+    }
 })
 
 export default Login;
