@@ -33,7 +33,6 @@ export const getQuestion = createAsyncThunk('vote/getQuestion', async (_, {getSt
         // Make sure that this circle has at least 2 other users
         selectedCircle = Object.values(circles)[0];
     }
-    console.log('selectedCircle', selectedCircle);
     return getNewQuestion(selectedCircle, user, votes, question);
 })
 
@@ -68,6 +67,19 @@ export const selectCircleAction = createAsyncThunk('vote/selectCircle', async (c
     return circles[circleId];
 });
 
+export const getResultsAction = createAsyncThunk('vote/getResults', async (data: any, {getState}) => {
+    var { auth: {user}, vote: {userA, userB, question}} = getState();
+    return await getResults(user['id'], user['auth-token'], question["question/id"], userA["user/id"], userB["user/id"])
+    .then(res => res.data)
+    .catch(err => {
+        console.log(err);
+        console.log(err.response);
+        return {
+            status: "failed",
+        }
+    });
+});
+
 export const voteSlice = createSlice({
     name: 'vote',
     initialState,
@@ -88,13 +100,6 @@ export const voteSlice = createSlice({
                 state.userB = action.payload.userB;
                 state.user = action.payload.user;
                 state.loading = false;
-                getResults(state.user['id'], state.user['auth-token'], state.question["question/id"], state.userA["user/id"], state.userB["user/id"]).then(res => {
-                    const [votesA, votesB] = res.data;
-                    state.results = {
-                        votesA,
-                        votesB
-                    }
-                });
             } else {
                 state.loading = false;
                 state.error = "No more questions";

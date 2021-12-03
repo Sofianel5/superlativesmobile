@@ -29,18 +29,15 @@ export function getNewQuestion(selectedCircle: any, user, votes, currentQuestion
                 count++;
             }
         }
-        console.log("Count:", count, "memberCount:", Object.keys(selectedCircle["circle/members"]).length)
         if (count < (Object.keys(selectedCircle["circle/members"]).length - 1) / 2 && question["question/id"] != (!currentQuestion ? null : currentQuestion["question/id"])) {
             questionPool.push(question);
         }
         i++;
     }
-    console.log("Question Pool:", questionPool)
     if (questionPool.length == 0) { 
         console.log("No more questions")
         return null;
     }
-    console.log("questionPool:", questionPool.map(q => q["question/id"] + q["question/text"]))
     const selectedQuestion = questionPool[~~(Math.random() * questionPool.length)];
     var pool = [...Object.values(selectedCircle["circle/members"])];
     var i = 0;

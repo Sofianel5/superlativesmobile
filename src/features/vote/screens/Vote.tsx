@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { View, Text, StyleSheet, Pressable, TextInput, Platform, Image, TouchableOpacity, ImageBackground, Animated } from 'react-native';
 import Card from '../../../components/Card';
 import Swiper from 'react-native-deck-swiper';
@@ -9,6 +9,7 @@ import CardLoading from '../components/CardLoading';
 import VoteResults from '../components/VoteResults';
 import CirclePicker from '../components/CirclePicker';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import { getResults } from '../voteAPI';
 
 const options = {
     enableVibrateFallback: true,
@@ -16,18 +17,25 @@ const options = {
 }
 
 const Vote = ({navigation}) => {
-    const {circles: {circles, loading}, vote: {selectedCircle, question, userA, userB, votes}} = useAppSelector((state) => state);
+    const {auth: {user}, circles: {circles, loading}, vote: {selectedCircle, question, userA, userB, votes}} = useAppSelector((state) => state);
+    const [showResults, setShowResults] = useState(false)
+    const [results, setResults] = useState(null)
     React.useEffect(() => {
-        console.log("votes:", votes, "selectedCircle:", selectedCircle, "userA", userA);
         if (circles && (votes != null) && !selectedCircle) {
-            console.log("dispatching getQuestion")
-
             dispatch(getQuestion());
         }
         if (votes == null) {
             dispatch(getVotesAction());
         }
+        if (question && userA && userB && !results) {
+            getResults(user['id'], user['auth-token'], question["question/id"], userA["user/id"], userB["user/id"]).then(res => {
+                const results = res.data.data;
+                console.log(results);
+                setResults(results);
+            });
+        }
     });
+    
     const dispatch = useAppDispatch();
     const useSwiper = useRef(null).current
     const handleOnSwipedLeft = () => useSwiper.swipeLeft()
@@ -37,6 +45,10 @@ const Vote = ({navigation}) => {
     function handleVote(winner: any, loser: any) {
         console.log('handleVote', winner, loser);
         ReactNativeHapticFeedback.trigger("impactHeavy", options);
+        console.log("localResults:", results)
+        if (results && results != [0, 0]) {
+            setShowResults([...results]);
+        }
         dispatch(submitVoteAction({questionId: question["question/id"], winnerId: winner["user/id"], loserId: loser["user/id"]}));
     }
 
@@ -91,6 +103,30 @@ const Vote = ({navigation}) => {
                         <Text style={styles.question}>No more questions</Text>
                     </View>)
         }
+    }
+
+    function renderVoteBody() {
+        return (
+            <View style={styles.container}>
+                {renderTitle()}
+                {renderQuestion()}
+                {renderBody()}
+            </View>
+        )
+    }
+
+    function onResultsPress() {
+        setShowResults(false);
+        setResults(null)
+    }
+
+    if (showResults && results && results[0] + results[1] != 0) {
+        return (
+            <View style={styles.container}>
+            {renderTitle()}
+                <VoteResults userA={userA} userB={userB} results={results} navigation={navigation}></VoteResults>
+            </View>
+        );
     }
 
     return (

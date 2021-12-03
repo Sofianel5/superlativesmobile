@@ -21,14 +21,14 @@ const PollBar = (props) => {
     )
 }
 
-const VoteResults = ({navigation}) => {
-
+const VoteResults = ({userA, userB, results, navigation}) => {
+    console.log("VoteResults:", results)
     return (
         <View style={styles.container}>
             <Text style={styles.topText}>Here's what the rest of SAE thought</Text>
             <View style={styles.pollContainer}>
                 <View style={styles.poll}>
-                    <Text style={styles.percentage}>74%</Text>
+                    <Text style={styles.percentage}>{results[0] / (results[0] + results[1])}</Text>
                     <PollBar style={styles.barOne} percent={0.74}></PollBar>
                     <Text style={styles.name}>Liam Kronman</Text>
                     <Image source={require('../../../../assets/images/liam.jpg')} style={styles.image} />
