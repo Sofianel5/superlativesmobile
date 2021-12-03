@@ -15,8 +15,8 @@ export async function submitVote(userId: string, authToken: string, question: st
     });
 }
 
-export function getNewQuestion(selectedCircle: any, user, votes) {
-    const questions = selectedCircle["circle/questions"]
+export function getNewQuestion(selectedCircle: any, user, votes, currentQuestion) {
+    const questions = selectedCircle["circle/questions"] 
     console.log("getNewQuestion")
     var i = 0;
     var questionPool = [];
@@ -30,11 +30,12 @@ export function getNewQuestion(selectedCircle: any, user, votes) {
             }
         }
         console.log("Count:", count, "memberCount:", Object.keys(selectedCircle["circle/members"]).length)
-        if (count < (Object.keys(selectedCircle["circle/members"]).length - 1) / 2) {
+        if (count < (Object.keys(selectedCircle["circle/members"]).length - 1) / 2 && question["question/id"] != (!currentQuestion ? null : currentQuestion["question/id"])) {
             questionPool.push(question);
         }
         i++;
     }
+    console.log("Question Pool:", questionPool)
     if (questionPool.length == 0) { 
         console.log("No more questions")
         return null;

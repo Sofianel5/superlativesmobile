@@ -11,7 +11,7 @@ const Urls = {
     LOGIN: baseUrl + 'auth/login',
     GET_CIRCLES: baseUrl + 'circles/get-circles',
     GET_CIRCLE_RANKINGS: baseUrl + 'circles/get-rankings-in-circle',
-    ADD_SUPERLATIVE: baseUrl + 'circles/add-question',
+    ADD_SUPERLATIVES: baseUrl + 'circles/add-questions',
     SUBMIT_VOTE: baseUrl + 'circles/submit-vote',
     GET_QUESTION_PACKS: baseUrl + 'circles/question-packs',
     GET_RANKINGS: baseUrl + 'profile/get-rankings',

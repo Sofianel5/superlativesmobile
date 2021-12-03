@@ -35,6 +35,7 @@ function renderCircles({circles, navigation}) {
 
 export default function CirclesList(circles, ) {
     const navigation = useNavigation();
+    console.log("CirclesHere:", circles)
     return (
         <ScrollView style={{paddingRight: 20}} keyboardShouldPersistTaps={"always"}>
             {renderCircles(circles)}
@@ -49,12 +50,6 @@ export default function CirclesList(circles, ) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#242629',
-        paddingLeft: 20,
-        paddingTop: 30,
-    },
     
     title: {
         color: 'white',

@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import PopinButton from 'react-native-popin-button';
 import SuperlativeIcon from '../../../components/SuperlativeIcon';
 import { useAppDispatch } from '../../../app/hooks';
-import { addCustomSuperlativeAction } from '../circlesSlice';
+import { addSuperlativesAction } from '../circlesSlice';
 import Snackbar from 'react-native-snackbar';
 
 const CustomSuperlativeScreen = ({route, navigation}) => {
@@ -13,12 +13,12 @@ const CustomSuperlativeScreen = ({route, navigation}) => {
 
     function handleSubmit() {
         if (question && question.trim().length > 0) {
-            setQuestion('');
             Snackbar.show({
                 text: 'Superlative added!',
                 duration: Snackbar.LENGTH_SHORT,
             });
-            dispatch(addCustomSuperlativeAction({circleId: route.params.circleId, superlative: question}));
+            dispatch(addSuperlativesAction({circleId: route.params.circleId, superlatives: [question]}));
+            setQuestion('');
             navigation.pop();
             navigation.pop();
             navigation.navigate('Vote');

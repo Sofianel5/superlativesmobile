@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getCircles, getCircleRanking, addCustomSuperlative, getQuestionPacks, getContacts, createCircle, inviteUser } from './circlesAPI';
+import { getCircles, getCircleRanking, addCustomSuperlatives, getQuestionPacks, getContacts, createCircle, inviteUser } from './circlesAPI';
 
 interface CirclesState {
     circles: any[];
@@ -67,11 +67,11 @@ export const getQuestionPacksAction = createAsyncThunk('circles/getQuestionPacks
     });
 });
 
-export const addCustomSuperlativeAction = createAsyncThunk('circles/addCustomSuperlative', async (data: any, {getState}) => {
+export const addSuperlativesAction = createAsyncThunk('circles/addCustomSuperlative', async (data: any, {getState}) => {
     console.log('addCustomSuperlativeAction');
-    const {superlative, circleId } = data;
+    const {superlatives, circleId } = data;
     const {auth: {user}} = getState();
-    return await addCustomSuperlative(user['id'], user['auth-token'], circleId, superlative)
+    return await addCustomSuperlatives(user['id'], user['auth-token'], circleId, superlatives)
     .then(res => res.data)
     .catch(err => {
         console.log(err);
@@ -153,9 +153,9 @@ export const circleSlice = createSlice({
                     state.loading = false;
                 }
             })
-            .addCase(addCustomSuperlativeAction.fulfilled, (state, action) => {
+            .addCase(addSuperlativesAction.fulfilled, (state, action) => {
                 if (action.payload.status === "success") {
-                    state.circles[action.meta.arg.circleId]["circle/questions"].push(action.payload.data)
+                    state.circles[action.meta.arg.circleId]["circle/questions"].concat(action.payload.data)
                     console.log(state.circles[action.meta.arg.circleId]["circle/questions"])
                 } else {
                     state.error = action.payload.error;

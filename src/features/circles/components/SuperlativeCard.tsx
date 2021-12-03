@@ -14,10 +14,32 @@ function getAssocUser(userId: string, circle: any) {
     return circle["circle/members"][userId];
 }
 
+function getFullRankingsObj(question, circle) {
+    return {
+        "rank/question": {
+            "question/text": question["question/text"],
+            "question/circle": {
+                "circle/name": circle["circle/name"],
+            },
+            "question/ranks": question["question/ranks"].map((rank) => {
+                return {
+                    "rank/user": {
+                        "user/id": rank["rank/user"]["user/id"],
+                        "user/first-name": getAssocUser(rank["rank/user"]["user/id"], circle)["user/first-name"],
+                        "user/last-name": getAssocUser(rank["rank/user"]["user/id"], circle)["user/last-name"],
+                        "user/profile-pic": getAssocUser(rank["rank/user"]["user/id"], circle)["user/profile-pic"],
+                    },
+                    "rank/value": rank["rank/value"],
+                };
+            }),
+        }
+    }
+}
+
 function SuperlativeCard({ question, navigation, circle }) {
     console.log(question);
     return (
-        <TouchableOpacity style={styles.superlativeCard} onPress={() => navigation.navigate('SuperlativeDetails')}>
+        <TouchableOpacity style={styles.superlativeCard} onPress={() => hasRanking(question) ? navigation.navigate('SuperlativeDetails', getFullRankingsObj(question, circle)) : console.log("no lol")}>
             {hasRanking(question) ? (
                 <>
                     <View style={styles.superlativeWinner}>
@@ -43,7 +65,12 @@ function SuperlativeCard({ question, navigation, circle }) {
                     </View>
                 </>
                 
-            ) : <Text>No rankings yet</Text>}
+            ) : <>
+                <View style={{alignItems: 'center', width: '100%'}}>
+                    <Text style={styles.superlativeTitleNoRank} numberOfLines={1}>{question["question/text"]}</Text>
+                    <Text style={styles.superlativeSubtitleNoRank} numberOfLines={1}>No rankings yet</Text>
+                </View>
+                </>}
         </TouchableOpacity>
     );
 }
@@ -166,6 +193,21 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 14,
         marginBottom: 5,
+    },
+
+    superlativeTitleNoRank: {
+        fontFamily: "Montserrat-SemiBold",
+        color: 'white',
+        fontSize: 20,
+        alignSelf: 'center',
+    },
+
+    superlativeSubtitleNoRank: {
+        fontFamily: "Montserrat-SemiBold",
+        color: 'white',
+        fontSize: 15,
+        marginTop: 15,
+        alignSelf: 'center',
     },
 
     superlativeWinner: {

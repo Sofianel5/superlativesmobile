@@ -71,7 +71,7 @@ const Profile = ({navigation}) => {
                             return accumulator;
                         }, []).map(res => (
                             <View style={styles.superlativeRowTwo}>
-                                <TouchableOpacity style={styles.superlativeSuperContainer} onPress={() => navigation.navigate('SuperlativeDetails')}>
+                                <TouchableOpacity style={styles.superlativeSuperContainer} onPress={() => navigation.navigate('SuperlativeDetails', res[0])}>
                                     <SuperlativeIcon width={148.5} height={129.6} style={styles.superlativeIcon} />
                                     <InnerBadge fill="#7F5AF0" width={84.6} style={styles.innerBadge} />
                                     <View style={styles.superlativeContainer}>
@@ -80,7 +80,7 @@ const Profile = ({navigation}) => {
                                     </View>
                                     <Text style={styles.superlativeGroup}>{res[0]["rank/question"]["question/circle"]["circle/name"]}</Text>
                                 </TouchableOpacity>
-                                {res[1] && <TouchableOpacity style={styles.superlativeSuperContainer} onPress={() => navigation.navigate('SuperlativeDetails')}>
+                                {res[1] && <TouchableOpacity style={styles.superlativeSuperContainer} onPress={() => navigation.navigate('SuperlativeDetails', res[1])}>
                                     <SuperlativeIcon width={148.5} height={129.6} style={styles.superlativeIcon} />
                                     <InnerBadge fill="#7F5AF0" width={84.6} style={styles.innerBadge} />
                                     <View style={styles.superlativeContainer}>
@@ -270,6 +270,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginTop: 7,
         fontSize: 14,
+        maxHeight: 60,
     },
 
     superlativeOne: {

@@ -20,7 +20,7 @@ const Vote = ({navigation}) => {
         console.log("votes:", votes, "selectedCircle:", selectedCircle, "userA", userA);
         if (circles && (votes != null) && !selectedCircle) {
             console.log("dispatching getQuestion")
-            
+
             dispatch(getQuestion());
         }
         if (votes == null) {
@@ -53,8 +53,8 @@ const Vote = ({navigation}) => {
                         {/* <VoteResults /> */}
                     </>);
         } else {
-            return (<View style={{justifyContent: 'center', height: 600, width: 300, marginTop: 30,}}>
-                        <Text>Error</Text>
+            return (<View style={{justifyContent: 'center',  height: 600, width: 300, marginTop: 30,}}>
+                        <Text style={{alignSelf: 'center', textAlign: 'center', color: 'white', fontSize: 20, fontFamily: 'Montserrat-SemiBold'}}>Add more questions or members!</Text>
                     </View>);
         }
     }
@@ -66,7 +66,7 @@ const Vote = ({navigation}) => {
                     </View> )
         } else {
             return (<View style={styles.topBar}>
-                        <Text style={styles.group}>{selectedCircle ? selectedCircle["circle/name"] : "Loading..."}</Text>
+                        <Text style={styles.group}>{selectedCircle ? selectedCircle["circle/name"] : Object.values(circles)[0]["circle/name"]}</Text>
                     </View>)
         }
     }
@@ -76,9 +76,13 @@ const Vote = ({navigation}) => {
             return (<View style={styles.questionBar}>
                 <Text style={styles.question}>{question["question/text"]}</Text>
             </View>)
-        } else {
+        } else if (loading) {
             return (<View style={styles.questionBar}>
                         <Text style={styles.question}>Loading...</Text>
+                    </View>)
+        } else {
+            return (<View style={styles.questionBar}>
+                        <Text style={styles.question}>No more questions</Text>
                     </View>)
         }
     }

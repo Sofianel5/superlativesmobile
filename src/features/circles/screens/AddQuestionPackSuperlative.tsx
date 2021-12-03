@@ -4,15 +4,32 @@ import Icon from 'react-native-vector-icons/Entypo';
 import SuperlativeIcon from '../../../components/SuperlativeIcon';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { getQuestionPacksAction } from '../circlesSlice';
-import SuperlativeCard from '../components/SuperlativeCard';
+import { addSuperlativesAction } from '../circlesSlice';
 import QuestionPackPicker from '../../../components/QuestionPackPicker';
 import CheckBox from '@react-native-community/checkbox';
 import PopinButton from 'react-native-popin-button';
+import Snackbar from 'react-native-snackbar';
 
 const AddQuestionPackSuperlativesScreen = ({route, navigation}) => {
     const questionPacks = useAppSelector((state) => state.circles.questionPacks);
+    const dispatch = useAppDispatch();
+    
     const [value, setValue] = useState(null);
     const [checked, setChecked] = useState([]);
+    function handleSubmit() {
+        if (checked.length > 0) {
+            Snackbar.show({
+                text: 'Superlative added!',
+                duration: Snackbar.LENGTH_SHORT,
+            });
+            dispatch(addSuperlativesAction({circleId: route.params.circleId, superlatives: checked}));
+            console.log("Checked:", checked)
+            setChecked([]);
+            navigation.pop();
+            navigation.pop();
+            navigation.navigate('Vote');
+        }
+    }
     console.log(checked);
     return (
         <View style={styles.container}>

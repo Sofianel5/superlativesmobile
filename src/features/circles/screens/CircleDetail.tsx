@@ -53,7 +53,7 @@ const CircleDetail = ({route, navigation}) => {
                     <View style={{height: 100}}></View>
                 </View>
             </ScrollView>
-            <TouchableOpacity style={styles.inviteBtn} onPress={() => navigation.navigate('Invite')}>
+            <TouchableOpacity style={styles.inviteBtn} onPress={() => navigation.navigate('Invite', {circleId: route.params.circleId})}>
                 <Text style={styles.inviteText}>Invite</Text>
             </TouchableOpacity>
         </View>
