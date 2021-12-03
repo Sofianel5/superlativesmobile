@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getCircles, getCircleRanking, addCustomSuperlative, getQuestionPacks, getContacts, createCircle } from './circlesAPI';
+import { getCircles, getCircleRanking, addCustomSuperlative, getQuestionPacks, getContacts, createCircle, inviteUser } from './circlesAPI';
 
 interface CirclesState {
     circles: any[];
@@ -99,6 +99,12 @@ export const createCircleAction = createAsyncThunk('circles/createCircle', async
             status: "failed",
         }
     });
+});
+
+export const inviteUserAction = createAsyncThunk('circles/inviteUser', async (data: any, {getState}) => {
+    console.log('inviteUserAction');
+    const {auth: {user}} = getState();
+    return await inviteUser(user['id'], user['auth-token'], data.circleId, data.phone)
 });
 
 export const circleSlice = createSlice({

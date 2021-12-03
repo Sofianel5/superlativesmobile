@@ -1,107 +1,50 @@
-import React, { Component, useCallback } from 'react';
-import { FlatList, View, Text, StyleSheet, TouchableOpacity, Keyboard, TextInput, TouchableWithoutFeedback } from 'react-native';
+import React, { Component, useState } from 'react';
+import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ImageBackground, Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
+import PopinButton from 'react-native-popin-button';
 import SuperlativeIcon from '../../../components/SuperlativeIcon';
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { getContactsAction, inviteUserAction } from '../circlesSlice';
-import SuperlativeCard from '../components/SuperlativeCard';
-import ContactRow from '../../../components/ContactRow';
-import BigList from "react-native-big-list";
+import { useAppDispatch } from '../../../app/hooks';
+import { inviteUserAction } from '../circlesSlice';
+import Snackbar from 'react-native-snackbar';
 
-
-const InviteScreen = ({route, navigation}) => {
+const InvitePhoneScreen = ({route, navigation}) => {
     const dispatch = useAppDispatch();
-    React.useEffect(() => {
-        dispatch(getContactsAction());
-    }, []);
+    const [phone, setPhone] = useState('');
 
-    const renderItem = useCallback(({item}) => <ContactRow contact={item} onPress={() => dispatch(inviteUserAction({circleId: route.params.circleId, phone: item.phoneNums[0]}))} />, [])
-
-    const getItemLayout = useCallback((data, index) => {return {length: 60, offset: 60 * index, index}}, [])
-
-    const keyExtractor = useCallback((item) => item.recordID, [])
-
-    const contacts = useAppSelector((state) => state.circles.contacts);
+    function handleSubmit() {
+        if (phone && phone.trim().length > 0) {
+            Snackbar.show({
+                text: 'Invited!',
+                duration: Snackbar.LENGTH_SHORT,
+            });
+            dispatch(inviteUserAction({circleId: route.params.circleId, phone}));
+            setPhone('');
+        }
+    }
 
     return (
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-            <View style={styles.container}>
-                <Icon name="chevron-left" size={40} style={styles.back} color="white" onPress={() => navigation.pop()}/> 
-                <View style={styles.topBar}>
-                    <Text style={styles.groupTitle}>
-                        Invite members
-                    </Text>
-                </View>
-                <View style={{paddingLeft: 20, paddingRight: 20,}}>
-                    <TouchableOpacity style={styles.addSuperlativeContainer} onPress={() => navigation.navigate('InvitePhone', {circleId: route.params.circleId})}>
-                        <Text style={styles.superlativeText}>Invite phone</Text>
-                        <Icon name="chevron-right" size={30} style={styles.superlativeRight} color="white" /> 
-                    </TouchableOpacity>
-                    <TextInput style={styles.addSuperlativeContainer} selectionColor={'white'} placeholder="Search contacts" placeholderTextColor="#94A1B2" />
-                    {!!contacts ? <FlatList data={contacts} keyExtractor={keyExtractor} renderItem={renderItem} getItemLayout={getItemLayout}/> : <View></View>}
-                </View>
+        <View style={styles.container}>
+            <Icon name="chevron-left" size={40} style={styles.back} color="white" onPress={() => navigation.pop()}/> 
+            <View style={styles.topBar}>
+                <Text style={styles.groupTitle}>
+                    Invite Number
+                </Text>
             </View>
-        </TouchableWithoutFeedback>
+            <View style={{paddingLeft: 20, paddingRight: 20,}}>
+                <TextInput style={styles.addSuperlativeContainer} autoFocus selectionColor={'white'} onSubmitEditing={() => handleSubmit()} onChangeText={text => setQuestion(text)} placeholder="(420) 420 6969" placeholderTextColor="#94A1B2" />
+                <PopinButton onPress={handleSubmit}
+                style={styles.readyBtn} shrinkTo={0.7}
+                >
+                    <Text style={styles.readyText}>
+                        Invite
+                    </Text>
+                </PopinButton>
+            </View>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
-
-    contactContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingVertical: 10,
-        paddingHorizontal: 0,
-    },
-
-    contactElementsRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: '100%'
-    },
-
-    contactLeft: {
-        flexDirection: 'row',
-        alignItems: 'flex-start',
-        justifyContent: 'flex-start',
-    },
-
-    contactIcon: {
-        width: 40,
-        height: 40,
-        borderRadius: 10,
-        backgroundColor: '#C4C4C4',
-        marginRight: 10,
-    },
-
-    contactName: {
-        fontSize: 20,
-        color: 'white',
-        lineHeight: 40,
-        fontFamily: 'Montserrat-SemiBold'
-    },
-
-    contactButtonContainer: {
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: 40,
-    },
-
-    contactInviteButtonUnselected: {
-        width: 75,
-        height: 33,
-        borderRadius: 8,
-        backgroundColor: '#7F5AF0',
-        alignItems: 'center',
-    },
-
-    contactInviteButtonUnselectedText: {
-        color: 'white',
-        lineHeight: 30,
-        fontSize: 15,
-        fontFamily: 'Montserrat-SemiBold',
-    },
 
     container: {
         flex: 1,
@@ -126,18 +69,18 @@ const styles = StyleSheet.create({
     },
 
     addSuperlativeContainer: {
-        flexDirection: 'row',
         backgroundColor: '#16161A',
-        alignItems: 'center',
-        padding: 10,
-        paddingLeft: 15,
-        paddingRight: 15,
+        paddingVertical: 15,
+        paddingHorizontal: 15,
         borderRadius: 8,
         shadowOffset : {height: 4},
         shadowOpacity: 0.8,
-        justifyContent: 'space-between',
         marginBottom: 7.5,
         marginTop: 15,
+        color: 'white',
+        fontFamily: 'Montserrat-SemiBold',
+        fontSize: 16,
+        textAlign: 'left',
     },
 
     superlativeText: {
@@ -160,7 +103,7 @@ const styles = StyleSheet.create({
     groupTitle: {
         color: 'white',
         fontFamily: 'Montserrat-SemiBold',
-        fontSize: 30,
+        fontSize: 25,
         alignSelf: 'center',
         marginTop: 8,
     },
@@ -334,6 +277,25 @@ const styles = StyleSheet.create({
         fontSize: 22,
         fontFamily: "Montserrat-SemiBold",
     },
+
+    readyBtn: {
+        marginTop: 25,
+        backgroundColor: '#7F5AF0',
+        paddingLeft: 50,
+        paddingRight: 50,
+        paddingVertical: 15,
+        borderRadius: 6,
+        alignItems: 'center',
+        shadowOffset : {height: 4},
+        shadowOpacity: 0.8,
+    },
+    
+    readyText: {
+        fontFamily: 'Montserrat-SemiBold',
+        color: 'white',
+        fontSize: 23,
+    },
+
 })
 
-export default InviteScreen;
+export default InvitePhoneScreen;

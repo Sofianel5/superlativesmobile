@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Pressable, TextInput, Platform, Image, Touchabl
 import Card from '../../../components/Card';
 import Swiper from 'react-native-deck-swiper';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { getQuestion, submitVoteAction } from '../voteSlice';
+import { getQuestion, submitVoteAction, getVotesAction } from '../voteSlice';
 import TitleLoading from '../components/TitleLoading';
 import CardLoading from '../components/CardLoading';
 import VoteResults from '../components/VoteResults';
@@ -15,10 +15,16 @@ const options = {
 }
 
 const Vote = ({navigation}) => {
-    const {circles: {circles, loading}, vote: {selectedCircle, question, userA, userB}} = useAppSelector((state) => state);
+    const {circles: {circles, loading}, vote: {selectedCircle, question, userA, userB, votes}} = useAppSelector((state) => state);
     React.useEffect(() => {
-        if (circles && !selectedCircle) {
+        console.log("votes:", votes, "selectedCircle:", selectedCircle, "userA", userA);
+        if (circles && (votes != null) && !selectedCircle) {
+            console.log("dispatching getQuestion")
+            
             dispatch(getQuestion());
+        }
+        if (votes == null) {
+            dispatch(getVotesAction());
         }
     });
     const dispatch = useAppDispatch();

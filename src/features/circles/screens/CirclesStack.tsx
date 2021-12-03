@@ -8,6 +8,7 @@ import CustomSuperlativeScreen from './CustomSuperlative';
 import SuperlativeDetails from '../../../components/SuperlativeDetails';
 import Invite from './Invite';
 import CreateCircleScreen from './CreateCircle';
+import InvitePhoneScreen from './InvitePhone';
 
 const CirclesStack = createNativeStackNavigator();
 
@@ -20,6 +21,7 @@ const CirclesStackScreen = ({navigation}) => (
         <CirclesStack.Screen name="AddQuestionPackSuperlatives" component={AddQuestionPackSuperlativesScreen}/>
         <CirclesStack.Screen name="CustomSuperlative" component={CustomSuperlativeScreen}/>
         <CirclesStack.Screen name="Invite" component={Invite}/>
+        <CirclesStack.Screen name="InvitePhone" component={InvitePhoneScreen}/>
         <CirclesStack.Screen name="CreateCircle" component={CreateCircleScreen}/>
     </CirclesStack.Navigator>
 )
