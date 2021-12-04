@@ -14,6 +14,15 @@ function getAssocUser(userId: string, circle: any) {
     return circle["circle/members"][userId];
 }
 
+function sortedRanks(question: any) {
+    let ranks = []
+    for (let i in question["question/ranks"]) {
+        ranks.push(question["question/ranks"][i])
+    }
+    return ranks.sort((a,b) => b["rank/value"] - a["rank/value"])
+}
+
+
 function getFullRankingsObj(question, circle) {
     return {
         "rank/question": {
@@ -37,7 +46,6 @@ function getFullRankingsObj(question, circle) {
 }
 
 function SuperlativeCard({ question, navigation, circle }) {
-    console.log(question);
     return (
         <TouchableOpacity style={styles.superlativeCard} onPress={() => hasRanking(question) ? navigation.navigate('SuperlativeDetails', getFullRankingsObj(question, circle)) : console.log("no lol")}>
             {hasRanking(question) ? (
@@ -47,16 +55,16 @@ function SuperlativeCard({ question, navigation, circle }) {
                         <View style={styles.superlativeBadge}>
                             <SuperlativeIcon width={82.5} height={72}/>
                         </View>
-                        <Image source={{uri: getAssocUser(question["question/ranks"][0]["rank/user"]["user/id"], circle)["user/profile-pic"]}} style={styles.superlativeWinnerPic} />
+                        <Image source={{uri: getAssocUser(sortedRanks(question)[0]["rank/user"]["user/id"], circle)["user/profile-pic"]}} style={styles.superlativeWinnerPic} />
                         <Text style={styles.superlativeWinnerName}>
-                            {getAssocUser(question["question/ranks"][0]["rank/user"]["user/id"], circle)["user/first-name"]}
+                            {getAssocUser(sortedRanks(question)[0]["rank/user"]["user/id"], circle)["user/first-name"]}
                             {" "} 
-                            {getAssocUser(question["question/ranks"][0]["rank/user"]["user/id"], circle)["user/last-name"].charAt(0)}.
+                            {getAssocUser(sortedRanks(question)[0]["rank/user"]["user/id"], circle)["user/last-name"].charAt(0)}.
                         </Text>
                     </View>
                     <View style={styles.closeComers}>
                         <Text style={styles.closeComerText}>Runners Up</Text>
-                        {shouldShowRunnersUp(question) && question["question/ranks"].slice(1).map((rank: any) => (
+                        {shouldShowRunnersUp(question) && sortedRanks(question).slice(1).map((rank: any) => (
                             <View key={rank["rank/user"]["user/id"]} style={styles.closeComer}>
                                 <Image source={{uri: getAssocUser(rank["rank/user"]["user/id"], circle)["user/profile-pic"]}} style={styles.closeComerPic} />
                                 <Text style={styles.closeComerName}>{getAssocUser(rank["rank/user"]["user/id"], circle)["user/first-name"]} {getAssocUser(rank["rank/user"]["user/id"], circle)["user/last-name"].charAt(0)}.</Text>
