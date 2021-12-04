@@ -64,7 +64,7 @@ export const selectCircleAction = createAsyncThunk('vote/selectCircle', async (c
     if (selectedCircle && selectedCircle.id == circleId) {
         return;
     }
-    return circles[circleId];
+    return [circles[circleId], user];
 });
 
 export const getResultsAction = createAsyncThunk('vote/getResults', async (data: any, {getState}) => {
@@ -127,9 +127,10 @@ export const voteSlice = createSlice({
             state.loading = true;
         })
         .addCase(selectCircleAction.fulfilled, (state, action) => {
+            console.log(action)
             if (action.payload) {
-                state.selectedCircle = action.payload;
-                const res = getNewQuestion(state.selectedCircle, state.user, state.votes + getVoteStr(state.selectedCircle, action.meta.arg.winnerId, action.meta.arg.loserId), state.question);
+                state.selectedCircle = action.payload[0];
+                const res = getNewQuestion(state.selectedCircle, action.payload[1], state.votes + getVoteStr(state.selectedCircle, action.meta.arg.winnerId, action.meta.arg.loserId), state.question);
                 state.votes = state.votes + getVoteStr(state.selectedCircle, action.meta.arg.winnerId, action.meta.arg.loserId);
                 if (res) {
                     state.question = res.selectedQuestion;

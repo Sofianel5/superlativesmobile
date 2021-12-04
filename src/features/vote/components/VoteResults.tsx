@@ -30,19 +30,20 @@ const VoteResults = ({userA, userB, results, circle, onTap, navigation}) => {
                 <Text style={styles.topText} numberOfLines={2}>Here's what the rest of {circle["circle/name"]} thought</Text>
                 <View style={styles.pollContainer}>
                     <View style={styles.poll}>
-                        <Text style={styles.percentage}>{(votesA / (votesA + votesB)) * 100}%</Text>
+                        <Text style={styles.percentage}>{~~((votesA / (votesA + votesB)).toFixed(2) * 100)}%</Text>
                         <PollBar style={styles.barOne} percent={votesA / (votesA + votesB)}></PollBar>
                         <Text style={styles.name}>{userA["user/first-name"]} {userA["user/last-name"]}</Text>
                         <Image source={{uri: userA["user/profile-pic"]}} style={styles.image} />
                     </View>
                     <View style={styles.poll}>
-                        <Text style={styles.percentage}>{(votesB / (votesA + votesB)) * 100}%</Text>
+                        <Text style={styles.percentage}>{~~((votesB / (votesA + votesB)).toFixed(2) * 100)}%</Text>
                         <PollBar style={styles.barTwo} percent={votesB / (votesB + votesA)}></PollBar>
                         <Text style={styles.name}>{userB["user/first-name"]} {userB["user/last-name"]}</Text>
                         <Image source={{uri: userB["user/profile-pic"]}} style={styles.image} />
                     </View>
                 </View>
-                <Text style={styles.tapText}>Tap Anywhere to Continue</Text>
+                {/* <Text style={styles.tapText}>Tap Anywhere to Continue</Text> */}
+                <Text style={styles.tapText}>{results.questionId}</Text>
             </View>
        </TouchableWithoutFeedback> 
     );
@@ -50,6 +51,7 @@ const VoteResults = ({userA, userB, results, circle, onTap, navigation}) => {
 
 const styles = StyleSheet.create({
     container: {
+        zIndex: -1,
         flex: 1,
         backgroundColor: 'transparent',
     },

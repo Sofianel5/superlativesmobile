@@ -20,6 +20,7 @@ const Vote = ({navigation}) => {
     const {auth: {user}, circles: {circles, loading}, vote: {selectedCircle, question, userA, userB, votes}} = useAppSelector((state) => state);
     const [showResults, setShowResults] = useState(false)
     const [results, setResults] = useState(null)
+    const [nextResults, setNextResults] = useState(null)
     React.useEffect(() => {
         if (circles && (votes != null) && !selectedCircle) {
             dispatch(getQuestion());
@@ -33,11 +34,11 @@ const Vote = ({navigation}) => {
                 console.log("got first results:", results);
                 setResults({questionId: question["question/id"], results});
             });
-        } if (results && results.questionId != question["question/id"]) {
+        } if (results && nextResults == null) {
             getResults(user['id'], user['auth-token'], question["question/id"], userA["user/id"], userB["user/id"]).then(res => {
                 const results = res.data.data;
                 console.log("got new results:", results);
-                setResults({questionId: question["question/id"], results});
+                setNextResults({questionId: question["question/id"], results});
             });
         }
     }); 
@@ -111,18 +112,13 @@ const Vote = ({navigation}) => {
         }
     }
 
-    function renderVoteBody() {
-        return (
-            <View style={styles.container}>
-                {renderTitle()}
-                {renderQuestion()}
-                {renderBody()}
-            </View>
-        )
-    }
-
     function onResultsPress() {
         setShowResults(false);
+        if (nextResults) {
+            console.log("resetting results to next")
+            setResults(nextResults);
+            setNextResults(null)
+        }
     }
 
     if (showResults && results && results.results[0] + results.results[1] != 0) {
@@ -132,7 +128,7 @@ const Vote = ({navigation}) => {
                 <VoteResults onTap={onResultsPress} circle={selectedCircle} userA={userA} userB={userB} results={results} navigation={navigation}></VoteResults>
             </View>
         );
-    }
+    } // else handle skip bc resultspress not gonna b called
 
     return (
         <View style={styles.container}>

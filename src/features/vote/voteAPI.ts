@@ -31,6 +31,8 @@ export function getNewQuestion(selectedCircle: any, user, votes, currentQuestion
         }
         if (count < (Object.keys(selectedCircle["circle/members"]).length - 1) / 2 && question["question/id"] != (!currentQuestion ? null : currentQuestion["question/id"])) {
             questionPool.push(question);
+        } else {
+            console.log("removing " + question["question/id"] + " because count is " + count);
         }
         i++;
     }

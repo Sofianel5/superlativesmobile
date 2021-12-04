@@ -156,9 +156,9 @@ export const circleSlice = createSlice({
                 }
             })
             .addCase(addSuperlativesAction.fulfilled, (state, action) => {
+                console.log(action)
                 if (action.payload.status === "success") {
                     state.circles[action.meta.arg.circleId]["circle/questions"].concat(action.payload.data)
-                    console.log(state.circles[action.meta.arg.circleId]["circle/questions"])
                 } else {
                     state.error = action.payload.error;
                 }

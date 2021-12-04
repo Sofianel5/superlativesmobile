@@ -19,7 +19,7 @@ const SelectSuperlativeSourceScreen = ({route, navigation}) => {
                 </Text>
             </View>
             <View style={{paddingLeft: 20, paddingRight: 20,}}>
-                <TouchableOpacity style={styles.addSuperlativeContainer} onPress={() => navigation.navigate('AddQuestionPackSuperlatives')}>
+                <TouchableOpacity style={styles.addSuperlativeContainer} onPress={() => navigation.navigate('AddQuestionPackSuperlatives', {circleId: route.params.circleId})}>
                     <Text style={styles.superlativeText}>Select from our superlatives</Text>
                     <Icon name="chevron-right" size={30} style={styles.superlativeRight} color="white" /> 
                 </TouchableOpacity>
