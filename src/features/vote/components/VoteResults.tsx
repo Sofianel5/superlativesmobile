@@ -8,7 +8,7 @@ const PollBar = (props) => {
         Animated.timing(
             heightAnim,
             {
-                toValue: 350 * props.percent,
+                toValue: 270 * props.percent,
                 duration: 1000,
             }
         ).start();
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     },
 
     poll: {
-        height: 350,
+        height: 270,
         marginTop: 100,
         alignItems: 'center',
         justifyContent: 'flex-end',
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     },
 
     barTwo: {
-        height: 350,
+        height: 270,
         width: 70,
         backgroundColor: '#7F5AF0',
     },

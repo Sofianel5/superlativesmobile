@@ -125,6 +125,7 @@ const Vote = ({navigation}) => {
         return (
             <View style={styles.container}>
             {renderTitle()}
+            {renderQuestion()}
                 <VoteResults onTap={onResultsPress} circle={selectedCircle} userA={userA} userB={userB} results={results} navigation={navigation}></VoteResults>
             </View>
         );
