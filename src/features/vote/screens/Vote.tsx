@@ -37,6 +37,7 @@ const Vote = ({navigation}) => {
         } if (results && nextResults == null) {
             getResults(user['id'], user['auth-token'], question["question/id"], userA["user/id"], userB["user/id"]).then(res => {
                 const results = res.data.data;
+                console.log(question)
                 console.log("got new results:", results);
                 setNextResults({questionId: question["question/id"], results});
             });
@@ -124,8 +125,8 @@ const Vote = ({navigation}) => {
     if (showResults && results && results.results[0] + results.results[1] != 0) {
         return (
             <View style={styles.container}>
-            {renderTitle()}
-            {renderQuestion()}
+                {renderTitle()}
+                {renderQuestion()}
                 <VoteResults onTap={onResultsPress} circle={selectedCircle} userA={userA} userB={userB} results={results} navigation={navigation}></VoteResults>
             </View>
         );

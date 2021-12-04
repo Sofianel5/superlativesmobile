@@ -111,6 +111,7 @@ export const voteSlice = createSlice({
         })
         .addCase(submitVoteAction.fulfilled, (state, action) => {
             console.log('submitVoteAction.fulfilled');
+            
             state.loading = false;
             const res = getNewQuestion(state.selectedCircle, state.user, state.votes + getVoteStr(state.selectedCircle, action.meta.arg.winnerId, action.meta.arg.loserId), state.question);
             state.votes = state.votes + getVoteStr(state.selectedCircle, action.meta.arg.winnerId, action.meta.arg.loserId);
