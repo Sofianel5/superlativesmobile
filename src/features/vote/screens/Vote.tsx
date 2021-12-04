@@ -30,11 +30,17 @@ const Vote = ({navigation}) => {
         if (question && userA && userB && !results) {
             getResults(user['id'], user['auth-token'], question["question/id"], userA["user/id"], userB["user/id"]).then(res => {
                 const results = res.data.data;
-                console.log(results);
-                setResults(results);
+                console.log("got first results:", results);
+                setResults({questionId: question["question/id"], results});
+            });
+        } if (results && results.questionId != question["question/id"]) {
+            getResults(user['id'], user['auth-token'], question["question/id"], userA["user/id"], userB["user/id"]).then(res => {
+                const results = res.data.data;
+                console.log("got new results:", results);
+                setResults({questionId: question["question/id"], results});
             });
         }
-    });
+    }); 
     
     const dispatch = useAppDispatch();
     const useSwiper = useRef(null).current
@@ -46,8 +52,8 @@ const Vote = ({navigation}) => {
         console.log('handleVote', winner, loser);
         ReactNativeHapticFeedback.trigger("impactHeavy", options);
         console.log("localResults:", results)
-        if (results && results != [0, 0]) {
-            setShowResults([...results]);
+        if (results && results.results != [0, 0]) {
+            setShowResults(true);
         }
         dispatch(submitVoteAction({questionId: question["question/id"], winnerId: winner["user/id"], loserId: loser["user/id"]}));
     }
@@ -117,14 +123,13 @@ const Vote = ({navigation}) => {
 
     function onResultsPress() {
         setShowResults(false);
-        setResults(null)
     }
 
-    if (showResults && results && results[0] + results[1] != 0) {
+    if (showResults && results && results.results[0] + results.results[1] != 0) {
         return (
             <View style={styles.container}>
             {renderTitle()}
-                <VoteResults userA={userA} userB={userB} results={results} navigation={navigation}></VoteResults>
+                <VoteResults onTap={onResultsPress} circle={selectedCircle} userA={userA} userB={userB} results={results} navigation={navigation}></VoteResults>
             </View>
         );
     }

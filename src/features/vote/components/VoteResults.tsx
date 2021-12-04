@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { Animated, StyleSheet, View, Text, Image } from 'react-native';
+import { Animated, StyleSheet, View, Text, Image, TouchableWithoutFeedback } from 'react-native';
 
 const PollBar = (props) => {
     const heightAnim = useRef(new Animated.Value(0)).current
@@ -21,27 +21,30 @@ const PollBar = (props) => {
     )
 }
 
-const VoteResults = ({userA, userB, results, navigation}) => {
+const VoteResults = ({userA, userB, results, circle, onTap, navigation}) => {
     console.log("VoteResults:", results)
+    const [votesA, votesB] = results.results
     return (
-        <View style={styles.container}>
-            <Text style={styles.topText}>Here's what the rest of SAE thought</Text>
-            <View style={styles.pollContainer}>
-                <View style={styles.poll}>
-                    <Text style={styles.percentage}>{results[0] / (results[0] + results[1])}</Text>
-                    <PollBar style={styles.barOne} percent={0.74}></PollBar>
-                    <Text style={styles.name}>Liam Kronman</Text>
-                    <Image source={require('../../../../assets/images/liam.jpg')} style={styles.image} />
+       <TouchableWithoutFeedback onPress={onTap}>
+           <View style={styles.container}>
+                <Text style={styles.topText} numberOfLines={2}>Here's what the rest of {circle["circle/name"]} thought</Text>
+                <View style={styles.pollContainer}>
+                    <View style={styles.poll}>
+                        <Text style={styles.percentage}>{(votesA / (votesA + votesB)) * 100}%</Text>
+                        <PollBar style={styles.barOne} percent={votesA / (votesA + votesB)}></PollBar>
+                        <Text style={styles.name}>{userA["user/first-name"]} {userA["user/last-name"]}</Text>
+                        <Image source={{uri: userA["user/profile-pic"]}} style={styles.image} />
+                    </View>
+                    <View style={styles.poll}>
+                        <Text style={styles.percentage}>{(votesB / (votesA + votesB)) * 100}%</Text>
+                        <PollBar style={styles.barTwo} percent={votesB / (votesB + votesA)}></PollBar>
+                        <Text style={styles.name}>{userB["user/first-name"]} {userB["user/last-name"]}</Text>
+                        <Image source={{uri: userB["user/profile-pic"]}} style={styles.image} />
+                    </View>
                 </View>
-                <View style={styles.poll}>
-                    <Text style={styles.percentage}>26%</Text>
-                    <PollBar style={styles.barTwo} percent={0.26}></PollBar>
-                    <Text style={styles.name}>Jason Seo</Text>
-                    <Image source={require('../../../../assets/images/jason.jpeg')} style={styles.image} />
-                </View>
+                <Text style={styles.tapText}>Tap Anywhere to Continue</Text>
             </View>
-            <Text style={styles.tapText}>Tap Anywhere to Continue</Text>
-        </View>
+       </TouchableWithoutFeedback> 
     );
 }
 
@@ -57,11 +60,13 @@ const styles = StyleSheet.create({
         marginTop: 14,
         color: 'white',
         fontSize: 18,
+        textAlign: 'center',
     },
 
     pollContainer: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
+        paddingTop: 40,
     },
 
     poll: {
@@ -79,7 +84,7 @@ const styles = StyleSheet.create({
     },
 
     barOne: {
-        height: 350,
+        height: 300,
         width: 70,
         backgroundColor: '#2CB67D'
     },
@@ -106,7 +111,7 @@ const styles = StyleSheet.create({
 
     tapText: {
         alignSelf: 'center',
-        marginTop: 25,
+        marginTop: 35,
         fontFamily: 'Montserrat-SemiBold',
         color: 'white',
         fontSize: 19,
