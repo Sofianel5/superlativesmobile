@@ -111,17 +111,16 @@ export const voteSlice = createSlice({
         })
         .addCase(submitVoteAction.fulfilled, (state, action) => {
             console.log('submitVoteAction.fulfilled');
-            
             state.loading = false;
-            const res = getNewQuestion(state.selectedCircle, state.user, state.votes + getVoteStr(state.selectedCircle, action.meta.arg.winnerId, action.meta.arg.loserId), state.question);
-            state.votes = state.votes + getVoteStr(state.selectedCircle, action.meta.arg.winnerId, action.meta.arg.loserId);
-            if (res) {
-                state.question = res.selectedQuestion;
-                state.userA = res.userA;
-                state.userB = res.userB;
-            } else {
-                state.error = "No more questions";
-            }
+            // const res = getNewQuestion(state.selectedCircle, state.user, state.votes + getVoteStr(state.selectedCircle, action.meta.arg.winnerId, action.meta.arg.loserId), state.question);
+            // state.votes = state.votes + getVoteStr(state.selectedCircle, action.meta.arg.winnerId, action.meta.arg.loserId);
+            // if (res) {
+            //     state.question = res.selectedQuestion;
+            //     state.userA = res.userA;
+            //     state.userB = res.userB;
+            // } else {
+            //     state.error = "No more questions";
+            // }
         })
         .addCase(selectCircleAction.pending, (state) => {
             console.log('selectCircle.pending');

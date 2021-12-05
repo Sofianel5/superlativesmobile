@@ -114,6 +114,7 @@ const Vote = ({navigation}) => {
     }
 
     function onResultsPress() {
+        dispatch(getQuestion());
         setShowResults(false);
         if (nextResults) {
             console.log("resetting results to next")
