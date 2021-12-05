@@ -109,12 +109,12 @@ const Profile = ({navigation}) => {
                         return accumulator;
                     }, []).map(res => (
                         <View key={res[0]["rank/question"]["question/id"]} style={styles.rankingRowTwo}>
-                            <TouchableOpacity style={styles.rankingContainer} onPress={() => navigation.navigate('SuperlativeDetails')}>
+                            <TouchableOpacity style={styles.rankingContainer} onPress={() => navigation.navigate('SuperlativeDetails', res[0])}>
                                 <Text style={styles.rankingNumber} numberOfLines={1}>#{res[0]["index"]}</Text>
                                 <Text style={styles.rankingTitle} numberOfLines={1}>{res[0]["rank/question"]["question/text"]}</Text>
                                 <Text style={styles.rankingGroup} numberOfLines={1}>{res[0]["rank/question"]["question/circle"]["circle/name"]}</Text>
                             </TouchableOpacity>
-                            {res[1] && <TouchableOpacity style={styles.rankingContainer} onPress={() => navigation.navigate('SuperlativeDetails')}>
+                            {res[1] && <TouchableOpacity style={styles.rankingContainer} onPress={() => navigation.navigate('SuperlativeDetails', res[1])}>
                                 <Text style={styles.rankingNumber} numberOfLines={1}>#{res[1]["index"]}</Text>
                                 <Text style={styles.rankingTitle} numberOfLines={1}>{res[1]["rank/question"]["question/text"]}</Text>
                                 <Text style={styles.rankingGroup} numberOfLines={1}>{res[1]["rank/question"]["question/circle"]["circle/name"]}</Text>
