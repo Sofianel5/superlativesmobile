@@ -42,8 +42,8 @@ const VoteResults = ({userA, userB, results, circle, onTap, navigation}) => {
                         <Image source={{uri: userB["user/profile-pic"]}} style={styles.image} />
                     </View>
                 </View>
-                <Text style={styles.tapText}>Tap Anywhere to Continue</Text>
-                {/* <Text style={styles.tapText}>{results.questionId}</Text> */}
+                {/* <Text style={styles.tapText}>Tap Anywhere to Continue</Text> */}
+                <Text style={styles.tapText}>{results.question}</Text>
             </View>
        </TouchableWithoutFeedback> 
     );

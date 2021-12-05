@@ -72,6 +72,8 @@ export const getQuestionPacksAction = createAsyncThunk('circles/getQuestionPacks
 export const addSuperlativesAction = createAsyncThunk('circles/addCustomSuperlative', async (data: any, {getState}) => {
     console.log('addCustomSuperlativeAction');
     const {superlatives, circleId } = data;
+    console.log("Superlatives: " + superlatives)
+    console.log("Circle Id" + circleId)
     const {auth: {user}} = getState();
     return await addCustomSuperlatives(user['id'], user['auth-token'], circleId, superlatives)
     .then(res => res.data)
