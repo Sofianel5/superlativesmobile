@@ -161,8 +161,12 @@ export const circleSlice = createSlice({
                 console.log(action)
                 if (action.payload.status === "success") {
                     const newQuestions = [...state.circles[action.meta.arg.circleId]["circle/questions"]]
-                    newQuestions.concat(action.payload.data)
-                    state.circles[action.meta.arg.circleId]["circle/questions"] = newQuestions
+                    console.log("original questions: " + newQuestions.length)
+                    console.log(action.payload.data)
+                    const newestQuestions = newQuestions.concat(action.payload.data)
+                    console.log("concated questions: " + newestQuestions.length)
+                    state.circles[action.meta.arg.circleId]["circle/questions"] = newestQuestions
+                    console.log("final questions: " + state.circles[action.meta.arg.circleId]["circle/questions"].length)
                 } else {
                     state.error = action.payload.error;
                 }

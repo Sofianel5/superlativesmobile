@@ -54,10 +54,14 @@ const Vote = ({navigation}) => {
         console.log('handleVote', winner, loser);
         ReactNativeHapticFeedback.trigger("impactHeavy", options);
         console.log("localResults:", results)
-        if (results && results.results != [0, 0]) {
-            setShowResults(true);
-        }
         dispatch(submitVoteAction({questionId: question["question/id"], winnerId: winner["user/id"], loserId: loser["user/id"]}));
+        if (results && results.results.every((val) => val !== 0)) {
+            console.log("here2")
+            setShowResults(true);
+        } else {
+            console.log("here")
+            dispatch(getQuestion())
+        }
     }
 
     function renderBody() {
