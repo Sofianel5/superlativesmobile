@@ -1,14 +1,21 @@
 import React, { Component, useState } from 'react';
-import { View, Text, StyleSheet, Pressable, TextInput, Platform, Keyboard } from 'react-native';
-import {useAppDispatch } from '../../../app/hooks';
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, TextInput, Platform, Keyboard } from 'react-native';
+import {useAppDispatch, useAppSelector} from '../../../app/hooks';
 import { verifyNumberAction } from '../authSlice';
 import PopinButton from 'react-native-popin-button';
 import Icon from 'react-native-vector-icons/Entypo';
 
 const Verify = ({navigation}) => {
     const [verify, setVerify] = useState('')
+    const {auth: {status, formErrors, incompleteUser }} = useAppSelector((state) => state);
 
     const dispatch = useAppDispatch();
+
+    React.useEffect(() => {
+        if (incompleteUser.verified) {
+            navigation.navigate('ProfilePic', {firstName: incompleteUser.firstName})
+        }
+    }, [incompleteUser]);
 
     const onTextChange = (number: string) => {
         setVerify(number)
@@ -20,6 +27,27 @@ const Verify = ({navigation}) => {
     const handleSubmit = () => {
         Keyboard.dismiss()
         dispatch(verifyNumberAction(verify))
+    }
+
+    const renderButton = () => {
+        if (status === 'loading') {
+            return <TouchableOpacity style={styles.readyBtn}>
+                        <ActivityIndicator size="large" color="white" />
+                    </TouchableOpacity>
+        } else {
+            return <TouchableOpacity onPress={() => handleSubmit()} style={styles.readyBtn}>
+                        <Text style={styles.readyText}>
+                            I'm Real
+                        </Text>
+                    </TouchableOpacity>
+        }
+    }
+
+    const renderFormError = (errs) => {
+        console.log("form errors verify:", errs)
+        if (errs && errs.length > 0) {
+            return errs.map(err => <Text style={styles.error}>{err}</Text>)
+        }
     }
 
     return (
@@ -43,14 +71,8 @@ const Verify = ({navigation}) => {
                 </Text>
                 <TextInput style={styles.input} autoFocus selectionColor={'white'} returnKeyType="go" onSubmitEditing={() => handleSubmit()} onChangeText={num => onTextChange(num)} placeholder="042069" placeholderTextColor="#94A1B2" textAlign={'center'} keyboardType={Platform.OS === 'android' ? "numeric" : "number-pad"} />
             </View>
-            <Text style={styles.error}>Incorrect code</Text>
-            <PopinButton onPress={() => handleSubmit()}
-            style={styles.readyBtn} shrinkTo={0.7}
-            >
-                <Text style={styles.readyText}>
-                    I'm Real
-                </Text>
-            </PopinButton>
+            {renderFormError(formErrors.phone)}
+            {renderButton()}
         </View>
     )
 }
@@ -64,6 +86,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         backgroundColor: '#16161A',
     },
+    
 
     flexTop: {
         flexDirection: 'row',
@@ -113,8 +136,10 @@ const styles = StyleSheet.create({
         marginTop: 17,
         marginBottom: 70,
         backgroundColor: '#7F5AF0',
-        paddingLeft: 102,
-        paddingRight: 102,
+        // paddingLeft: 102,
+        // paddingRight: 102,
+        width: 300,
+        alignItems: 'center',
         paddingTop: 18,
         paddingBottom: 18,
         borderRadius: 6,
@@ -162,7 +187,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         alignSelf: 'flex-start',
         marginLeft: 40,
-        marginBottom: 10,
+        marginTop: 10,
     },
 })
 

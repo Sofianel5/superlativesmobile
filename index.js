@@ -11,6 +11,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import React from "react";
 import { navigationRef } from './src/services/RootNavigation';
 
+
 AppRegistry.registerComponent(appName, () => () => (
   <Provider store={store}>
     <NavigationContainer ref={navigationRef}>

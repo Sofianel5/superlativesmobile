@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Pressable, TouchableOpacity, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, Pressable, TouchableOpacity, ImageBackground, ActivityIndicator } from 'react-native';
 import {useAppDispatch, useAppSelector} from '../../../app/hooks/';
 import { uploadProfilePictureAction } from '../authSlice';
 import Icon from 'react-native-vector-icons/Entypo';
@@ -9,7 +9,15 @@ import ImageResizer from 'react-native-image-resizer';
 const ProfilePic = ({route, navigation}) => {
     const [photo, setPhoto] = React.useState(null);
 
+    const {auth: {status, globalErrorMessage, incompleteUser}} = useAppSelector((state) => state);
+
     const dispatch = useAppDispatch();
+
+    React.useEffect(() => {
+        if (incompleteUser["profile_picture"]) {
+            navigation.navigate('SetPass', {})
+        }
+    }, [incompleteUser]);
 
     function handlePress() {
         launchImageLibrary({mediaType: 'photo'}, (result) => {
@@ -30,6 +38,26 @@ const ProfilePic = ({route, navigation}) => {
         dispatch(uploadProfilePictureAction(photo.uri));
     }
 
+    const renderButton = () => {
+        if (status === 'loading') {
+            return <TouchableOpacity onPress={() => handleSubmit()}
+            style={styles.meBtn}
+            >
+                 <ActivityIndicator size="large" color="white" />
+            </TouchableOpacity> 
+        } else {
+            return <TouchableOpacity onPress={() => handleSubmit()} style={styles.meBtn}>
+            <Text style={styles.meText}>That's me</Text>
+        </TouchableOpacity>
+        }
+    }
+
+    const renderError = (err) => {
+        if (err) {
+            return <Text style={styles.error}>{err}</Text>
+        }
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.flexTop}>
@@ -46,19 +74,17 @@ const ProfilePic = ({route, navigation}) => {
                 </View>
             </View>
             <Text style={styles.headline}>
-                {/* {route.params.firstName}, you're a certified G. */}
-                You're a certified G.
+                {route.params.firstName}, you're a certified G.
+                {/* You're a certified G. */}
             </Text>
             <Text style={styles.subheader}>Add a photo of yourself</Text>
             <TouchableOpacity onPress={() => handlePress()} style={photo ? styles.profileSel : styles.profileSelNoImage}>
                 {photo && <ImageBackground style={styles.backgroundImage} imageStyle={{borderRadius: 20}} source={{uri: photo.uri}} />}
                 <View style={styles.plusSign}><Text style={styles.plus}>+</Text></View>
             </TouchableOpacity>
-            <Text style={styles.error}>Error</Text>
+            {renderError(globalErrorMessage)}
             {photo &&  
-            <TouchableOpacity onPress={() => handleSubmit()} style={styles.meBtn} shrinkTo={0.7}>
-                <Text style={styles.meText}>That's me</Text>
-            </TouchableOpacity>
+            renderButton()
             }
         </View>
     )
@@ -218,8 +244,10 @@ const styles = StyleSheet.create({
     meBtn: {
         backgroundColor: '#7F5AF0',
         marginTop: 70,
-        paddingLeft: 80,
-        paddingRight: 80,
+        // paddingLeft: 80,
+        // paddingRight: 80,
+        width: 300,
+        alignItems: 'center',
         paddingTop: 20,
         paddingBottom: 20,
         borderRadius: 6,

@@ -1,5 +1,5 @@
 import React, { Component, useState, useRef } from 'react';
-import { View, Text, StyleSheet, Pressable, TextInput, Keyboard, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, TextInput, Keyboard, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import { AsYouType, parsePhoneNumberFromString } from 'libphonenumber-js';
 import {useAppDispatch, useAppSelector} from '../../../app/hooks';
 import { requestSignupAction } from '../authSlice';
@@ -13,6 +13,13 @@ const Name = ({navigation}) => {
     const lastNameRef = useRef();
     const phoneRef = useRef();
     const dispatch = useAppDispatch();
+    const {auth: {status, formErrors, incompleteUser}} = useAppSelector((state) => state);
+
+    React.useEffect(() => {
+        if (incompleteUser.firstName && incompleteUser.lastName && incompleteUser.phone) {
+            navigation.navigate('Verify', {})
+        }
+    }, [incompleteUser]);
 
     const onTextChange = (number: string) => {
         const num = parsePhoneNumberFromString(number, 'US')
@@ -31,6 +38,26 @@ const Name = ({navigation}) => {
         Keyboard.dismiss()
         dispatch(requestSignupAction({firstName, lastName, phone: parsePhoneNumberFromString(phone, 'US')?.format("E.164")}))
         // navigation.navigate('Verify', {phone, firstName, lastName})
+    }
+
+    const renderButton = () => {
+        if (status === 'loading') {
+            return <TouchableOpacity style={styles.readyBtn}>
+                        <ActivityIndicator size="large" color="white" />
+                    </TouchableOpacity>
+        } else {
+            return <TouchableOpacity onPress={() => handleSubmit()} style={styles.readyBtn}>
+                        <Text style={styles.readyText}>
+                            I'm Ready ;)
+                        </Text>
+                    </TouchableOpacity>
+        }
+    }
+
+    const renderFormError = (errs) => {
+        if (errs && errs.length > 0) {
+            return errs.map(err => <Text style={styles.error}>{err}</Text>)
+        }
     }
 
     return (
@@ -54,25 +81,22 @@ const Name = ({navigation}) => {
                         First Name
                     </Text>
                     <TextInput style={styles.input} autoFocus autoCorrect={false} returnKeyType="next" onSubmitEditing={() => lastNameRef.current.focus()} selectionColor={'white'} placeholder="McLovin'" placeholderTextColor="#94A1B2" value={firstName} onChangeText={text => setFirstName(text) }/>
+                    {renderFormError(formErrors["first-name"])}
                 </View>
                 <View style={styles.inputView}>
                     <Text style={styles.header}>
                         Last Name
                     </Text>
                     <TextInput style={styles.input} ref={lastNameRef} autoCorrect={false} returnKeyType="next" onSubmitEditing={() => phoneRef.current.focus()} selectionColor={'white'} placeholder="Just McLovin'" placeholderTextColor="#94A1B2" value={lastName} onChangeText={text => setLastName(text) } />
+                    {renderFormError(formErrors["last-name"])}
                 </View>
                 <View style={styles.inputView}>
                     <Text style={styles.header}>Phone Number</Text>
                     <TextInput style={styles.input} ref={phoneRef} returnKeyType="go" onSubmitEditing={() => handleSubmit()} selectionColor={'white'} placeholder="(420) 420-6969" placeholderTextColor="#94A1B2" onChangeText={num => onTextChange(num)} value={phone} keyboardType='phone-pad' />
+                    {renderFormError(formErrors["phone"])}
                 </View>
                 {[firstName, lastName, phone].every(v => v && v !== '') && 
-                <TouchableOpacity onPress={() => handleSubmit()}
-                style={styles.readyBtn}
-                >
-                    <Text style={styles.readyText}>
-                        I'm Ready ;)
-                    </Text>
-                </TouchableOpacity>}
+                renderButton()}
             </View>
         </TouchableWithoutFeedback>
     )
@@ -86,6 +110,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-start',
         backgroundColor: '#16161A',
+    },
+
+    error: {
+        color: 'red',
+        fontFamily: 'Montserrat',
+        fontSize: 22,
+        marginBottom: 6,
+        maxWidth:300
     },
 
     flexTop: {
@@ -128,8 +160,8 @@ const styles = StyleSheet.create({
         //marginTop: 120,
         //marginBottom: 70,
         backgroundColor: '#7F5AF0',
-        paddingLeft: 80,
-        paddingRight: 80,
+        width: 300,
+        alignItems: 'center',
         paddingTop: 20,
         paddingBottom: 20,
         borderRadius: 6,

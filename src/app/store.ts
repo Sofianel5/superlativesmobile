@@ -6,6 +6,7 @@ import voteReducer from '../features/vote/voteSlice';
 import profileReducer from '../features/profile/profileSlice';
 
 export const store = configureStore({
+  devTools: false,
   reducer: {
     counter: counterReducer,
     auth: authReducer,

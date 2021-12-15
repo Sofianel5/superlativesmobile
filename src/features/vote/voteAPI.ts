@@ -1,6 +1,9 @@
 import axios from 'axios';
 import Urls, { genAuthHeaders } from '../../services/RemoteData';
 import { getVotes, storeVote } from '../../services/LocalData';
+import axiosRetry from 'axios-retry';
+
+axiosRetry(axios, { retryDelay: axiosRetry.exponentialDelay});
 
 export async function submitVote(userId: string, authToken: string, question: string, winner: string, loser: string) {
     return axios({

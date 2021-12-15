@@ -1,9 +1,10 @@
 import React from "react";
-import { ScrollView, Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import { ScrollView, Text, View, TouchableOpacity, StyleSheet, RefreshControl } from "react-native";
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import Icon from 'react-native-vector-icons/Entypo';
 import { useNavigation } from '@react-navigation/native';
-import { useAppSelector } from "../../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { getCirclesAction } from "../circlesSlice";
 
 const options = {
     enableVibrateFallback: true,
@@ -35,9 +36,18 @@ function renderCircles({circles, navigation}) {
 
 export default function CirclesList(circles) {
     const navigation = useNavigation();
-    console.log("CirclesHere:", circles)
+    console.log("CirclesHere:", circles);
+    const loading = useAppSelector((state) => state.circles.loading);
+    const dispatch = useAppDispatch();
     return (
-        <ScrollView style={{paddingRight: 20}} keyboardShouldPersistTaps={"always"}>
+        <ScrollView style={{paddingRight: 20}} keyboardShouldPersistTaps={"always"} refreshControl={
+            <RefreshControl
+                      refreshing={loading}
+                      onRefresh={() => {
+                          dispatch(getCirclesAction())
+                      }}
+                  />
+                  }>
             {renderCircles(circles)}
             <View>
                 <TouchableOpacity style={styles.newGroup} onPress={() => {ReactNativeHapticFeedback.trigger("impactHeavy", options);navigation.navigate('CreateCircle')}}>

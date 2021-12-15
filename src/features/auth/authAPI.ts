@@ -2,6 +2,9 @@ import axios from 'axios';
 import { getLocalUser } from '../../services/LocalData';
 import FormData from 'form-data';
 import Urls from '../../services/RemoteData';
+import axiosRetry from 'axios-retry';
+
+axiosRetry(axios, { retryDelay: axiosRetry.exponentialDelay});
 
 export async function getUser() {
     try {

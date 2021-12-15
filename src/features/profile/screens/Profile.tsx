@@ -1,12 +1,13 @@
 import React, { Component, useState, useRef } from 'react';
-import { View, Text, StyleSheet, Pressable, TextInput, Keyboard, TouchableWithoutFeedback, TouchableOpacity, ScrollView, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, Image, RefreshControl, ActivityIndicator, TouchableWithoutFeedback, TouchableOpacity, ScrollView, ImageBackground } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import InnerBadge from '../../../../assets/icons/InnerBadge';
 import {useAppDispatch, useAppSelector} from '../../../app/hooks';
 import SuperlativeIcon from '../../../components/SuperlativeIcon';
-import Icon from 'react-native-vector-icons/Entypo';
+import EntypoIcon from 'react-native-vector-icons/Entypo';
+import EvilIcon from 'react-native-vector-icons/EvilIcons';
 import ImageResizer from 'react-native-image-resizer';
-import { resetProfilePicAction } from '../profileSlice';
+import { getRankingsAction, resetProfilePicAction } from '../profileSlice';
 import { navigate } from '../../../services/RootNavigation';
 // import { uploadProfilePictureAction } from '../authSlice';
 // import { launchImageLibrary } from 'react-native-image-picker';
@@ -58,7 +59,9 @@ const Profile = ({navigation}) => {
         console.log("rankings", rankings);
         //console.log(getSuperlatives(rankings));
         if (loading) {
-            return <View style={{}}><Text>Loading...</Text></View>
+            return <View style={{alignItems: 'center'}}>
+                    <ActivityIndicator></ActivityIndicator>
+                </View>
         } else if (!areSuperlatives(rankings)) {
             return <></>
         } return (
@@ -98,9 +101,14 @@ const Profile = ({navigation}) => {
 
     function renderNonSuperlatives(rankings: any[]) {
         if (loading) {
-            return <View style={{}}><Text>Loading...</Text></View>
+            return <View style={{alignItems: 'center'}}>
+                        <ActivityIndicator></ActivityIndicator>
+                    </View>
         } else if (!areNonSuperlatives(rankings)) {
-            return <View style={{}}><Text>No rankings</Text></View>
+            return <View>
+                <Image style={styles.noRankingsImage} source={require('../../../../assets/images/ghost.png')}></Image>
+                    <Text style={styles.noRankingsText}>This you? Get out there!</Text>
+                </View>
         } return (
             <View style={styles.rankingCard}>
                 {getNonSuperlatives(rankings).reduce(function(accumulator, currentValue, currentIndex, array) {
@@ -128,15 +136,24 @@ const Profile = ({navigation}) => {
     return (
         <View style={styles.container}>
             <View style={styles.topBar}>
+                <View style={{width: 50}}></View>
                 {!!user && 
                 <Text style={styles.title}>
                     {user["first-name"]} {user["last-name"]}
                 </Text>}
+                <EvilIcon name="gear" style={styles.topRightIcon} size={40} color="white" onPress={() => navigation.navigate('Settings')}/>
             </View>
-            <ScrollView>
+            <ScrollView refreshControl={
+          <RefreshControl
+                    refreshing={loading}
+                    onRefresh={() => {
+                        dispatch(getRankingsAction())
+                    }}
+                />
+                }>
                 <TouchableOpacity onPress={() => handlePress()} style={photo ? styles.profileSel : styles.profileSelNoImage}>
                     <ImageBackground style={styles.backgroundImage} imageStyle={{borderRadius: 20}} source={{uri: photo ? photo.uri : user["profile-pic"]}} />
-                    <View style={styles.plusSign}><Icon name="plus" size={35} color="white"/></View>
+                    <View style={styles.plusSign}><EntypoIcon name="plus" size={35} color="white"/></View>
                 </TouchableOpacity>
                 {renderSuperlatives(rankings)}
                 <Text style={styles.myRankingsTxt}>My Rankings</Text>
@@ -152,13 +169,28 @@ const styles = StyleSheet.create({
         backgroundColor: '#242629',
     }, 
 
+    noRankingsText: {
+        color: '#BABBBC',
+        fontSize: 15,
+        fontFamily: 'Montserrat-SemiBold',
+        marginTop: 20,
+        alignSelf: 'center',
+    },
+
+    noRankingsImage: {
+        height: 100,
+        marginVertical: 20,
+        resizeMode: 'contain',
+        alignSelf: 'center',
+    },
+
     topBar: {
         alignSelf: 'stretch',
         height: 120,
         backgroundColor: '#16161A',
-        alignItems: 'center',
+        justifyContent: 'space-between',
         paddingTop: 55,
-        // flexDirection: 'row',
+        flexDirection: 'row',
     },
 
     title: {
@@ -166,7 +198,12 @@ const styles = StyleSheet.create({
         fontFamily: 'Montserrat-SemiBold',
         fontSize: 30,
         alignSelf: 'center',
-        marginTop: 8,
+        marginBottom: 25,
+    },
+    
+    topRightIcon: {
+        paddingRight: 10,
+        paddingTop: 3
     },
 
     profileSel: {
@@ -287,6 +324,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Montserrat-SemiBold',
         fontSize: 20,
         marginTop: 20,
+        
     },
 
     rankingCard: {

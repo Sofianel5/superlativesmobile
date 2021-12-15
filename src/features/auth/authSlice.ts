@@ -2,9 +2,10 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from '../../app/store';
 import User from '../../models/User';
 import { requestSignup, getUser, verifyNumber, uploadProfilePicture, setPassword, login } from './authAPI';
-import * as RootNavigator from '../../services/RootNavigation';
 import { saveUser, getLocalUser, removeUser } from '../../services/LocalData';
+// import * as RootNavigator from '../../services/RootNavigation';
 import { resetProfilePicAction } from '../profile/profileSlice';
+import * as Sentry from "@sentry/react-native";
 
 interface AuthState {
   status: 'unauthenticated' | 'loading' | 'authenticated' | 'failed';
@@ -91,6 +92,15 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
+        logOut: (state) => {
+            state.status = 'unauthenticated';
+            state.user = null;
+            state.incompleteUser = {};
+            state.formErrors = {};
+            state.globalErrorMessage = null;
+            state.tempAuthToken = null;
+            removeUser();
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -100,6 +110,7 @@ export const authSlice = createSlice({
           .addCase(getUserAction.fulfilled, (state, action) => {
               console.log(action);
               state.user = action.payload.user;
+              Sentry.setUser({ id: action.payload.user["id"] });
               state.status=action.payload.status;
           })
           .addCase(requestSignupAction.pending, (state) => {
@@ -107,6 +118,7 @@ export const authSlice = createSlice({
           })
           .addCase(requestSignupAction.fulfilled, (state, action) => {
               console.log(action)
+              state.status = 'unauthenticated';
               if (action.payload.globalErrorMessage) {
                   state.globalErrorMessage = action.payload.globalErrorMessage;
                   state.formErrors = action.payload.formErrors;
@@ -119,25 +131,27 @@ export const authSlice = createSlice({
                   }
                   state.globalErrorMessage = "";
                   state.formErrors = {};
-                  RootNavigator.navigate('Verify', {})
+                //   RootNavigator.navigate('Verify', {})
                   console.log(state.tempAuthToken);
               }
-              state.status = 'unauthenticated';
           })
           .addCase(verifyNumberAction.pending, (state) => {
             state.status = 'loading';
           })
           .addCase(verifyNumberAction.fulfilled, (state, action) => {
             console.log(action)
+            state.status = 'unauthenticated';
             if (action.payload.status == 'success') {
                 state.globalErrorMessage = "";
                 state.formErrors = {};
                 state.tempAuthToken = action.payload.id
-                state.incompleteUser["verified"] = true
-                RootNavigator.navigate('ProfilePic', {firstName: state.incompleteUser.firstName})
+                state.incompleteUser = {
+                    ...state.incompleteUser,
+                    "verified": true
+                }
             } else {
                 state.globalErrorMessage = "Failed to verify number";
-                state.formErrors = {phone: "Invalid verification code"};
+                state.formErrors = {phone: ["Invalid verification code"]};
             }
         })
         .addCase(uploadProfilePictureAction.pending, (state) => {
@@ -150,12 +164,15 @@ export const authSlice = createSlice({
                 state.globalErrorMessage = "";
                 state.formErrors = {};
                 state.tempAuthToken = action.payload.id
-                state.incompleteUser["profile_picture"] = action.payload["profile-pic"]
-                RootNavigator.navigate('SetPass', {})
+                state.incompleteUser = {
+                    ...state.incompleteUser,
+                    "profile_picture": action.payload["profile-pic"]
+                }
             } else {
                 state.globalErrorMessage = "Failed to upload profile picture";
                 state.formErrors = {};
             }
+            state.status = 'unauthenticated';
         })
         .addCase(setPasswordAction.pending, (state) => {
             state.status = 'loading';
@@ -166,7 +183,8 @@ export const authSlice = createSlice({
             if (action.payload.status == 'success') {
                 state.globalErrorMessage = "";
                 state.formErrors = {};
-                state.user = action.payload.data
+                state.user = action.payload.data;
+                Sentry.setUser({ id: action.payload.data["id"] });
                 saveUser(state.user);
                 state.status = 'authenticated';
             } else {
@@ -181,14 +199,16 @@ export const authSlice = createSlice({
         .addCase(loginAction.fulfilled, (state, action) => {
             console.log(action)
             if (action.payload.status == 'success') {
-                state.globalErrorMessage = "";
+                state.globalErrorMessage = null;
                 state.formErrors = {};
-                state.user = action.payload.data
+                state.user = action.payload.data;
+                Sentry.setUser({ id: action.payload.data["id"] });
                 saveUser(state.user);
                 state.status = 'authenticated';
             } else {
+                state.status = 'unauthenticated';
                 state.globalErrorMessage = "Failed to login";
-                state.formErrors = {"password": "Incorrect"}; // make this responsive to the error
+                state.formErrors = {"password": "Incorrect password"}; // make this responsive to the error
             }
         })
         .addCase(resetProfilePicAction.fulfilled, (state, action) => {
@@ -200,6 +220,6 @@ export const authSlice = createSlice({
       },
 });
 
-export const {  } = authSlice.actions;
+export const { logOut } = authSlice.actions;
 
 export default authSlice.reducer;

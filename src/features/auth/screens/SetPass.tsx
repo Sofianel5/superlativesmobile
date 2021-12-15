@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
 import {useAppDispatch, useAppSelector} from '../../../app/hooks/';
 import { setPasswordAction } from '../authSlice';
 import PopinButton from 'react-native-popin-button';
@@ -14,12 +14,36 @@ const SetPass = ({navigation}) => {
 
     const dispatch = useAppDispatch();
 
+    const {auth: {status, globalErrorMessage}} = useAppSelector((state) => state);
+
     function handleSubmit() {
         dispatch(setPasswordAction(password));
     }
 
     function passwordValid(text: string) {
         return !!(text && text.length >= 6);
+    }
+
+    const renderButton = () => {
+        if (status === 'loading') {
+            return <PopinButton onPress={() => handleSubmit()}
+            style={styles.rollinBtn} shrinkTo={0.7}
+            >
+                 <ActivityIndicator size="large" color="white" />
+            </PopinButton> 
+        } else {
+            return <PopinButton onPress={() => handleSubmit()}
+            style={styles.rollinBtn} shrinkTo={0.7}
+            >
+                <Text style={styles.signupText}>Get Rollin'</Text>
+            </PopinButton>
+        }
+    }
+
+    const renderError = (err) => {
+        if (err) {
+            <Text style={styles.error}>{err}</Text>
+        }
     }
 
     return (
@@ -43,18 +67,14 @@ const SetPass = ({navigation}) => {
             <Text style={styles.prompt}>
             Set Password
             </Text>
-            <Text style={styles.error}>Error</Text>
+            {renderError(globalErrorMessage)}
             <View style={{width: '100%'}}>
                 <TextInput style={styles.input} selectionColor={'white'} placeholderTextColor="#94A1B2" secureTextEntry={true} onChangeText={text => setPassword(text) }/>
                 <Text style={Object.assign({marginLeft: (windowWidth-300)/2}, styles.kinky)}>
                 Maybe something kinky?
                 </Text>
             </View>
-            {passwordValid(password) && <PopinButton onPress={() => handleSubmit()}
-            style={styles.rollinBtn} shrinkTo={0.7}
-            >
-                <Text style={styles.signupText}>Get Rollin'</Text>
-            </PopinButton>}
+            {passwordValid(password) && renderButton()}
         </View>
     )
 }

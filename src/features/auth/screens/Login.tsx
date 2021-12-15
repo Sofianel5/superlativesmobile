@@ -1,5 +1,5 @@
 import React, { Component, useState, useRef } from 'react';
-import { View, Text, StyleSheet, Pressable, TextInput, Keyboard, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, TextInput, Keyboard, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import { AsYouType, parsePhoneNumberFromString } from 'libphonenumber-js';
 import {useAppDispatch, useAppSelector} from '../../../app/hooks';
 import { loginAction } from '../authSlice';
@@ -12,6 +12,7 @@ const Login = ({navigation}) => {
     const phoneRef = useRef();
     const passwordRef = useRef();
     const dispatch = useAppDispatch();
+    const {auth: {status, formErrors}} = useAppSelector((state) => state);
 
     const onTextChange = (number: string) => {
         const num = parsePhoneNumberFromString(number, 'US')
@@ -31,6 +32,20 @@ const Login = ({navigation}) => {
         dispatch(loginAction({phone: parsePhoneNumberFromString(phone, 'US')?.format("E.164"), password}))
     }
 
+    const renderButton = () => {
+        if (status === 'loading') {
+            return <TouchableOpacity style={styles.readyBtn}>
+                        <ActivityIndicator size="large" color="white" />
+                    </TouchableOpacity>
+        } else {
+            return <TouchableOpacity onPress={() => handleSubmit()} style={styles.readyBtn}>
+                        <Text style={styles.readyText}>
+                            I'm Ready ;)
+                        </Text>
+                    </TouchableOpacity>
+        }
+    }
+
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={styles.container}>
@@ -42,22 +57,16 @@ const Login = ({navigation}) => {
                     </View>
                 </View>
                 <View style={styles.inputView}>
-                    <Text style={styles.error}>Error</Text>
                     <Text style={styles.header}>Phone Number</Text>
                     <TextInput style={styles.input} autoFocus ref={phoneRef} returnKeyType="go" onSubmitEditing={() => passwordRef.current.focus()} selectionColor={'white'} placeholder="(420) 420-6969" placeholderTextColor="#94A1B2" onChangeText={num => onTextChange(num)} value={phone} keyboardType='phone-pad' />
                 </View>
                 <View style={styles.inputView}>
                     <Text style={styles.header}>Password</Text>
                     <TextInput style={styles.input} ref={passwordRef} onSubmitEditing={handleSubmit} selectionColor={'white'} placeholderTextColor="#94A1B2" secureTextEntry={true} onChangeText={text => setPassword(text) }/>
+                    {!!formErrors["password"] && <Text style={styles.error}>{formErrors["password"]}</Text>}
                 </View>
                 {[phone, password].every(v => v && v !== '') && 
-                <TouchableOpacity onPress={() => handleSubmit()}
-                style={styles.readyBtn}
-                >
-                    <Text style={styles.readyText}>
-                        I'm Ready ;)
-                    </Text>
-                </TouchableOpacity>}
+                renderButton()}
             </View>
         </TouchableWithoutFeedback>
     )
@@ -113,8 +122,10 @@ const styles = StyleSheet.create({
         //marginTop: 120,
         //marginBottom: 70,
         backgroundColor: '#7F5AF0',
-        paddingLeft: 80,
-        paddingRight: 80,
+        // paddingLeft: 80,
+        // paddingRight: 80,
+        width: 300,
+        alignItems: 'center',
         paddingTop: 20,
         paddingBottom: 20,
         borderRadius: 6,

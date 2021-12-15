@@ -64,7 +64,7 @@ function SuperlativeCard({ question, navigation, circle }) {
                     </View>
                     <View style={styles.closeComers}>
                         <Text style={styles.closeComerText}>Runners Up</Text>
-                        {shouldShowRunnersUp(question) && sortedRanks(question).slice(1).map((rank: any) => (
+                        {shouldShowRunnersUp(question) && sortedRanks(question).slice(1, 4).map((rank: any) => (
                             <View key={rank["rank/user"]["user/id"]} style={styles.closeComer}>
                                 <Image source={{uri: getAssocUser(rank["rank/user"]["user/id"], circle)["user/profile-pic"]}} style={styles.closeComerPic} />
                                 <Text style={styles.closeComerName}>{getAssocUser(rank["rank/user"]["user/id"], circle)["user/first-name"]} {getAssocUser(rank["rank/user"]["user/id"], circle)["user/last-name"].charAt(0)}.</Text>

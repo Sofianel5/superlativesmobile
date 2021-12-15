@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ImageBackground } from 'react-native';
+import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ImageBackground, RefreshControl } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import SuperlativeIcon from '../../../components/SuperlativeIcon';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
@@ -10,6 +10,7 @@ const CircleDetail = ({route, navigation}) => {
 
     const circle = useAppSelector((state) => state.circles.circles[route.params.circleId]);
     const user = useAppSelector((state) => state.auth.user);
+    const loading = useAppSelector((state) => state.circles.loading);
 
     const dispatch = useAppDispatch();
     React.useEffect(() => {
@@ -24,7 +25,14 @@ const CircleDetail = ({route, navigation}) => {
                     {circle["circle/name"]}
                 </Text>
             </View>
-            <ScrollView>
+            <ScrollView refreshControl={
+          <RefreshControl
+                    refreshing={loading}
+                    onRefresh={() => {
+                        dispatch(getRankingsForCircleAction(circle["circle/id"]));
+                    }}
+                />
+                }>
                 <View style={{paddingLeft: 20, paddingRight: 20,}}>
                     { (user.id === circle["circle/admin"]["user/id"]) ? <TouchableOpacity style={styles.addSuperlativeContainer} onPress={() => navigation.navigate('SelectSuperlativeSource', {circleId: route.params.circleId})}>
                         <Text style={styles.superlativeText}>Manage superlatives</Text>
@@ -45,7 +53,7 @@ const CircleDetail = ({route, navigation}) => {
                             <Text style={styles.member}>{member["user/first-name"]} {member["user/last-name"]} {member["user/id"] == circle["circle/admin"]["user/id"] ? "(Admin)" : ""}</Text>
                         </View>
                     ))}
-                    {Object.keys(circle["circle/members"]).length > 3 && <Text style={styles.seeAll} onPress={() => navigation.navigate('GroupMembers')}>See all...</Text>}
+                    {Object.keys(circle["circle/members"]).length > 3 && <Text style={styles.seeAll} onPress={() => navigation.navigate('MemberList', {circle})}>See all...</Text>}
                     <Text style={styles.leaderboardsTitle}>Superlatives</Text>
                     {Object.values(circle["circle/questions"]).map((question: any) => (
                         <SuperlativeCard key={question["question/id"]} question={question} circle={circle} navigation={navigation} />

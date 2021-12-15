@@ -2,6 +2,9 @@ import axios from 'axios';
 import FormData from 'form-data';
 import Urls, { genAuthHeaders } from '../../services/RemoteData';
 import Contacts from 'react-native-contacts';
+import axiosRetry from 'axios-retry';
+
+axiosRetry(axios, { retryDelay: axiosRetry.exponentialDelay});
 
 export async function getCircles(userId: string, authToken: string) {
     return axios({

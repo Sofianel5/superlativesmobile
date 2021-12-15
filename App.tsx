@@ -23,6 +23,15 @@ import Home from './src/components/Home';
 import { getUserAction } from './src/features/auth/authSlice';
 import VoteResults from './src/features/vote/components/VoteResults';
 import SetPass from './src/features/auth/screens/SetPass';
+import * as Sentry from "@sentry/react-native";
+
+Sentry.init({
+  dsn: "https://1e9ee948280141eabff8050210c10048@o1089417.ingest.sentry.io/6104473",
+  // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+  // We recommend adjusting this value in production.
+  tracesSampleRate: 1.0,
+  //: true,
+});
 
 declare const global: {HermesInternal: null | {}};
 
@@ -76,4 +85,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default Sentry.wrap(App);
