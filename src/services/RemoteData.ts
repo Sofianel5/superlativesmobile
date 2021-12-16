@@ -19,6 +19,8 @@ const Urls = {
     CREATE_CIRCLE: baseUrl + 'circles/create-circle',
     INVITE_USER: baseUrl + 'circles/invite-user',
     GET_RESULTS: baseUrl + 'circles/get-results',
+    REMOVE_SUPERLATIVE: baseUrl + 'circles/remove-question',
+    REMOVE_MEMBER: baseUrl + 'circles/remove-member',
 }
 
 export const genAuthHeaders = (userId: string, authToken: string) => {

@@ -6,6 +6,8 @@ import SelectSuperlativeSourceScreen from './SelectSuperlativeSource';
 import AddQuestionPackSuperlativesScreen from './AddQuestionPackSuperlative';
 import CustomSuperlativeScreen from './CustomSuperlative';
 import MemberList from './MemberList';
+import ModifyMembers from './ModifyMembers';
+import ManageSuperlatives from './ManageSuperlatives';
 import SuperlativeDetails from '../../../components/SuperlativeDetails';
 import Invite from './Invite';
 import CreateCircleScreen from './CreateCircle';
@@ -18,6 +20,8 @@ const CirclesStackScreen = ({navigation}) => (
         <CirclesStack.Screen name="Circles" component={Circles}/>
         <CirclesStack.Screen name="CircleDetail" component={CircleDetail}/>
         <CirclesStack.Screen name="MemberList" component={MemberList}/>
+        <CirclesStack.Screen name="ModifyMembers" component={ModifyMembers}/>
+        <CirclesStack.Screen name="ManageSuperlatives" component={ManageSuperlatives}/>
         <CirclesStack.Screen name="SuperlativeDetails" component={SuperlativeDetails} />
         <CirclesStack.Screen name="SelectSuperlativeSource" component={SelectSuperlativeSourceScreen}/>
         <CirclesStack.Screen name="AddQuestionPackSuperlatives" component={AddQuestionPackSuperlativesScreen}/>

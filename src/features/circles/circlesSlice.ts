@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getCircles, getCircleRanking, addCustomSuperlatives, getQuestionPacks, getContacts, createCircle, inviteUser } from './circlesAPI';
+import { getCircles, getCircleRanking, addCustomSuperlatives, getQuestionPacks, getContacts, createCircle, inviteUser, removeSuperlative, removeMember } from './circlesAPI';
 
 interface CirclesState {
     circles: any[];
@@ -111,6 +111,34 @@ export const inviteUserAction = createAsyncThunk('circles/inviteUser', async (da
     return await inviteUser(user['id'], user['auth-token'], data.circleId, data.phone)
 });
 
+export const removeMemberAction = createAsyncThunk('circles/removeMember', async (data: any, {getState}) => {
+    console.log('removeMemberAction');
+    const {auth: {user}} = getState();
+    return await removeMember(user['id'], user['auth-token'], data.circleId, data.memberId)
+    .then(res => res.data)
+    .catch(err => {
+        console.log(err);
+        console.log(err.response);
+        return {
+            status: "failed",
+        }
+    });
+});
+
+export const removeSuperlativeAction = createAsyncThunk('circles/removeSuperlative', async (data: any, {getState}) => {
+    console.log('removeSuperlativeAction');
+    const {auth: {user}} = getState();
+    return await removeSuperlative(user['id'], user['auth-token'], data.circleId, data.questionId)
+    .then(res => res.data)
+    .catch(err => {
+        console.log(err);
+        console.log(err.response);
+        return {
+            status: "failed",
+        }
+    });
+});
+
 export const circleSlice = createSlice({
     name: 'circles',
     initialState,
@@ -200,6 +228,24 @@ export const circleSlice = createSlice({
             })
             .addCase(inviteUserAction.pending, (state, action) => {
                 state.invitedContacts.push(action.meta.arg.contactId);
+            })
+            .addCase(removeMemberAction.fulfilled, (state, action) => {
+                console.log(action)
+                if (action.payload.status === "success") {
+                    const circleId = action.meta.arg.circleId;
+                    const memberId = action.meta.arg.memberId;
+                    delete state.circles[circleId]["circle/members"][memberId]
+                    state.circles[circleId]["circle/questions"] = action.payload.data["circle/questions"]
+                }
+            })
+            .addCase(removeSuperlativeAction.fulfilled, (state, action) => {
+                console.log(action)
+                if (action.payload.status === "success") {
+                    const circleId = action.meta.arg.circleId
+                    const questionId = action.meta.arg.questionId
+                    const newQuestions = state.circles[circleId]["circle/questions"].filter(question => question["question/id"] !== questionId)
+                    state.circles[circleId]["circle/questions"] = newQuestions
+                }
             })
         }
     }

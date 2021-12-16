@@ -20,6 +20,7 @@
 		2DCD954D1E0B4F2C00145EB5 /* superlativesmobileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* superlativesmobileTests.m */; };
 		2F3CC48B309F3CF2C1E5EB05 /* libPods-superlativesmobile-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CC405C117419017FD3DCA2B0 /* libPods-superlativesmobile-tvOSTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		D866D1C1276AE353005D5ADF /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = D866D1C0276AE353005D5ADF /* fonts */; };
 		F71C4C98CD4D45699ED6FD2B /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 647BD92C42024E52858B0E0C /* Montserrat-Regular.ttf */; };
 		FEEA3976218FD6CA74E59132 /* libPods-superlativesmobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 51345BF861F9CD8089D6B387 /* libPods-superlativesmobile.a */; };
 /* End PBXBuildFile section */
@@ -80,6 +81,7 @@
 		BA92AF72988841227B6C35E6 /* Pods-superlativesmobile-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-superlativesmobile-tvOS.release.xcconfig"; path = "Target Support Files/Pods-superlativesmobile-tvOS/Pods-superlativesmobile-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		C63F8F0D517F41D7A225EA47 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		CC405C117419017FD3DCA2B0 /* libPods-superlativesmobile-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-superlativesmobile-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D866D1C0276AE353005D5ADF /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = fonts; path = ../assets/fonts; sourceTree = "<group>"; };
 		D8EF21CB27430B9A0062E45D /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		D8EF21CC27430CF60062E45D /* superlativesmobile-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "superlativesmobile-Bridging-Header.h"; sourceTree = "<group>"; };
 		D98B5BF50AC044868F5E009E /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				D866D1C0276AE353005D5ADF /* fonts */,
 				13B07FAE1A68108700A75B9A /* superlativesmobile */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* superlativesmobileTests */,
@@ -391,6 +394,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				D866D1C1276AE353005D5ADF /* fonts in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				F71C4C98CD4D45699ED6FD2B /* Montserrat-Regular.ttf in Resources */,
 				2876AA663AFD487DA57D5CBC /* Montserrat-SemiBold.ttf in Resources */,

@@ -34,11 +34,11 @@ const CircleDetail = ({route, navigation}) => {
                 />
                 }>
                 <View style={{paddingLeft: 20, paddingRight: 20,}}>
-                    { (user.id === circle["circle/admin"]["user/id"]) ? <TouchableOpacity style={styles.addSuperlativeContainer} onPress={() => navigation.navigate('SelectSuperlativeSource', {circleId: route.params.circleId})}>
+                    { (user.id === circle["circle/admin"]["user/id"]) ? <TouchableOpacity style={styles.addSuperlativeContainer} onPress={() => navigation.navigate('ManageSuperlatives', {circle})}>
                         <Text style={styles.superlativeText}>Manage superlatives</Text>
                         <Icon name="chevron-right" size={30} style={styles.superlativeRight} color="white" /> 
                     </TouchableOpacity> : <View></View> }
-                    { (user.id === circle["circle/admin"]["user/id"]) ? <TouchableOpacity style={styles.addSuperlativeContainer} onPress={() => navigation.navigate('SelectSuperlativeSource', {circleId: route.params.circleId})}>
+                    { (user.id === circle["circle/admin"]["user/id"]) ? <TouchableOpacity style={styles.addSuperlativeContainer} onPress={() => navigation.navigate('ModifyMembers', {circle})}>
                         <Text style={styles.superlativeText}>Modify members</Text>
                         <Icon name="chevron-right" size={30} style={styles.superlativeRight} color="white" /> 
                     </TouchableOpacity> : <View></View> }
@@ -53,7 +53,7 @@ const CircleDetail = ({route, navigation}) => {
                             <Text style={styles.member}>{member["user/first-name"]} {member["user/last-name"]} {member["user/id"] == circle["circle/admin"]["user/id"] ? "(Admin)" : ""}</Text>
                         </View>
                     ))}
-                    {Object.keys(circle["circle/members"]).length > 3 && <Text style={styles.seeAll} onPress={() => navigation.navigate('MemberList', {circle})}>See all...</Text>}
+                    {Object.keys(circle["circle/members"]).length > 3 && <Text style={styles.seeAll} onPress={() => (user.id === circle["circle/admin"]["user/id"]) ? navigation.navigate('ModifyMembers', {circle}) : navigation.navigate('MemberList', {circle})}>See all...</Text>}
                     <Text style={styles.leaderboardsTitle}>Superlatives</Text>
                     {Object.values(circle["circle/questions"]).map((question: any) => (
                         <SuperlativeCard key={question["question/id"]} question={question} circle={circle} navigation={navigation} />

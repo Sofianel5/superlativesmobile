@@ -84,3 +84,27 @@ export async function inviteUser(userId: string, authToken: string, circleId: st
         headers: genAuthHeaders(userId, authToken),
     }).then(res => console.log(res)).catch(err => console.log(err, err.response));
 }
+
+export async function removeSuperlative(userId: string, authToken: string, circleId: string, superlativeId: string) {
+    return axios({
+        method: 'post',
+        params: {
+            "circle-id": circleId,
+            "question-id": superlativeId,
+        },
+        url: Urls.REMOVE_SUPERLATIVE,
+        headers: genAuthHeaders(userId, authToken),
+    });
+}
+
+export async function removeMember(userId: string, authToken: string, circleId: string, memberId: string) {
+    return axios({
+        method: 'post',
+        params: {
+            "circle-id": circleId,
+            "member-id": memberId,
+        },
+        url: Urls.REMOVE_MEMBER,
+        headers: genAuthHeaders(userId, authToken),
+    });
+}

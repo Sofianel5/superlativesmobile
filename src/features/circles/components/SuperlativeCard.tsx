@@ -58,7 +58,7 @@ function SuperlativeCard({ question, navigation, circle }) {
                         <Image source={{uri: getAssocUser(sortedRanks(question)[0]["rank/user"]["user/id"], circle)["user/profile-pic"]}} style={styles.superlativeWinnerPic} />
                         <Text style={styles.superlativeWinnerName}>
                             {getAssocUser(sortedRanks(question)[0]["rank/user"]["user/id"], circle)["user/first-name"]}
-                            {" "} 
+                            {" "}
                             {getAssocUser(sortedRanks(question)[0]["rank/user"]["user/id"], circle)["user/last-name"].charAt(0)}.
                         </Text>
                     </View>
