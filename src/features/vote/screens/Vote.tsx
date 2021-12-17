@@ -20,7 +20,7 @@ const Vote = ({navigation}) => {
     const {auth: {user}, circles: {circles, loading}, vote: {selectedCircle, question, userA, userB, votes}} = useAppSelector((state) => state);
     const [showResults, setShowResults] = useState(false)
     const [results, setResults] = useState(null)
-    const [nextResults, setNextResults] = useState(null)
+    //const [nextResults, setNextResults] = useState(null)
     React.useEffect(() => {
         if (circles && (votes != null) && !selectedCircle) {
             dispatch(getQuestion());
@@ -28,21 +28,34 @@ const Vote = ({navigation}) => {
         if (votes == null) {
             dispatch(getVotesAction());
         }
-        if (question && userA && userB && !results) {
-            getResults(user['id'], user['auth-token'], question["question/id"], userA["user/id"], userB["user/id"]).then(res => {
-                const results = res.data.data;
-                console.log("got first results:", results);
-                setResults({questionId: question["question/id"], results});
-            });
-        } if (results && nextResults == null) {
+        // if (question && userA && userB && !results) {
+        //     console.log("getting results when none exist")
+        //     getResults(user['id'], user['auth-token'], question["question/id"], userA["user/id"], userB["user/id"]).then(res => {
+        //         const results = res.data.data;
+        //         console.log("got first results:", results);
+        //         setResults({questionId: question["question/id"], results});
+        //     });
+        // } if (results && nextResults == null) {
+        //     console.log("getting new results")
+        //     getResults(user['id'], user['auth-token'], question["question/id"], userA["user/id"], userB["user/id"]).then(res => {
+        //         const results = res.data.data;
+        //         console.log(question)
+        //         console.log("got new results:", results);
+        //         setNextResults({questionId: question["question/id"], results});
+        //     });
+        // }
+    }); 
+
+    React.useEffect(() => {
+        if (question) {
             getResults(user['id'], user['auth-token'], question["question/id"], userA["user/id"], userB["user/id"]).then(res => {
                 const results = res.data.data;
                 console.log(question)
                 console.log("got new results:", results);
-                setNextResults({questionId: question["question/id"], results});
+                setResults({questionId: question["question/id"], results});
             });
         }
-    }); 
+    }, [question])
     
     const dispatch = useAppDispatch();
     const useSwiper = useRef(null).current
@@ -55,11 +68,11 @@ const Vote = ({navigation}) => {
         ReactNativeHapticFeedback.trigger("impactHeavy", options);
         console.log("localResults:", results)
         dispatch(submitVoteAction({questionId: question["question/id"], winnerId: winner["user/id"], loserId: loser["user/id"]}));
-        if (results && results.results.every((val) => val !== 0)) {
-            console.log("here2")
+        if (results && results.results[0] + results.results[1] != 0) {
+            console.log("showing results")
             setShowResults(true);
         } else {
-            console.log("here")
+            console.log("not showing results")
             dispatch(getQuestion())
         }
     }
@@ -120,11 +133,11 @@ const Vote = ({navigation}) => {
     function onResultsPress() {
         dispatch(getQuestion());
         setShowResults(false);
-        if (nextResults) {
-            console.log("resetting results to next")
-            setResults(nextResults);
-            setNextResults(null)
-        }
+        // if (nextResults) {
+        //     console.log("resetting results to next")
+        //     setResults(nextResults);
+        //     setNextResults(null)
+        // }
     }
 
     if (showResults && results && results.results[0] + results.results[1] != 0) {
