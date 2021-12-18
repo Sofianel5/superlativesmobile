@@ -27,16 +27,16 @@ const VoteResults = ({userA, userB, results, circle, onTap, navigation}) => {
     return (
        <TouchableWithoutFeedback onPress={onTap}>
            <View style={styles.container}>
-                <Text style={styles.topText} numberOfLines={2}>Here's where everyone in {circle["circle/name"]} now stands</Text>
+                <Text style={styles.topText} numberOfLines={2}>Here's where {circle["circle/name"]} now stands</Text>
                 <View style={styles.pollContainer}>
                     <View style={styles.poll}>
-                        <Text style={styles.percentage}>{~~((votesA / (votesA + votesB)).toFixed(2) * 100)}%</Text>
+                        <Text style={styles.percentage}>{~~((votesA / (votesA + votesB)).toFixed(2) * 100)}% ({votesA})</Text>
                         <PollBar style={styles.barOne} percent={votesA / (votesA + votesB)}></PollBar>
                         <Text style={styles.name}>{userA["user/first-name"]} {userA["user/last-name"]}</Text>
                         <Image source={{uri: userA["user/profile-pic"]}} style={styles.image} />
                     </View>
                     <View style={styles.poll}>
-                        <Text style={styles.percentage}>{~~((votesB / (votesA + votesB)).toFixed(2) * 100)}%</Text>
+                        <Text style={styles.percentage}>{~~((votesB / (votesA + votesB)).toFixed(2) * 100)}% ({votesB})</Text>
                         <PollBar style={styles.barTwo} percent={votesB / (votesB + votesA)}></PollBar>
                         <Text style={styles.name}>{userB["user/first-name"]} {userB["user/last-name"]}</Text>
                         <Image source={{uri: userB["user/profile-pic"]}} style={styles.image} />

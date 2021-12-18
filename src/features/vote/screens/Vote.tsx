@@ -68,13 +68,20 @@ const Vote = ({navigation}) => {
         ReactNativeHapticFeedback.trigger("impactHeavy", options);
         console.log("localResults:", results)
         dispatch(submitVoteAction({questionId: question["question/id"], winnerId: winner["user/id"], loserId: loser["user/id"]}));
-        if (results && results.results[0] + results.results[1] != 0) {
-            console.log("showing results")
-            setShowResults(true);
+        if (winner["user/id"] == userA["user/id"]) {
+            results.results[0]++;
         } else {
-            console.log("not showing results")
-            dispatch(getQuestion())
+            results.results[1]++;
         }
+        setResults(results);
+        setShowResults(true);
+        // if (results && results.results[0] + results.results[1] != 0) {
+        //     console.log("showing results")
+        //     setShowResults(true);
+        // } else {
+        //     console.log("not showing results")
+        //     dispatch(getQuestion())
+        // }
     }
 
     function renderBody() {
@@ -197,12 +204,14 @@ const styles = StyleSheet.create({
         color: 'black',
         fontFamily: 'Montserrat-SemiBold',
         fontSize: 18,
+        textAlign: 'center',
     },
 
     questionLarge: {
         color: 'black',
         fontFamily: 'Montserrat-SemiBold',
         fontSize: 24,
+        textAlign: 'center',
     },
     
     or: {

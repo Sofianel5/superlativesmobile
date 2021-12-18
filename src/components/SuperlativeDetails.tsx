@@ -19,7 +19,7 @@ const SuperlativeDetails = ({route, navigation}) => {
                     <Text style={styles.winnerName}>
                         {sortedRanks[0]["rank/user"]["user/first-name"]} {sortedRanks[0]["rank/user"]["user/last-name"]}
                     </Text>
-                    <Text style={styles.winnerScore}>{sortedRanks[0]["rank/value"]}</Text>
+                    <Text style={styles.winnerScore}>{sortedRanks[0]["rank/value"] - 1400}</Text>
                 </View>
             );
         } else {
@@ -36,7 +36,7 @@ const SuperlativeDetails = ({route, navigation}) => {
             <View style={styles.nonWinnerRow}>
                 <Image source={{uri: rank["rank/user"]["user/profile-pic"]}} style={styles.nonWinnerImage}/>
                 <Text style={styles.nonWinnerName}>{rank["rank/user"]["user/first-name"]} {rank["rank/user"]["user/last-name"]}</Text>
-                <Text style={styles.nonWinnerScore}>{rank["rank/value"]}</Text>
+                <Text style={styles.nonWinnerScore}>{rank["rank/value"] - 1400}</Text>
             </View>
         );
     }
@@ -57,7 +57,7 @@ const SuperlativeDetails = ({route, navigation}) => {
 
 
     function renderLeftovers() {
-        if (sortedRanks.length >= 4) {
+        if (sortedRanks.length > 4) {
             return (
                 [...sortedRanks].slice(4).map(renderRankRow)
             );
@@ -83,7 +83,7 @@ const SuperlativeDetails = ({route, navigation}) => {
                 <View style={styles.nonWinnerContainer}>
                     <Text style={styles.nonWinnerTitle}>Runners Up</Text>
                     {renderRunnersUp()}
-                    {sortedRanks.length >= 4 ? <Text style={styles.nonWinnerTitle}>Leftovers</Text> : <View></View>}
+                    {sortedRanks.length > 4 ? <Text style={styles.nonWinnerTitle}>Leftovers</Text> : <View></View>}
                     {renderLeftovers()}
                 </View>
             </ScrollView>

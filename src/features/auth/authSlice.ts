@@ -111,7 +111,9 @@ export const authSlice = createSlice({
           .addCase(getUserAction.fulfilled, (state, action) => {
               console.log(action);
               state.user = action.payload.user;
-              Sentry.setUser({ id: action.payload.user["id"] });
+              if (state.user) {
+                Sentry.setUser({ id: action.payload.user["id"] });
+              }
               state.status=action.payload.status;
           })
           .addCase(requestSignupAction.pending, (state) => {

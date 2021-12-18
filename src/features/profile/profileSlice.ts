@@ -65,6 +65,7 @@ export const profileSlice = createSlice({
             state.loading = true;
         })
         .addCase(getRankingsAction.fulfilled, (state, action) => {
+            console.log(action)
             if (action.payload.status === 'success') {
                 state.rankings = action.payload.data;
             } else {
