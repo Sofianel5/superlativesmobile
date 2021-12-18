@@ -44,7 +44,7 @@ const SuperlativeDetails = ({route, navigation}) => {
     function renderRunnersUp() {
         if (sortedRanks.length >= 2) {
             return (
-                [...sortedRanks].slice(1, 3).map(renderRankRow)
+                [...sortedRanks].slice(1, 4).map(renderRankRow)
             );
         } else {
             return (
@@ -57,9 +57,9 @@ const SuperlativeDetails = ({route, navigation}) => {
 
 
     function renderLeftovers() {
-        if (sortedRanks.length >= 3) {
+        if (sortedRanks.length >= 4) {
             return (
-                [...sortedRanks].slice(3).map(renderRankRow)
+                [...sortedRanks].slice(4).map(renderRankRow)
             );
         } else {
             return (
