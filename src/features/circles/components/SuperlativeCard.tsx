@@ -45,29 +45,42 @@ function getFullRankingsObj(question, circle) {
     }
 }
 
-function SuperlativeCard({ question, navigation, circle }) {
+function SuperlativeCard({ question, navigation, circle, id }) {
     return (
         <TouchableOpacity style={styles.superlativeCard} onPress={() => hasRanking(question) ? navigation.navigate('SuperlativeDetails', getFullRankingsObj(question, circle)) : console.log("no lol")}>
             {hasRanking(question) ? (
                 <>
                     <View style={styles.superlativeWinner}>
-                        <Text style={styles.superlativeTitle} numberOfLines={1}>{question["question/text"]}</Text>
+                        {(id === sortedRanks(question)[0]["rank/user"]["user/id"])
+                            ? <Text style={styles.superlativeTitleMe} numberOfLines={1}>{question["question/text"]}</Text>
+                            : <Text style={styles.superlativeTitle} numberOfLines={1}>{question["question/text"]}</Text>
+                        }
                         <View style={styles.superlativeBadge}>
                             <SuperlativeIcon width={82.5} height={72}/>
                         </View>
                         <Image source={{uri: getAssocUser(sortedRanks(question)[0]["rank/user"]["user/id"], circle)["user/profile-pic"]}} style={styles.superlativeWinnerPic} />
-                        <Text style={styles.superlativeWinnerName}>
+                        {(id === sortedRanks(question)[0]["rank/user"]["user/id"])
+                        ? <Text style={styles.superlativeWinnerNameMe}>
                             {getAssocUser(sortedRanks(question)[0]["rank/user"]["user/id"], circle)["user/first-name"]}
                             {" "}
                             {getAssocUser(sortedRanks(question)[0]["rank/user"]["user/id"], circle)["user/last-name"].charAt(0)}.
                         </Text>
+                        : <Text style={styles.superlativeWinnerName}>
+                        {getAssocUser(sortedRanks(question)[0]["rank/user"]["user/id"], circle)["user/first-name"]}
+                        {" "}
+                        {getAssocUser(sortedRanks(question)[0]["rank/user"]["user/id"], circle)["user/last-name"].charAt(0)}.
+                    </Text>
+                        }
                     </View>
                     <View style={styles.closeComers}>
                         <Text style={styles.closeComerText}>Runners Up</Text>
                         {shouldShowRunnersUp(question) && sortedRanks(question).slice(1, 4).map((rank: any) => (
                             <View key={rank["rank/user"]["user/id"]} style={styles.closeComer}>
                                 <Image source={{uri: getAssocUser(rank["rank/user"]["user/id"], circle)["user/profile-pic"]}} style={styles.closeComerPic} />
-                                <Text style={styles.closeComerName}>{getAssocUser(rank["rank/user"]["user/id"], circle)["user/first-name"]} {getAssocUser(rank["rank/user"]["user/id"], circle)["user/last-name"].charAt(0)}.</Text>
+                                {(id === rank["rank/user"]["user/id"])
+                                    ? <Text style={styles.closeComerNameMe}>{getAssocUser(rank["rank/user"]["user/id"], circle)["user/first-name"]} {getAssocUser(rank["rank/user"]["user/id"], circle)["user/last-name"].charAt(0)}.</Text>
+                                    : <Text style={styles.closeComerName}>{getAssocUser(rank["rank/user"]["user/id"], circle)["user/first-name"]} {getAssocUser(rank["rank/user"]["user/id"], circle)["user/last-name"].charAt(0)}.</Text>
+                                }
                             </View>
                         ))}
                     </View>
@@ -203,6 +216,13 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
 
+    superlativeTitleMe: {
+        fontFamily: "Montserrat-SemiBold",
+        color: '#7F5AF0',
+        fontSize: 14,
+        marginBottom: 5,
+    },
+
     superlativeTitleNoRank: {
         fontFamily: "Montserrat-SemiBold",
         color: 'white',
@@ -241,6 +261,14 @@ const styles = StyleSheet.create({
         bottom: 57,
     },
 
+    superlativeWinnerNameMe: {
+        fontFamily: "Montserrat-SemiBold",
+        fontSize: 16,
+        color: '#7F5AF0',
+        position: 'relative',
+        bottom: 57,
+    },
+
     // closeComers: {
     //     paddingLeft: 50,
     // },
@@ -267,6 +295,12 @@ const styles = StyleSheet.create({
     closeComerName: {
         fontFamily: "Montserrat",
         color: 'white',
+        fontSize: 16,
+    },
+
+    closeComerNameMe: {
+        fontFamily: "Montserrat-SemiBold",
+        color: '#7F5AF0',
         fontSize: 16,
     },
 

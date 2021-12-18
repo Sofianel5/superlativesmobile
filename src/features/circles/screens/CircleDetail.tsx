@@ -56,7 +56,7 @@ const CircleDetail = ({route, navigation}) => {
                     {Object.keys(circle["circle/members"]).length > 3 && <Text style={styles.seeAll} onPress={() => (user.id === circle["circle/admin"]["user/id"]) ? navigation.navigate('ModifyMembers', {circle}) : navigation.navigate('MemberList', {circle})}>See all...</Text>}
                     <Text style={styles.leaderboardsTitle}>Superlatives</Text>
                     {Object.values(circle["circle/questions"]).map((question: any) => (
-                        <SuperlativeCard key={question["question/id"]} question={question} circle={circle} navigation={navigation} />
+                        <SuperlativeCard key={question["question/id"]} question={question} id={user.id} circle={circle} navigation={navigation} />
                     ))}
                     <View style={{height: 100}}></View>
                 </View>
