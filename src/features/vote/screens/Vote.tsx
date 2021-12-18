@@ -117,7 +117,7 @@ const Vote = ({navigation}) => {
     function renderQuestion() {
         if (question) {
             return (<View style={styles.questionBar}>
-                <Text style={styles.question}>{question["question/text"]}</Text>
+                {(question["question/text"].length > 22) ? <Text style={styles.questionSmall}>{question["question/text"]}</Text> : <Text style={styles.questionLarge}>{question["question/text"]}</Text>}
             </View>)
         } else if (loading) {
             return (<View style={styles.questionBar}>
@@ -193,10 +193,16 @@ const styles = StyleSheet.create({
         zIndex: -1,
     },
 
-    question: {
+    questionSmall: {
         color: 'black',
         fontFamily: 'Montserrat-SemiBold',
-        fontSize: 25,
+        fontSize: 18,
+    },
+
+    questionLarge: {
+        color: 'black',
+        fontFamily: 'Montserrat-SemiBold',
+        fontSize: 24,
     },
     
     or: {
