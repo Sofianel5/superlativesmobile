@@ -10,6 +10,10 @@ const Settings = ({navigation}) => {
 
     const dispatch = useAppDispatch();
 
+    function handleLogOut() {
+        console.log("dispatching log out")
+        dispatch(logOut());
+    }
 
     return (
         <View style={styles.container}>
@@ -19,8 +23,8 @@ const Settings = ({navigation}) => {
                 <View style={{width: 40}}></View>
             </View>
             <View style={styles.contentContainer}>
-                <TouchableOpacity style={styles.signOutButton}>
-                    <Text style={styles.myRankingsTxt} onPress={() => dispatch(logOut())}>Log Out</Text>
+                <TouchableOpacity style={styles.signOutButton} onPress={handleLogOut}>
+                    <Text style={styles.myRankingsTxt}>Log Out</Text>
                 </TouchableOpacity>
             </View>
         </View>

@@ -116,7 +116,7 @@ const Profile = ({navigation}) => {
                         accumulator.push(array.slice(currentIndex, currentIndex + 2));
                         return accumulator;
                     }, []).map(res => (
-                        <View key={res[0]["rank/question"]["question/id"]} style={styles.rankingRowTwo}>
+                        <View style={styles.rankingRowTwo}>
                             <TouchableOpacity style={styles.rankingContainer} onPress={() => navigation.navigate('SuperlativeDetails', res[0])}>
                                 <Text style={styles.rankingNumber} numberOfLines={1}>#{res[0]["index"]}</Text>
                                 <Text style={styles.rankingTitle} numberOfLines={1}>{res[0]["rank/question"]["question/text"]}</Text>

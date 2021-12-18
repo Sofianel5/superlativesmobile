@@ -93,6 +93,7 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         logOut: (state) => {
+            console.log("logging out!")
             state.status = 'unauthenticated';
             state.user = null;
             state.incompleteUser = {};
