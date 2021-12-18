@@ -27,7 +27,7 @@ const VoteResults = ({userA, userB, results, circle, onTap, navigation}) => {
     return (
        <TouchableWithoutFeedback onPress={onTap}>
            <View style={styles.container}>
-                <Text style={styles.topText} numberOfLines={2}>Here's what the rest of {circle["circle/name"]} thought</Text>
+                <Text style={styles.topText} numberOfLines={2}>Here's where everyone in {circle["circle/name"]} now stands</Text>
                 <View style={styles.pollContainer}>
                     <View style={styles.poll}>
                         <Text style={styles.percentage}>{~~((votesA / (votesA + votesB)).toFixed(2) * 100)}%</Text>
@@ -42,8 +42,8 @@ const VoteResults = ({userA, userB, results, circle, onTap, navigation}) => {
                         <Image source={{uri: userB["user/profile-pic"]}} style={styles.image} />
                     </View>
                 </View>
-                {/* <Text style={styles.tapText}>Tap Anywhere to Continue</Text> */}
-                <Text style={styles.tapText}>{results.question}</Text>
+                <Text style={styles.tapText}>Tap Anywhere to Continue</Text>
+                {/* <Text style={styles.tapText}>{results.question}</Text> */}
             </View>
        </TouchableWithoutFeedback> 
     );
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     pollContainer: {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
-        paddingTop: 40,
+        paddingTop: 55,
     },
 
     poll: {
