@@ -42,9 +42,9 @@ const SuperlativeDetails = ({route, navigation}) => {
     }
 
     function renderRunnersUp() {
-        if (sortedRanks.length >= 2) {
+        if (sortedRanks.length >= 3) {
             return (
-                [...sortedRanks].slice(1, 3).map(renderRankRow)
+                [...sortedRanks].slice(1, 4).map(renderRankRow)
             );
         } else {
             return (
@@ -83,7 +83,7 @@ const SuperlativeDetails = ({route, navigation}) => {
                 <View style={styles.nonWinnerContainer}>
                     <Text style={styles.nonWinnerTitle}>Runners Up</Text>
                     {renderRunnersUp()}
-                    {sortedRanks.length >= 3 ? <Text style={styles.nonWinnerTitle}>Leftovers</Text> : <View></View>}
+                    {sortedRanks.length >= 4 ? <Text style={styles.nonWinnerTitle}>Leftovers</Text> : <View></View>}
                     {renderLeftovers()}
                 </View>
             </ScrollView>
