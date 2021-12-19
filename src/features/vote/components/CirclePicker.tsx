@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     StyleSheet
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 
-function CirclePicker({circles, onChange}) {
+function CirclePicker({circles, selectedCircle, onChange}) {
     const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(0);
+    console.log("selectedCircle:", selectedCircle);
+    const [value, setValue] = selectedCircle != null ? useState(Object.values(circles).map(circle => circle["circle/id"]).indexOf(selectedCircle["circle/id"])) : useState(0);
+    useEffect(() => {
+        if (selectedCircle != null) {
+            setValue(Object.values(circles).map(circle => circle["circle/id"]).indexOf(selectedCircle["circle/id"]));
+        }
+    }, [selectedCircle])
     const [items, setItems] = useState(
         Object.values(circles).map((circle: any, idx: number) => {return {label: circle["circle/name"], value: idx}})
     );

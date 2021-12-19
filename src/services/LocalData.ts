@@ -32,6 +32,8 @@ const CIRCLES_KEY = 'circles'
 
 const VOTE_KEY = 'vote'
 
+const SELECTED_CIRCLE_ID_KEY = 'selectedCircleId'
+
 export const getLocalUser = async () => {
     // const userStr = await storage.load({
     //     key: USER_KEY,
@@ -85,4 +87,22 @@ export const storeVote = async (voteString: string) => {
     // });
     const votesStr = await getVotes();
     return AsyncStorage.setItem(VOTE_KEY, (!!votesStr ? votesStr : "") + voteString);
+}
+
+export const getSelectedCircleId = async () => {
+    // const selectedCircleIdStr = await storage.load({
+    //     key: SELECTED_CIRCLE_ID_KEY,
+    //     id: SELECTED_CIRCLE_ID_KEY,
+    // });
+    const selectedCircleIdStr = await AsyncStorage.getItem(SELECTED_CIRCLE_ID_KEY);
+    return selectedCircleIdStr;
+}
+
+export const saveSelectedCircleId = async (selectedCircleId: string) => {
+    // return storage.save({
+    //     key: SELECTED_CIRCLE_ID_KEY,
+    //     id: SELECTED_CIRCLE_ID_KEY,
+    //     data: selectedCircleId,
+    // });
+    return AsyncStorage.setItem(SELECTED_CIRCLE_ID_KEY, selectedCircleId);
 }

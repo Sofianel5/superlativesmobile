@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getVotes } from '../../services/LocalData';
+import { getVotes, getSelectedCircleId, saveSelectedCircleId } from '../../services/LocalData';
 import { submitVote, getNewQuestion, getVoteStr, saveVote, getResults} from './voteAPI';
 
 interface VoteState {
@@ -31,7 +31,12 @@ export const getQuestion = createAsyncThunk('vote/getQuestion', async (_, {getSt
     var {circles: {circles}, vote: {selectedCircle, votes, question}, auth: {user}} = getState();
     if (!selectedCircle) {
         // Make sure that this circle has at least 2 other users
-        selectedCircle = Object.values(circles)[0];
+        const savedCircleId = await getSelectedCircleId();
+        if (savedCircleId != null && circles[savedCircleId]) {
+            selectedCircle = circles[savedCircleId];
+        } else {
+            selectedCircle = Object.values(circles)[0];
+        }
     }
     return getNewQuestion(selectedCircle, user, votes, question);
 })
@@ -61,9 +66,10 @@ export const getVotesAction = createAsyncThunk('vote/getVotes', async (_, {getSt
 export const selectCircleAction = createAsyncThunk('vote/selectCircle', async (circleId: string, {dispatch, getState}) => {
     console.log('selectCircle');
     var { auth: {user}, vote: {selectedCircle}, circles: {circles}} = getState();
-    if (selectedCircle && selectedCircle.id == circleId) {
+    if (selectedCircle && selectedCircle["circle/id"] == circleId) {
         return;
     }
+    saveSelectedCircleId(circleId);
     return [circles[circleId], user];
 });
 

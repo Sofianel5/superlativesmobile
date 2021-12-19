@@ -116,7 +116,7 @@ const Vote = ({navigation}) => {
         } else {
             return (<View style={styles.topBar}>
                         {/* <Text style={styles.group}>{selectedCircle ? selectedCircle["circle/name"] : Object.values(circles)[0]["circle/name"]}</Text> */}
-                        <CirclePicker circles={circles} onChange={(i) => selectNewCircle(Object.values(circles)[i]["circle/id"])} />
+                        <CirclePicker circles={circles} selectedCircle={selectedCircle} onChange={(i) => selectNewCircle(Object.values(circles)[i]["circle/id"])} />
                     </View>)
         }
     }
