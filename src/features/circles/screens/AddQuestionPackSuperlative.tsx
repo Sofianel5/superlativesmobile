@@ -113,6 +113,9 @@ const styles = StyleSheet.create({
     superlativeContainer: {
         flexDirection: 'row',
         marginLeft: 20,
+        marginBottom: 10,
+        marginTop: 5,
+        width: 320,
     },
 
     superlativeText: {
