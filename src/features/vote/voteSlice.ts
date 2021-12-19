@@ -32,7 +32,7 @@ export const getQuestion = createAsyncThunk('vote/getQuestion', async (_, {getSt
     if (!selectedCircle) {
         // Make sure that this circle has at least 2 other users
         const savedCircleId = await getSelectedCircleId();
-        if (savedCircleId != null && circles[savedCircleId]) {
+        if (savedCircleId != null && savedCircleId in circles) {
             selectedCircle = circles[savedCircleId];
         } else {
             selectedCircle = Object.values(circles)[0];

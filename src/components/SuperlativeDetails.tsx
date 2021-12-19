@@ -1,10 +1,12 @@
 import React from 'react';
 import { StyleSheet, View, Text, ScrollView, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
+import { useAppSelector } from '../app/hooks';
 import SuperlativeIcon from './SuperlativeIcon';
 
 const SuperlativeDetails = ({route, navigation}) => {
     const rankings = route.params;
+    const user = useAppSelector(state => state.auth.user);
     console.log(JSON.stringify(rankings));
     const sortedRanks = [...rankings["rank/question"]["question/ranks"]].sort((a, b) => b["rank/value"] - a["rank/value"]);
     function renderWinner() {
@@ -16,7 +18,7 @@ const SuperlativeDetails = ({route, navigation}) => {
                     </Text>
                     <SuperlativeIcon width={165} height={144} style={styles.superlativeIcon}/>
                     <Image source={{uri: sortedRanks[0]["rank/user"]["user/profile-pic"]}} style={styles.winnerImage }/>
-                    <Text style={styles.winnerName}>
+                    <Text style={sortedRanks[0]["rank/user"]["user/id"] == user["id"] ? Object.assign({}, styles.winnerName, styles.isUser) : styles.winnerName}>
                         {sortedRanks[0]["rank/user"]["user/first-name"]} {sortedRanks[0]["rank/user"]["user/last-name"]}
                     </Text>
                     <Text style={styles.winnerScore}>{sortedRanks[0]["rank/value"] - 1400}</Text>
@@ -35,7 +37,7 @@ const SuperlativeDetails = ({route, navigation}) => {
         return (
             <View style={styles.nonWinnerRow}>
                 <Image source={{uri: rank["rank/user"]["user/profile-pic"]}} style={styles.nonWinnerImage}/>
-                <Text style={styles.nonWinnerName}>{rank["rank/user"]["user/first-name"]} {rank["rank/user"]["user/last-name"]}</Text>
+                <Text style={rank["rank/user"]["user/id"] == user["id"] ? Object.assign({}, styles.nonWinnerName, styles.isUser) : styles.nonWinnerName}>{rank["rank/user"]["user/first-name"]} {rank["rank/user"]["user/last-name"]}</Text>
                 <Text style={styles.nonWinnerScore}>{rank["rank/value"] - 1400}</Text>
             </View>
         );
@@ -174,6 +176,10 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 16,
         marginTop: 5,
+    },
+
+    isUser: {
+        color: '#7F5AF0',
     },
 
     winnerScore: {
