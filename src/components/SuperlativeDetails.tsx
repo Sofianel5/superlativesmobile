@@ -42,14 +42,14 @@ const SuperlativeDetails = ({route, navigation}) => {
     }
 
     function renderRunnersUp() {
-        if (sortedRanks.length >= 3) {
+        if (sortedRanks.length > 1) {
             return (
                 [...sortedRanks].slice(1, 4).map(renderRankRow)
             );
         } else {
             return (
                 <View style={styles.nonWinnerRow}>
-                    <Text style={styles.errorText}>No further rankings yet!</Text>
+                    <Text style={styles.errorText}>No further rankings!</Text>
                 </View>
             );
         }

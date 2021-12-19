@@ -19,7 +19,10 @@ const ModifyMembers = ({route, navigation}) => {
     }
 
     function renderMemberButton(user) {
-        if (!removed.includes(user)) {
+        console.log(circle["circle/admin"]["user/id"], user)
+        if (user == circle["circle/admin"]["user/id"]) {
+            <View></View>
+        } else if (!removed.includes(user)) {
             return (
                 <TouchableOpacity style={styles.removeButton} onPress={() => handlePress(user)}>
                     <Text style={styles.removeButtonText}>Remove</Text>
