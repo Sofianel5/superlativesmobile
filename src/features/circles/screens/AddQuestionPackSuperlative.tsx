@@ -115,20 +115,21 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginBottom: 10,
         marginTop: 5,
-        width: 320,
+        width: 300,
     },
 
     superlativeText: {
         color: 'white',
-        fontFamily: 'Montserrat-SemiBold',
-        fontSize: 18,
+        fontFamily: 'Montserrat',
+        fontSize: 15,
         marginLeft: 10,
         lineHeight: 30,
     },
 
     questionScroll: {
-        paddingVertical: 20,
+        // paddingVertical: 20,
         zIndex: -1,
+        paddingBottom: 30,
     },
 
     buttonContainer : {
