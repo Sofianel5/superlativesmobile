@@ -63,11 +63,11 @@ export const addSuperlativePageOpened = () => {
 }
 
 export const selectSuperlativeFromQuestionPackChosen = () => {
-    firebaseAnalytics.logEvent('select_superlative_from_question_pack_chosen');
+    firebaseAnalytics.logEvent('question_pack_chosen');
 }
 
 export const selectCustomSuperlativeChosen = () => {
-    firebaseAnalytics.logEvent('select_custom_superlative_chosen');
+    firebaseAnalytics.logEvent('custom_superlative_chosen');
 }
 
 export const customSuperlativeAdded = () => {
