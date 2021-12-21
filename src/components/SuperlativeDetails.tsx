@@ -180,6 +180,7 @@ const styles = StyleSheet.create({
 
     isUser: {
         color: '#7F5AF0',
+        fontFamily: 'Montserrat-SemiBold',
     },
 
     winnerScore: {
