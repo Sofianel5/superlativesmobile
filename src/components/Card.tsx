@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
         color: 'white',
         fontFamily: 'Montserrat-SemiBold',
         fontSize: 22,
-        marginTop: 140,
+        marginTop: '40%',
     }
 
 });

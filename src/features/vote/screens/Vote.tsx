@@ -176,10 +176,10 @@ const styles = StyleSheet.create({
 
     topBar: {
         alignSelf: 'stretch',
-        height: 120,
+        height: '15%',
         backgroundColor: '#16161A',
         alignItems: 'center',
-        paddingTop: 25,
+        paddingTop: '6%',
         justifyContent: 'center',
         width: '100%',
         flexDirection: 'row',
