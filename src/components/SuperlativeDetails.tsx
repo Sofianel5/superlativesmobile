@@ -131,8 +131,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginTop: 13,
         maxWidth: '80%',
-        maxHeight: 22
-        
+        maxHeight: 22,
     },
 
     voteCountContainer: {
@@ -155,6 +154,7 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 18,
         marginBottom: 5,
+        textAlign: 'center',
     },
 
     superlativeIcon: {

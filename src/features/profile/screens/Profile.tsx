@@ -81,7 +81,7 @@ const Profile = ({navigation}) => {
                                         <Text style={styles.superlativeTitle} numberOfLines={2}>{res[0]["rank/question"]["question/text"]}</Text>
                                         <Text style={styles.superlativeOne}>#1</Text>
                                     </View>
-                                    <Text style={styles.superlativeGroup}>{res[0]["rank/question"]["question/circle"]["circle/name"]}</Text>
+                                    <Text style={styles.superlativeGroup} numberOfLines={1}>{res[0]["rank/question"]["question/circle"]["circle/name"]}</Text>
                                 </TouchableOpacity>
                                 {res[1] && <TouchableOpacity style={styles.superlativeSuperContainer} onPress={() => navigation.navigate('SuperlativeDetails', res[1])}>
                                     <SuperlativeIcon width={148.5} height={129.6} style={styles.superlativeIcon} />
@@ -90,7 +90,7 @@ const Profile = ({navigation}) => {
                                         <Text style={styles.superlativeTitle}>{res[1]["rank/question"]["question/text"]}</Text>
                                         <Text style={styles.superlativeOne}>#1</Text>
                                     </View>
-                                    <Text style={styles.superlativeGroup}>{res[1]["rank/question"]["question/circle"]["circle/name"]}</Text>
+                                    <Text style={styles.superlativeGroup} numberOfLines={1}>{res[1]["rank/question"]["question/circle"]["circle/name"]}</Text>
                                 </TouchableOpacity>}
                             </View>
                         ))}
@@ -382,7 +382,7 @@ const styles = StyleSheet.create({
     },
 
     superlativeSuperContainer: {
-        
+        maxWidth: 150,
     },
 
     rankingContainer: {
