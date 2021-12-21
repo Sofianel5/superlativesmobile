@@ -5,6 +5,7 @@ import SuperlativeIcon from '../../../components/SuperlativeIcon';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { getRankingsForCircleAction } from '../circlesSlice';
 import SuperlativeCard from '../components/SuperlativeCard';
+import { superlativeManagePageOpened, memberManagePageOpened, addSuperlativePageOpened } from "../../../services/Analytics";
 
 const CircleDetail = ({route, navigation}) => {
 
@@ -34,15 +35,15 @@ const CircleDetail = ({route, navigation}) => {
                 />
                 }>
                 <View style={{paddingLeft: 20, paddingRight: 20,}}>
-                    { (user.id === circle["circle/admin"]["user/id"]) ? <TouchableOpacity style={styles.addSuperlativeContainer} onPress={() => navigation.navigate('ManageSuperlatives', {circle})}>
+                    { (user.id === circle["circle/admin"]["user/id"]) ? <TouchableOpacity style={styles.addSuperlativeContainer} onPress={() => {superlativeManagePageOpened();navigation.navigate('ManageSuperlatives', {circle})}}>
                         <Text style={styles.superlativeText}>Manage superlatives</Text>
                         <Icon name="chevron-right" size={30} style={styles.superlativeRight} color="white" /> 
                     </TouchableOpacity> : <View></View> }
-                    { (user.id === circle["circle/admin"]["user/id"]) ? <TouchableOpacity style={styles.addSuperlativeContainer} onPress={() => navigation.navigate('ModifyMembers', {circle})}>
+                    { (user.id === circle["circle/admin"]["user/id"]) ? <TouchableOpacity style={styles.addSuperlativeContainer} onPress={() => {memberManagePageOpened();navigation.navigate('ModifyMembers', {circle})}}>
                         <Text style={styles.superlativeText}>Modify members</Text>
                         <Icon name="chevron-right" size={30} style={styles.superlativeRight} color="white" /> 
                     </TouchableOpacity> : <View></View> }
-                    <TouchableOpacity style={styles.addSuperlativeContainer} onPress={() => navigation.navigate('SelectSuperlativeSource', {circleId: route.params.circleId})}>
+                    <TouchableOpacity style={styles.addSuperlativeContainer} onPress={() => {addSuperlativePageOpened();navigation.navigate('SelectSuperlativeSource', {circleId: route.params.circleId})}}>
                         <Text style={styles.superlativeText}>Add a Superlative</Text>
                         <Icon name="chevron-right" size={30} style={styles.superlativeRight} color="white" /> 
                     </TouchableOpacity>

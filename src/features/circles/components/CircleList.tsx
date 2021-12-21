@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import { useNavigation } from '@react-navigation/native';
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { getCirclesAction } from "../circlesSlice";
+import { recordCircleOpen, recordCircleCreationPageOpen } from "../../../services/Analytics";
 
 const options = {
     enableVibrateFallback: true,
@@ -23,7 +24,7 @@ function renderCircles({circles, navigation}) {
                     {Object.keys(circle["circle/members"]).length} members
                 </Text>
                 <View style={{alignItems: 'center'}}>
-                    <TouchableOpacity style={user.id === circle["circle/admin"]["user/id"] ? styles.manage : styles.view} onPress={() => {ReactNativeHapticFeedback.trigger("impactHeavy", options);navigation.navigate('CircleDetail', {circleId: circle["circle/id"]})}}>
+                    <TouchableOpacity style={user.id === circle["circle/admin"]["user/id"] ? styles.manage : styles.view} onPress={() => {ReactNativeHapticFeedback.trigger("impactHeavy", options);recordCircleOpen(circle["circle/id"]);navigation.navigate('CircleDetail', {circleId: circle["circle/id"]})}}>
                         <Text style={styles.viewText}>
                             {user.id === circle["circle/admin"]["user/id"] ? "Manage" : "View"}
                         </Text>
@@ -50,7 +51,7 @@ export default function CirclesList(circles) {
                   }>
             {renderCircles(circles)}
             <View>
-                <TouchableOpacity style={styles.newGroup} onPress={() => {ReactNativeHapticFeedback.trigger("impactHeavy", options);navigation.navigate('CreateCircle')}}>
+                <TouchableOpacity style={styles.newGroup} onPress={() => {ReactNativeHapticFeedback.trigger("impactHeavy", options);recordCircleCreationPageOpen();navigation.navigate('CreateCircle')}}>
                     <Icon name="plus" size={35} color="white" />
                 </TouchableOpacity>
             </View>

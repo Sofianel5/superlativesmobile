@@ -3,6 +3,7 @@ import FormData from 'form-data';
 import Urls, { genAuthHeaders } from '../../services/RemoteData';
 import Contacts from 'react-native-contacts';
 import axiosRetry from 'axios-retry';
+import { PermissionsAndroid, Platform } from 'react-native';
 
 axiosRetry(axios, { retryDelay: axiosRetry.exponentialDelay});
 
@@ -46,6 +47,30 @@ export async function getQuestionPacks() {
 }
 
 export async function getContacts() {
+    if (Platform.OS === 'android') {
+        return PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
+            {
+              'title': 'Contacts',
+              'message': 'This app would like to view your contacts.',
+              'buttonPositive': 'Please accept bare mortal'
+            }
+          ).then(() => {
+              return Contacts.getAll()
+                .then((contacts) => {
+                    // work with contacts
+                    return {
+                        status: "success", 
+                        data: contacts.filter(contact => contact.phoneNumbers.length > 0).map(contact => {return {recordID: contact.recordID, givenName: contact.givenName, phoneNumbers: contact.phoneNumbers, familyName: contact.familyName}})
+    
+                    };
+                })
+                .catch((e) => {
+                    return {status: "error", error: "Permission denied"}
+                })
+            });
+    }
+
     return Contacts.checkPermission().then(res => {
         console.log(res);
         if (res) {

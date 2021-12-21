@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import { useAppDispatch } from '../../../app/hooks';
 import { removeSuperlativeAction } from '../circlesSlice';
 import SuperlativeIcon from './SuperlativeIcon';
+import { superlativeDeleted } from '../../../services/Analytics';
 
 const ManageSuperlatives = ({route, navigation}) => {
     const circle = route.params.circle;
@@ -14,6 +15,7 @@ const ManageSuperlatives = ({route, navigation}) => {
     function handlePress(questionId) {
         setRemoved([...removed, questionId]);
         dispatch(removeSuperlativeAction({circleId: circle["circle/id"], questionId}));
+        superlativeDeleted(circle["circle/id"], questionId);
     }
 
     function renderRemoveButton(questionId: string) {

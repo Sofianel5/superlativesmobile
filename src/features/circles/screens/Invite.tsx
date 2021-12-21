@@ -7,11 +7,13 @@ import { getContactsAction, inviteUserAction } from '../circlesSlice';
 import SuperlativeCard from '../components/SuperlativeCard';
 import ContactRow from '../../../components/ContactRow';
 import { AsYouType, parsePhoneNumberFromString } from 'libphonenumber-js';
+import { invitePageOpened, inviteSent } from '../../../services/Analytics';
 
 
 const InviteScreen = ({route, navigation}) => {
     const dispatch = useAppDispatch();
     React.useEffect(() => {
+        invitePageOpened()
         dispatch(getContactsAction());
     }, []);
 
@@ -39,6 +41,7 @@ const InviteScreen = ({route, navigation}) => {
         for (let i = 0; i < contact.phoneNumbers.length; i++) {
             dispatch(inviteUserAction({circleId: route.params.circleId, phone: parsePhoneNumberFromString(contact.phoneNumbers[i].number, 'US')?.format("E.164"), contactId: contact.recordID}));
             console.log("phone:", parsePhoneNumberFromString(contact.phoneNumbers[i].number, 'US')?.format("E.164"))
+            inviteSent(contact.phoneNumbers[i].number, true)
         }
         console.log("sent invites");
     }

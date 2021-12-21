@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "488004192552",
+    "project_id": "superlatives-c2a9d",
+    "storage_bucket": "superlatives-c2a9d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:488004192552:android:1ae572714d2a610f88681d",
+        "android_client_info": {
+          "package_name": "com.superlativesmobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "488004192552-iub7kdqefen28sv98ct8sclssp1r61fg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-3dZSVZbmbGMC1dGoY486WjlcR5S26IM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "488004192552-iub7kdqefen28sv98ct8sclssp1r61fg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "488004192552-n91olmckvnanvcciloj4r2ohs9ldelp8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.outtacontrol.superlativemobile"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

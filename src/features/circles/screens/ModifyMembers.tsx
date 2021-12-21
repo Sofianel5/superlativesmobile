@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Entypo';
 import { useAppDispatch } from '../../../app/hooks';
 import { removeMemberAction } from '../circlesSlice';
-import SuperlativeIcon from './SuperlativeIcon';
+import { memberRemoved } from '../../../services/Analytics';
 
 const ModifyMembers = ({route, navigation}) => {
     const circle = route.params.circle;
@@ -15,6 +15,7 @@ const ModifyMembers = ({route, navigation}) => {
         if (!removed.includes(memberId)) {
             setRemoved([...removed, memberId]);
             dispatch(removeMemberAction({circleId: circle["circle/id"], memberId}));
+            memberRemoved(memberId, circle["circle/id"]);
         }
     }
 

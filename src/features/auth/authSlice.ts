@@ -6,7 +6,7 @@ import { saveUser, getLocalUser, removeUser } from '../../services/LocalData';
 // import * as RootNavigator from '../../services/RootNavigation';
 import { resetProfilePicAction } from '../profile/profileSlice';
 import * as Sentry from "@sentry/react-native";
-
+import { setUserId, recordLogin, recordLogOut, recordSignupRequest, recordSuccessfulVerify, recordUnsuccessfulVerify, recordSignup } from '../../services/Analytics';
 interface AuthState {
   status: 'unauthenticated' | 'loading' | 'authenticated' | 'failed';
   user: any,
@@ -48,6 +48,7 @@ export const getUserAction = createAsyncThunk('auth/getUser', async () => {
 })
 
 export const requestSignupAction = createAsyncThunk('auth/requestSignup', async (data: any, {getState}) => {
+    recordSignupRequest(data.firstName, data.lastName, data.phone);
     return await requestSignup(data.firstName, data.lastName, data.phone)
     .then(res => res.data)
     .catch(err => {
@@ -101,6 +102,7 @@ export const authSlice = createSlice({
             state.globalErrorMessage = null;
             state.tempAuthToken = null;
             removeUser();
+            recordLogOut();
         }
     },
     extraReducers: (builder) => {
@@ -113,6 +115,7 @@ export const authSlice = createSlice({
               state.user = action.payload.user;
               if (state.user) {
                 Sentry.setUser({ id: action.payload.user["id"] });
+                setUserId(action.payload.user["id"]);
               }
               state.status=action.payload.status;
           })
@@ -152,9 +155,11 @@ export const authSlice = createSlice({
                     ...state.incompleteUser,
                     "verified": true
                 }
+                recordSuccessfulVerify();
             } else {
                 state.globalErrorMessage = "Failed to verify number";
                 state.formErrors = {phone: ["Invalid verification code"]};
+                recordUnsuccessfulVerify();
             }
         })
         .addCase(uploadProfilePictureAction.pending, (state) => {
@@ -188,6 +193,8 @@ export const authSlice = createSlice({
                 state.formErrors = {};
                 state.user = action.payload.data;
                 Sentry.setUser({ id: action.payload.data["id"] });
+                setUserId(action.payload.user["id"]);
+                recordSignup();
                 saveUser(state.user);
                 state.status = 'authenticated';
             } else {
@@ -206,6 +213,8 @@ export const authSlice = createSlice({
                 state.formErrors = {};
                 state.user = action.payload.data;
                 Sentry.setUser({ id: action.payload.data["id"] });
+                setUserId(action.payload.data["id"]);
+                recordLogin();
                 saveUser(state.user);
                 state.status = 'authenticated';
             } else {

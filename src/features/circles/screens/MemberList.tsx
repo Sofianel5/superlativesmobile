@@ -3,8 +3,12 @@ import { StyleSheet, View, Text, ScrollView, Image, RefreshControl } from 'react
 import Icon from 'react-native-vector-icons/Entypo';
 import { useAppDispatch } from '../../../app/hooks';
 import SuperlativeIcon from './SuperlativeIcon';
+import { seeAllMembersPageOpened } from '../../../services/Analytics';
 
 const MemberList = ({route, navigation}) => {
+
+    React.useEffect(seeAllMembersPageOpened, []);
+
     const circle = route.params.circle;
 
 
@@ -17,6 +21,7 @@ const MemberList = ({route, navigation}) => {
             </View>
         );
     }
+    
 
     function renderMembers() {
         return (

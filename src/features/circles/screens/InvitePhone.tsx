@@ -7,6 +7,7 @@ import { useAppDispatch } from '../../../app/hooks';
 import { inviteUserAction } from '../circlesSlice';
 import Snackbar from 'react-native-snackbar';
 import { AsYouType, parsePhoneNumberFromString } from 'libphonenumber-js';
+import { inviteSent } from '../../../services/Analytics';
 
 const InvitePhoneScreen = ({route, navigation}) => {
     const dispatch = useAppDispatch();
@@ -20,6 +21,7 @@ const InvitePhoneScreen = ({route, navigation}) => {
                 duration: Snackbar.LENGTH_SHORT,
             })
             dispatch(inviteUserAction({circleId: route.params.circleId, phone: parsedPhone}));
+            inviteSent(parsedPhone, false)
             setPhone('');
         }
     }

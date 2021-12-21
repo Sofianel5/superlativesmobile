@@ -3,8 +3,7 @@ import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image, TextInput,
 import Icon from 'react-native-vector-icons/Entypo';
 import SuperlativeIcon from '../../../components/SuperlativeIcon';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { getQuestionPacksAction } from '../circlesSlice';
-import SuperlativeCard from '../components/SuperlativeCard';
+import { selectSuperlativeFromQuestionPackChosen, selectCustomSuperlativeChosen } from '../../../services/Analytics';
 
 
 const SelectSuperlativeSourceScreen = ({route, navigation}) => {
@@ -19,11 +18,11 @@ const SelectSuperlativeSourceScreen = ({route, navigation}) => {
                 </Text>
             </View>
             <View style={{paddingLeft: 20, paddingRight: 20,}}>
-                <TouchableOpacity style={styles.addSuperlativeContainer} onPress={() => navigation.navigate('AddQuestionPackSuperlatives', {circleId: route.params.circleId})}>
+                <TouchableOpacity style={styles.addSuperlativeContainer} onPress={() => {selectSuperlativeFromQuestionPackChosen();navigation.navigate('AddQuestionPackSuperlatives', {circleId: route.params.circleId})}}>
                     <Text style={styles.superlativeText}>Select from our superlatives</Text>
                     <Icon name="chevron-right" size={30} style={styles.superlativeRight} color="white" /> 
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.addSuperlativeContainer} onPress={() => navigation.navigate('CustomSuperlative', {circleId: route.params.circleId})}>
+                <TouchableOpacity style={styles.addSuperlativeContainer} onPress={() => {selectCustomSuperlativeChosen();navigation.navigate('CustomSuperlative', {circleId: route.params.circleId})}}>
                     <Text style={styles.superlativeText}>Add custom superlative</Text>
                     <Icon name="chevron-right" size={30} style={styles.superlativeRight} color="white" /> 
                 </TouchableOpacity>

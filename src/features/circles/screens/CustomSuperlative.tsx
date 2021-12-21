@@ -6,6 +6,7 @@ import SuperlativeIcon from '../../../components/SuperlativeIcon';
 import { useAppDispatch } from '../../../app/hooks';
 import { addSuperlativesAction } from '../circlesSlice';
 import Snackbar from 'react-native-snackbar';
+import { customSuperlativeAdded } from '../../../services/Analytics';
 
 const CustomSuperlativeScreen = ({route, navigation}) => {
     const dispatch = useAppDispatch();
@@ -18,6 +19,7 @@ const CustomSuperlativeScreen = ({route, navigation}) => {
                 duration: Snackbar.LENGTH_SHORT,
             });
             dispatch(addSuperlativesAction({circleId: route.params.circleId, superlatives: [question]}));
+            customSuperlativeAdded();
             setQuestion('');
             navigation.pop();
             navigation.pop();

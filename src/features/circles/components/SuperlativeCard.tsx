@@ -1,6 +1,7 @@
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import SuperlativeIcon from "../../../components/SuperlativeIcon";
+import { recordCheckSuperlative } from '../../../services/Analytics';
 
 function hasRanking(question: any) {
     return question["question/ranks"] && question["question/ranks"].length > 0;
@@ -47,7 +48,12 @@ function getFullRankingsObj(question, circle) {
 
 function SuperlativeCard({ question, navigation, circle, id }) {
     return (
-        <TouchableOpacity style={styles.superlativeCard} onPress={() => hasRanking(question) ? navigation.navigate('SuperlativeDetails', getFullRankingsObj(question, circle)) : console.log("no lol")}>
+        <TouchableOpacity style={styles.superlativeCard} onPress={() => {
+            if (hasRanking(question)) {
+                recordCheckSuperlative(question["question/id"], "circle_detail");
+                navigation.navigate('SuperlativeDetails', getFullRankingsObj(question, circle))
+            }
+            }}>
             {hasRanking(question) ? (
                 <>
                     <View style={styles.superlativeWinner}>

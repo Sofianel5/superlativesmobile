@@ -597,7 +597,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   boost: a7c83b31436843459a1961bfd74b96033dc77234
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
-  DoubleConversion: 831926d9b8bf8166fd87886c4abab286c2422662
+  DoubleConversion: cde416483dac037923206447da6e1454df403714
   FBLazyVector: de148e8310b8b878db304ceea2fec13f2c02e3a0
   FBReactNativeSpec: 6192956c9e346013d5f1809ba049af720b11c6a4
   Firebase: 44213362f1dcc52555b935dc925ed35ac55f1b20
@@ -625,9 +625,9 @@ SPEC CHECKSUMS:
   React-jsinspector: d9c8eb0b53f0da206fed56612b289fec84991157
   React-logger: e522e76fa3e9ec3e7d7115b49485cc065cf4ae06
   react-native-contacts: bc424db19c3384e44e6a9d9da9a78ee51b0aa7a1
-  react-native-image-picker: 869530859570f2af86ae57bc48886a5e2367a825
-  react-native-image-resizer: d9fb629a867335bdc13230ac2a58702bb8c8828f
-  react-native-safe-area-context: 584dc04881deb49474363f3be89e4ca0e854c057
+  react-native-image-picker: 1dbc397ab78be161bf08bc4f3ad9c39bec12be11
+  react-native-image-resizer: 506412a2bdd70dde64a61e13505ce10f61a04369
+  react-native-safe-area-context: 5cf05f49df9d17261e40e518481f2e334c6cd4b5
   React-perflogger: 73732888d37d4f5065198727b167846743232882
   React-RCTActionSheet: 96c6d774fa89b1f7c59fc460adc3245ba2d7fd79
   React-RCTAnimation: 8940cfd3a8640bd6f6372150dbdb83a79bcbae6c
@@ -649,7 +649,7 @@ SPEC CHECKSUMS:
   RNReanimated: 7444b78bb258a81ddb10fbf5578f5a4389d1a87b
   RNScreens: 4d79118be80f79fa1f4aa131909a1d6e86280af3
   RNSentry: bf1f0970fffd3519a5cf553217f281bbb5b10de4
-  RNSnackbar: be3333a21a453ccc272f41a8add5a71f7d44dfcd
+  RNSnackbar: b6cbf294923b8d6c6056592bca87527c81a0130b
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
   RNVectorIcons: 4143ba35feebab8fdbe6bc43d1e776b393d47ac8
   Sentry: 5c5dd4005f3b7b9765d5a8871232cddbd0d888b7
@@ -657,4 +657,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: a698b7406a397221b4de1a40f8b43b7747e9ef9f
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2
