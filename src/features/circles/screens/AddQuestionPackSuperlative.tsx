@@ -9,25 +9,38 @@ import QuestionPackPicker from '../../../components/QuestionPackPicker';
 import CheckBox from '@react-native-community/checkbox';
 import PopinButton from 'react-native-popin-button';
 import Snackbar from 'react-native-snackbar';
+import { getQuestion } from '../../vote/voteSlice';
 
 const AddQuestionPackSuperlativesScreen = ({route, navigation}) => {
-    const questionPacks = useAppSelector((state) => state.circles.questionPacks);
+    const {questionPacks, lastAddedQuestion, error} = useAppSelector((state) => state.circles);
     const dispatch = useAppDispatch();
     
     const [value, setValue] = useState(null);
     const [checked, setChecked] = useState([]);
-    function handleSubmit() {
-        if (checked.length > 0) {
+    React.useEffect(() => {
+        if (error) {
+            Snackbar.show({
+                text: error,
+                duration: Snackbar.LENGTH_SHORT,
+            });
+        }
+    }, [error]);
+
+    React.useEffect(() => {
+        if (lastAddedQuestion) {
+            dispatch(getQuestion());
             Snackbar.show({
                 text: 'Superlative added!',
                 duration: Snackbar.LENGTH_SHORT,
             });
+        }
+    }, [lastAddedQuestion]);
+
+    function handleSubmit() {
+        if (checked.length > 0) {
             dispatch(addSuperlativesAction({circleId: route.params.circleId, superlatives: checked}));
             console.log("Checked:", checked)
             setChecked([]);
-            navigation.pop();
-            navigation.pop();
-            navigation.navigate('Vote');
         }
     }
     console.log(checked);

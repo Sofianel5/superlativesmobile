@@ -21,6 +21,7 @@ export async function submitVote(userId: string, authToken: string, question: st
 export function getNewQuestion(selectedCircle: any, user, votes, currentQuestion) {
     const questions = selectedCircle["circle/questions"] 
     console.log("getNewQuestion")
+    console.log(votes);
     var i = 0;
     var questionPool = [];
     while (i < questions.length) {
@@ -34,14 +35,17 @@ export function getNewQuestion(selectedCircle: any, user, votes, currentQuestion
         }
         if (count < (Object.keys(selectedCircle["circle/members"]).length - 1) / 2 && question["question/id"] != (!currentQuestion ? null : currentQuestion["question/id"])) {
             questionPool.push(question);
+            console.log("adding " + question["question/id"] + " because count is " + count + " which is less than " + (Object.keys(selectedCircle["circle/members"]).length - 1) / 2)
         } else {
-            console.log("removing " + question["question/id"] + " because count is " + count);
+            console.log("removing " + question["question/id"] + " because count is " + count + " which is not less than " + (Object.keys(selectedCircle["circle/members"]).length - 1) / 2);
         }
         i++;
     }
     if (questionPool.length == 0) { 
         console.log("No more questions")
         return null;
+    } else {
+        console.log("there are " + questionPool.length + " questions left")
     }
     const selectedQuestion = questionPool[~~(Math.random() * questionPool.length)];
     var pool = [...Object.values(selectedCircle["circle/members"])];

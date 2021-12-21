@@ -26,14 +26,14 @@ export async function getCircleRanking(userId: string, authToken: string, circle
     });
 }
 
-export async function addCustomSuperlatives(userId: string, authToken: string, circleId: string, superlatives: string[]) {
+export async function addCustomSuperlatives(userId: string, authToken: string, circle: any, superlatives: string[]) {
     console.log("new-questions: " + superlatives)
     return axios({
         method: 'post',
         url: Urls.ADD_SUPERLATIVES,
         data: superlatives,
         params: {
-            "circle-id": circleId,
+            "circle-id": circle["circle/id"],
         },
         headers: genAuthHeaders(userId, authToken),
     });

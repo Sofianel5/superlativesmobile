@@ -34,10 +34,11 @@ export const getQuestion = createAsyncThunk('vote/getQuestion', async (_, {getSt
         const savedCircleId = await getSelectedCircleId();
         if (savedCircleId != null && savedCircleId in circles) {
             selectedCircle = circles[savedCircleId];
-        } else {
+        } else { 
             selectedCircle = Object.values(circles)[0];
         }
     }
+    //const currentVotes = await getVotes();
     return getNewQuestion(selectedCircle, user, votes, question);
 })
 
@@ -98,7 +99,7 @@ export const voteSlice = createSlice({
             state.votes = action.payload;
         })
         .addCase(getQuestion.fulfilled, (state, action) => {
-            console.log('getQuestion.fulfilled');
+            console.log('getQuestion.fulfilled', action.payload);
             if (action.payload) {
                 state.selectedCircle = action.payload.selectedCircle;
                 state.question = action.payload.selectedQuestion;
@@ -109,6 +110,9 @@ export const voteSlice = createSlice({
             } else {
                 state.loading = false;
                 state.error = "No more questions";
+                state.userA = null;
+                state.userB = null;
+                state.question = null;
             }
         })
         .addCase(submitVoteAction.pending, (state) => {
@@ -119,7 +123,9 @@ export const voteSlice = createSlice({
             console.log('submitVoteAction.fulfilled');
             state.loading = false;
             // const res = getNewQuestion(state.selectedCircle, state.user, state.votes + getVoteStr(state.selectedCircle, action.meta.arg.winnerId, action.meta.arg.loserId), state.question);
-            state.votes = state.votes + getVoteStr(state.selectedCircle, action.meta.arg.winnerId, action.meta.arg.loserId);
+            //state.votes = state.votes.slice() + getVoteStr(state.selectedCircle, action.meta.arg.winnerId, action.meta.arg.loserId);
+            state.votes = state.votes.concat(getVoteStr(action.meta.arg.questionId, action.meta.arg.winnerId, action.meta.arg.loserId));
+            console.log("after: ", state.votes)
             // if (res) {
             //     state.question = res.selectedQuestion;
             //     state.userA = res.userA;
@@ -136,8 +142,7 @@ export const voteSlice = createSlice({
             console.log(action)
             if (action.payload) {
                 state.selectedCircle = action.payload[0];
-                const res = getNewQuestion(state.selectedCircle, action.payload[1], state.votes + getVoteStr(state.selectedCircle, action.meta.arg.winnerId, action.meta.arg.loserId), state.question);
-                state.votes = state.votes + getVoteStr(state.selectedCircle, action.meta.arg.winnerId, action.meta.arg.loserId);
+                const res = getNewQuestion(state.selectedCircle, action.payload[1], state.votes, state.question);
                 if (res) {
                     state.question = res.selectedQuestion;
                     state.userA = res.userA;

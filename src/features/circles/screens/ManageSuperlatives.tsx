@@ -5,6 +5,7 @@ import { useAppDispatch } from '../../../app/hooks';
 import { removeSuperlativeAction } from '../circlesSlice';
 import SuperlativeIcon from './SuperlativeIcon';
 import { superlativeDeleted } from '../../../services/Analytics';
+import { getQuestion } from '../../vote/voteSlice';
 
 const ManageSuperlatives = ({route, navigation}) => {
     const circle = route.params.circle;
@@ -16,6 +17,7 @@ const ManageSuperlatives = ({route, navigation}) => {
         setRemoved([...removed, questionId]);
         dispatch(removeSuperlativeAction({circleId: circle["circle/id"], questionId}));
         superlativeDeleted(circle["circle/id"], questionId);
+        //dispatch(getQuestion());
     }
 
     function renderRemoveButton(questionId: string) {

@@ -3,27 +3,41 @@ import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image, TextInput,
 import Icon from 'react-native-vector-icons/Entypo';
 import PopinButton from 'react-native-popin-button';
 import SuperlativeIcon from '../../../components/SuperlativeIcon';
-import { useAppDispatch } from '../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { addSuperlativesAction } from '../circlesSlice';
 import Snackbar from 'react-native-snackbar';
 import { customSuperlativeAdded } from '../../../services/Analytics';
+import { getQuestion } from '../../vote/voteSlice';
 
 const CustomSuperlativeScreen = ({route, navigation}) => {
+    const {questionPacks, lastAddedQuestion, error} = useAppSelector((state) => state.circles);
     const dispatch = useAppDispatch();
     const [question, setQuestion] = useState('');
 
-    function handleSubmit() {
-        if (question && question.trim().length > 0) {
+    React.useEffect(() => {
+        if (error) {
+            Snackbar.show({
+                text: error,
+                duration: Snackbar.LENGTH_LONG,
+            });
+        }
+    }, [error]);
+
+    React.useEffect(() => {
+        if (lastAddedQuestion) {
+            dispatch(getQuestion());
             Snackbar.show({
                 text: 'Superlative added!',
                 duration: Snackbar.LENGTH_SHORT,
             });
+        }
+    }, [lastAddedQuestion]);
+
+    function handleSubmit() {
+        if (question && question.trim().length > 0) {
             dispatch(addSuperlativesAction({circleId: route.params.circleId, superlatives: [question]}));
             customSuperlativeAdded();
             setQuestion('');
-            navigation.pop();
-            navigation.pop();
-            navigation.navigate('Vote');
         }
     }
 

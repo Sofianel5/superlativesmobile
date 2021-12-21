@@ -8,6 +8,7 @@ interface CirclesState {
     questionPacks: any[];
     contacts: any[];
     invitedContacts: string[];
+    lastAddedQuestion: string;
 }
 
 const initialState: CirclesState = {
@@ -17,6 +18,7 @@ const initialState: CirclesState = {
     questionPacks: null,
     contacts: null,
     invitedContacts: [],
+    lastAddedQuestion: null
 };
 
 export const getCirclesAction = createAsyncThunk('circles/getCircles', async (_, {getState}) => {
@@ -73,15 +75,44 @@ export const addSuperlativesAction = createAsyncThunk('circles/addCustomSuperlat
     console.log('addCustomSuperlativeAction');
     const {superlatives, circleId } = data;
     console.log("Superlatives: " + superlatives)
-    console.log("Circle Id" + circleId)
-    const {auth: {user}} = getState();
-    return await addCustomSuperlatives(user['id'], user['auth-token'], circleId, superlatives)
+    console.log("Circle Id " + circleId)
+    const {auth: {user}, circles: {circles}} = getState();
+    const maxQuestions = 12 + 3 * (Object.values(circles[circleId]["circle/members"]).length - 4);
+    if (circles[circleId]["circle/questions"].length + superlatives.length > maxQuestions) { 
+        console.log("too many questions");
+        return {
+            status: "failed",
+            error: "Too many questions. Add more people to your circle to make more questions."
+        }
+    }
+    for (var i = 0; i < superlatives.length; i++) {
+        if (superlatives[i].length > 55) {
+            console.log("too long");
+            return {
+                status: "failed",
+                error: "A question is too long. Please shorten it to less than 36 characters."
+            }
+        }
+    }
+    for (var i = 0; i < superlatives.length; i++) {
+        for (var j = 0; j < circles[circleId]["circle/questions"].length; j++) {
+            if (superlatives[i] == circles[circleId]["circle/questions"][j]["question/text"]) {
+                console.log("duplicate");
+                return {
+                    status: "failed",
+                    error: "You have duplicate questions. Please remove one of them."
+                }
+            }
+        }
+    }
+    return await addCustomSuperlatives(user['id'], user['auth-token'], circles[circleId], superlatives)
     .then(res => res.data)
     .catch(err => {
         console.log(err);
         console.log(err.response);
         return {
             status: "failed",
+            error: "Unknown error. Check your internet connection"
         }
     });
 });
@@ -195,6 +226,7 @@ export const circleSlice = createSlice({
                     console.log("concated questions: " + newestQuestions.length)
                     state.circles[action.meta.arg.circleId]["circle/questions"] = newestQuestions
                     console.log("final questions: " + state.circles[action.meta.arg.circleId]["circle/questions"].length)
+                    state.lastAddedQuestion = action.payload.data[action.payload.data.length-1]["question/id"]
                 } else {
                     state.error = action.payload.error;
                 }

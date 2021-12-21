@@ -38,6 +38,7 @@ function renderCircles({circles, navigation}) {
 export default function CirclesList(circles) {
     const navigation = useNavigation();
     console.log("CirclesHere:", circles);
+    //console.log(circles.circles["d1dc0820-ddd6-4a23-bf4a-9c97c14363ee"]["circle/questions"].length);
     const loading = useAppSelector((state) => state.circles.loading);
     const dispatch = useAppDispatch();
     return (
