@@ -7,6 +7,7 @@ import { saveUser, getLocalUser, removeUser } from '../../services/LocalData';
 import { resetProfilePicAction } from '../profile/profileSlice';
 import * as Sentry from "@sentry/react-native";
 import { setUserId, recordLogin, recordLogOut, recordSignupRequest, recordSuccessfulVerify, recordUnsuccessfulVerify, recordSignup } from '../../services/Analytics';
+import { requestNotificationPermission } from '../../services/Notifications';
 interface AuthState {
   status: 'unauthenticated' | 'loading' | 'authenticated' | 'failed';
   user: any,
@@ -116,6 +117,7 @@ export const authSlice = createSlice({
               if (state.user) {
                 Sentry.setUser({ id: action.payload.user["id"] });
                 setUserId(action.payload.user["id"]);
+                requestNotificationPermission(action.payload.user["id"], action.payload.user["auth-token"]);
               }
               state.status=action.payload.status;
           })
@@ -193,7 +195,8 @@ export const authSlice = createSlice({
                 state.formErrors = {};
                 state.user = action.payload.data;
                 Sentry.setUser({ id: action.payload.data["id"] });
-                setUserId(action.payload.user["id"]);
+                setUserId(action.payload.data["id"]);
+                requestNotificationPermission(action.payload.data["id"], action.payload.data["auth-token"]);
                 recordSignup();
                 saveUser(state.user);
                 state.status = 'authenticated';
@@ -214,6 +217,7 @@ export const authSlice = createSlice({
                 state.user = action.payload.data;
                 Sentry.setUser({ id: action.payload.data["id"] });
                 setUserId(action.payload.data["id"]);
+                requestNotificationPermission(action.payload.data["id"], action.payload.data["auth-token"]);
                 recordLogin();
                 saveUser(state.user);
                 state.status = 'authenticated';

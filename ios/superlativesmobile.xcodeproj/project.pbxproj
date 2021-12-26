@@ -21,7 +21,7 @@
 		2F3CC48B309F3CF2C1E5EB05 /* libPods-superlativesmobile-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CC405C117419017FD3DCA2B0 /* libPods-superlativesmobile-tvOSTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		D866D1C1276AE353005D5ADF /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = D866D1C0276AE353005D5ADF /* fonts */; };
-		D880BB1327703C40008ACD4E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D880BB1227703C40008ACD4E /* GoogleService-Info.plist */; };
+		D880BB162776B51A008ACD4E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D880BB152776B51A008ACD4E /* GoogleService-Info.plist */; };
 		F71C4C98CD4D45699ED6FD2B /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 647BD92C42024E52858B0E0C /* Montserrat-Regular.ttf */; };
 		FEEA3976218FD6CA74E59132 /* libPods-superlativesmobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 51345BF861F9CD8089D6B387 /* libPods-superlativesmobile.a */; };
 /* End PBXBuildFile section */
@@ -83,7 +83,8 @@
 		C63F8F0D517F41D7A225EA47 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		CC405C117419017FD3DCA2B0 /* libPods-superlativesmobile-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-superlativesmobile-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D866D1C0276AE353005D5ADF /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = fonts; path = ../assets/fonts; sourceTree = "<group>"; };
-		D880BB1227703C40008ACD4E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D880BB1427766D53008ACD4E /* superlativesmobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = superlativesmobile.entitlements; path = superlativesmobile/superlativesmobile.entitlements; sourceTree = "<group>"; };
+		D880BB152776B51A008ACD4E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D8EF21CB27430B9A0062E45D /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		D8EF21CC27430CF60062E45D /* superlativesmobile-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "superlativesmobile-Bridging-Header.h"; sourceTree = "<group>"; };
 		D98B5BF50AC044868F5E009E /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
@@ -151,6 +152,7 @@
 		13B07FAE1A68108700A75B9A /* superlativesmobile */ = {
 			isa = PBXGroup;
 			children = (
+				D880BB1427766D53008ACD4E /* superlativesmobile.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -186,7 +188,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				D880BB1227703C40008ACD4E /* GoogleService-Info.plist */,
+				D880BB152776B51A008ACD4E /* GoogleService-Info.plist */,
 				D866D1C0276AE353005D5ADF /* fonts */,
 				13B07FAE1A68108700A75B9A /* superlativesmobile */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -402,7 +404,7 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				F71C4C98CD4D45699ED6FD2B /* Montserrat-Regular.ttf in Resources */,
 				2876AA663AFD487DA57D5CBC /* Montserrat-SemiBold.ttf in Resources */,
-				D880BB1327703C40008ACD4E /* GoogleService-Info.plist in Resources */,
+				D880BB162776B51A008ACD4E /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -793,7 +795,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CODE_SIGN_ENTITLEMENTS = superlativesmobile/superlativesmobile.entitlements;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = JS2NN5XX7S;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = superlativesmobile/Info.plist;
@@ -804,7 +807,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.outtacontrol.superlativemobile;
+				PRODUCT_BUNDLE_IDENTIFIER = com.outtacontrol.superlativesmobile;
 				PRODUCT_NAME = superlativesmobile;
 				SWIFT_OBJC_BRIDGING_HEADER = "superlativesmobile-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -819,7 +822,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CODE_SIGN_ENTITLEMENTS = superlativesmobile/superlativesmobile.entitlements;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = JS2NN5XX7S;
 				INFOPLIST_FILE = superlativesmobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -829,7 +833,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.outtacontrol.superlativemobile;
+				PRODUCT_BUNDLE_IDENTIFIER = com.outtacontrol.superlativesmobile;
 				PRODUCT_NAME = superlativesmobile;
 				SWIFT_OBJC_BRIDGING_HEADER = "superlativesmobile-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

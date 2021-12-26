@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const devUrl = 'http://localhost:5000/api/';
 const prodUrl = 'https://superlatives.app/api/'
 
@@ -21,6 +23,7 @@ const Urls = {
     GET_RESULTS: baseUrl + 'circles/get-results',
     REMOVE_SUPERLATIVE: baseUrl + 'circles/remove-question',
     REMOVE_MEMBER: baseUrl + 'circles/remove-member',
+    UPLOAD_DEVICE_TOKEN: baseUrl + 'profile/set-device-token',
 }
 
 export const genAuthHeaders = (userId: string, authToken: string) => {
@@ -28,6 +31,17 @@ export const genAuthHeaders = (userId: string, authToken: string) => {
         'request-user': userId,
         'authorization': authToken,
     }
+}
+
+export const uploadDeviceToken = (userId: string, authToken: string, deviceToken: string) => {
+    return axios({
+        method: 'post',
+        url: Urls.UPLOAD_DEVICE_TOKEN,
+        params: {
+            'device-token': deviceToken,
+        },
+        headers: genAuthHeaders(userId, authToken),
+    }).then(console.log).catch(console.log);
 }
 
 export default Urls;
