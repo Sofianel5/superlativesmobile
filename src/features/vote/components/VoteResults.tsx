@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     barOne: {
         height: 300,
         width: 70,
-        backgroundColor: '#2CB67D'
+        backgroundColor: '#7F5AF0',
     },
 
     name: {
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     barTwo: {
         height: 270,
         width: 70,
-        backgroundColor: '#7F5AF0',
+        backgroundColor: '#2CB67D'
     },
 
     tapText: {
