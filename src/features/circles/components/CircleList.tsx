@@ -24,9 +24,9 @@ function renderCircles({circles, navigation}) {
                     {Object.keys(circle["circle/members"]).length} members
                 </Text>
                 <View style={{alignItems: 'center'}}>
-                    <TouchableOpacity style={user.id === circle["circle/admin"]["user/id"] ? styles.manage : styles.view} onPress={() => {ReactNativeHapticFeedback.trigger("impactHeavy", options);recordCircleOpen(circle["circle/id"]);navigation.navigate('CircleDetail', {circleId: circle["circle/id"]})}}>
+                    <TouchableOpacity style={user.id === circle?.["circle/admin"]?.["user/id"] ? styles.manage : styles.view} onPress={() => {ReactNativeHapticFeedback.trigger("impactHeavy", options);recordCircleOpen(circle["circle/id"]);navigation.navigate('CircleDetail', {circleId: circle["circle/id"]})}}>
                         <Text style={styles.viewText}>
-                            {user.id === circle["circle/admin"]["user/id"] ? "Manage" : "View"}
+                            {user.id === circle?.["circle/admin"]?.["user/id"] ? "Manage" : "View"}
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -37,7 +37,7 @@ function renderCircles({circles, navigation}) {
 
 export default function CirclesList(circles) {
     const navigation = useNavigation();
-    console.log("CirclesHere:", circles);
+    console.log("CirclesHere:", JSON.stringify(circles));
     //console.log(circles.circles["d1dc0820-ddd6-4a23-bf4a-9c97c14363ee"]["circle/questions"].length);
     const loading = useAppSelector((state) => state.circles.loading);
     const dispatch = useAppDispatch();

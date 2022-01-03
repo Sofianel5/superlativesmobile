@@ -8,13 +8,15 @@ import SuperlativeCard from '../components/SuperlativeCard';
 import ContactRow from '../../../components/ContactRow';
 import { AsYouType, parsePhoneNumberFromString } from 'libphonenumber-js';
 import { invitePageOpened, inviteSent } from '../../../services/Analytics';
+import { selectContactPhone } from 'react-native-select-contact';
+import Snackbar from 'react-native-snackbar';
 
 
 const InviteScreen = ({route, navigation}) => {
     const dispatch = useAppDispatch();
     React.useEffect(() => {
         invitePageOpened()
-        dispatch(getContactsAction());
+        //dispatch(getContactsAction());
     }, []);
 
     const renderItem = useCallback(({item}, sent) => <ContactRow contact={item} onPress={submitInvite} />, [])
@@ -23,27 +25,41 @@ const InviteScreen = ({route, navigation}) => {
 
     const keyExtractor = useCallback((item) => item.recordID, [])
 
-    const allContacts = useAppSelector((state) => state.circles.contacts);
+    //const allContacts = useAppSelector((state) => state.circles.contacts);
 
     const invites = useAppSelector((state) => state.circles.invitedContacts);
 
-    const [contacts, setContacts] = useState(allContacts);
+    //const [contacts, setContacts] = useState(allContacts);
 
-    function filterContacts(text) {
-        const newContacts = allContacts.filter((contact) => {
-            return contact.givenName.toLowerCase().includes(text.toLowerCase()) || contact.familyName.toLowerCase().includes(text.toLowerCase());
-        })
-        setContacts(newContacts);
+    // function filterContacts(text) {
+    //     const newContacts = allContacts.filter((contact) => {
+    //         return contact.givenName.toLowerCase().includes(text.toLowerCase()) || contact.familyName.toLowerCase().includes(text.toLowerCase());
+    //     })
+    //     setContacts(newContacts);
+    // }
+
+    function submitInvite(phone) {
+        console.log("inviting phone:", phone)
+        dispatch(inviteUserAction({circleId: route.params.circleId, phone: parsePhoneNumberFromString(phone, 'US')?.format("E.164")}));
+        console.log("parsed phone:", parsePhoneNumberFromString(phone, 'US')?.format("E.164"))
+        inviteSent(phone, true)
+        console.log("sent invite");
     }
 
-    function submitInvite(contact) {
-        console.log("contact:", contact)
-        for (let i = 0; i < contact.phoneNumbers.length; i++) {
-            dispatch(inviteUserAction({circleId: route.params.circleId, phone: parsePhoneNumberFromString(contact.phoneNumbers[i].number, 'US')?.format("E.164"), contactId: contact.recordID}));
-            console.log("phone:", parsePhoneNumberFromString(contact.phoneNumbers[i].number, 'US')?.format("E.164"))
-            inviteSent(contact.phoneNumbers[i].number, true)
-        }
-        console.log("sent invites");
+    function handleContactSelection() {
+        return selectContactPhone()
+        .then(selection => {
+            if (!selection) {
+                return;
+            }
+            let { contact, selectedPhone } = selection;
+            console.log(`Selected ${selectedPhone.type} phone number ${selectedPhone.number} from ${contact.name}`);
+            submitInvite(selectedPhone.number);
+            Snackbar.show({
+                text: 'Invited!',
+                duration: Snackbar.LENGTH_SHORT,
+            })
+        });  
     }
 
     return (
@@ -60,8 +76,12 @@ const InviteScreen = ({route, navigation}) => {
                         <Text style={styles.superlativeText}>Invite phone</Text>
                         <Icon name="chevron-right" size={30} style={styles.superlativeRight} color="white" /> 
                     </TouchableOpacity>
-                    <TextInput onChangeText={filterContacts} style={styles.addSuperlativeContainer} selectionColor={'white'} placeholder="Search contacts" placeholderTextColor="#94A1B2" />
-                    {!!contacts ? <FlatList style={{marginTop: 20}} data={contacts} keyExtractor={keyExtractor} renderItem={(item) => renderItem(item, invites.includes(item.item.recordID))} getItemLayout={getItemLayout}/> : <View></View>}
+                    <TouchableOpacity style={styles.addSuperlativeContainer} onPress={handleContactSelection}>
+                        <Text style={styles.superlativeText}>Invite contact phone</Text>
+                        <Icon name="chevron-right" size={30} style={styles.superlativeRight} color="white" /> 
+                    </TouchableOpacity>
+                    {/* <TextInput onChangeText={filterContacts} style={styles.addSuperlativeContainer} selectionColor={'white'} placeholder="Search contacts" placeholderTextColor="#94A1B2" /> */}
+                    {/* {!!contacts ? <FlatList style={{marginTop: 20}} data={contacts} keyExtractor={keyExtractor} renderItem={(item) => renderItem(item, invites.includes(item.item.recordID))} getItemLayout={getItemLayout}/> : <View></View>} */}
                 </View>
             </View>
         </TouchableWithoutFeedback>

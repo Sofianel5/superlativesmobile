@@ -1,9 +1,10 @@
 import React from 'react';
-import { StyleSheet, View, Text, ScrollView, Image, RefreshControl } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, Image, RefreshControl, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import { useAppDispatch } from '../../../app/hooks';
 import SuperlativeIcon from './SuperlativeIcon';
 import { seeAllMembersPageOpened } from '../../../services/Analytics';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const MemberList = ({route, navigation}) => {
 
@@ -11,14 +12,13 @@ const MemberList = ({route, navigation}) => {
 
     const circle = route.params.circle;
 
-
     function renderMemberRow(user: any) {
         return (
-            <View style={styles.nonWinnerRow}>
+            <TouchableOpacity style={styles.nonWinnerRow}>
                 <Image source={{uri: user["user/profile-pic"]}} style={styles.nonWinnerImage}/>
                 <Text style={styles.nonWinnerName}>{user["user/first-name"]} {user["user/last-name"]}</Text>
                 <Text style={styles.nonWinnerScore}></Text>
-            </View>
+            </TouchableOpacity>
         );
     }
     

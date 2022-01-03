@@ -27,9 +27,11 @@ function sortedRanks(question: any) {
 function getFullRankingsObj(question, circle) {
     return {
         "rank/question": {
+            "question/id": question["question/id"],
             "question/text": question["question/text"],
             "question/circle": {
                 "circle/name": circle["circle/name"],
+                "circle/id": circle["circle/id"]
             },
             "question/ranks": question["question/ranks"].map((rank) => {
                 return {

@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ImageBackground, Platform } from 'react-native';
+import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ImageBackground, Platform, Keyboard, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import PopinButton from 'react-native-popin-button';
 import SuperlativeIcon from '../../../components/SuperlativeIcon';
@@ -16,10 +16,13 @@ const CustomSuperlativeScreen = ({route, navigation}) => {
 
     React.useEffect(() => {
         if (error) {
-            Snackbar.show({
-                text: error,
-                duration: Snackbar.LENGTH_LONG,
-            });
+            Alert.alert(
+                "Could not add superlative.",
+                error,
+                [
+                { text: "Ok" }
+                ]
+            )
         }
     }, [error]);
 
@@ -28,13 +31,16 @@ const CustomSuperlativeScreen = ({route, navigation}) => {
             dispatch(getQuestion());
             Snackbar.show({
                 text: 'Superlative added!',
-                duration: Snackbar.LENGTH_SHORT,
+                duration: Snackbar.LENGTH_LONG,
             });
         }
     }, [lastAddedQuestion]);
 
     function handleSubmit() {
+        console.log('gonna add!')
         if (question && question.trim().length > 0) {
+            console.log('gonna add!')
+            Keyboard.dismiss();
             dispatch(addSuperlativesAction({circleId: route.params.circleId, superlatives: [question]}));
             customSuperlativeAdded();
             setQuestion('');
@@ -50,7 +56,7 @@ const CustomSuperlativeScreen = ({route, navigation}) => {
                 </Text>
             </View>
             <View style={{paddingLeft: 20, paddingRight: 20,}}>
-                <TextInput style={styles.addSuperlativeContainer} autoFocus selectionColor={'white'} onSubmitEditing={() => handleSubmit()} onChangeText={text => setQuestion(text)} placeholder="Best wingman..." placeholderTextColor="#94A1B2" />
+                <TextInput style={styles.addSuperlativeContainer} value={question} onChangeText={setQuestion}  autoFocus selectionColor={'white'} onSubmitEditing={() => handleSubmit()} onChangeText={text => setQuestion(text)} placeholder="Best wingman..." placeholderTextColor="#94A1B2" />
                 <PopinButton onPress={() => handleSubmit()}
                 style={styles.readyBtn} shrinkTo={0.7}
                 >

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getCircles, getCircleRanking, addCustomSuperlatives, getQuestionPacks, getContacts, createCircle, inviteUser, removeSuperlative, removeMember } from './circlesAPI';
+import { getCircles, getCircleRanking, addCustomSuperlatives, getQuestionPacks, getContacts, createCircle, inviteUser, removeSuperlative, removeMember, reportSuperlative, block } from './circlesAPI';
+import { hideSuperlative, getHiddenSuperlatives } from '../../services/LocalData';
 
 interface CirclesState {
     circles: any[];
@@ -9,6 +10,7 @@ interface CirclesState {
     contacts: any[];
     invitedContacts: string[];
     lastAddedQuestion: string;
+    hiddenSuperlatives: string[];
 }
 
 const initialState: CirclesState = {
@@ -18,7 +20,8 @@ const initialState: CirclesState = {
     questionPacks: null,
     contacts: null,
     invitedContacts: [],
-    lastAddedQuestion: null
+    lastAddedQuestion: null,
+    hiddenSuperlatives: [],
 };
 
 export const getCirclesAction = createAsyncThunk('circles/getCircles', async (_, {getState}) => {
@@ -82,7 +85,7 @@ export const addSuperlativesAction = createAsyncThunk('circles/addCustomSuperlat
         console.log("too many questions");
         return {
             status: "failed",
-            error: "Too many questions. Add more people to your circle to make more questions."
+            error: "Too many superlatives: add more people to your circle first!"
         }
     }
     for (var i = 0; i < superlatives.length; i++) {
@@ -90,7 +93,7 @@ export const addSuperlativesAction = createAsyncThunk('circles/addCustomSuperlat
             console.log("too long");
             return {
                 status: "failed",
-                error: "A question is too long. Please shorten it to less than 36 characters."
+                error: "A question is too long: shorten it to less than 36 characters."
             }
         }
     }
@@ -170,10 +173,30 @@ export const removeSuperlativeAction = createAsyncThunk('circles/removeSuperlati
     });
 });
 
+export const getHiddenSuperlativesAction = createAsyncThunk('circles/getHiddenSuperlatives', async (_, {getState}) => {
+    console.log('getHiddenSuperlativesAction');
+    return await getHiddenSuperlatives();
+});
+
+export const hideSuperlativeAction = createAsyncThunk('circles/hideSuperlative', async (data: any, {getState}) => {
+    console.log('hideSuperlative');
+    const {auth: {user}} = getState();
+    reportSuperlative(user['id'], user['auth-token'], data.circleId, data.questionId)
+    await hideSuperlative(data.questionId)
+    return {'status' : 'success'}
+});
+
+export const blockAction = createAsyncThunk('circles/block', async (data: any, {getState}) => {
+    console.log('blockAction');
+    const {auth: {user}} = getState();
+    return await block(user['id'], user['auth-token'], data.circleId, data.memberId).then(res => res.data).catch(err => err.response.data);
+});
+
 export const circleSlice = createSlice({
     name: 'circles',
     initialState,
     reducers: {
+
     },
     extraReducers: (builder) => {
         builder
@@ -277,6 +300,32 @@ export const circleSlice = createSlice({
                     const questionId = action.meta.arg.questionId
                     const newQuestions = state.circles[circleId]["circle/questions"].filter(question => question["question/id"] !== questionId)
                     state.circles[circleId]["circle/questions"] = newQuestions
+                }
+            })
+            .addCase(getHiddenSuperlativesAction.fulfilled, (state, action) => {
+                console.log(action)
+                if (action.payload) {
+                    state.hiddenSuperlatives = action.payload.split(';')
+                }
+                console.log(state.hiddenSuperlatives)
+            })
+            .addCase(hideSuperlativeAction.fulfilled, (state, action) => {
+                console.log(action)
+                if (action.payload.status === "success") {
+                    const circleId = action.meta.arg.circleId
+                    const questionId = action.meta.arg.questionId
+                    const newQuestions = state.circles[circleId]["circle/questions"].filter(question => question["question/id"] !== questionId)
+                    state.circles[circleId]["circle/questions"] = newQuestions
+                    state.hiddenSuperlatives.push(questionId);
+                }
+            })
+            .addCase(blockAction.fulfilled, (state, action) => {
+                console.log(action)
+                if (action.payload.status === "success") {
+                    const circleId = action.meta.arg.circleId
+                    const memberId = action.meta.arg.memberId
+                    delete state.circles[circleId]["circle/members"][memberId]
+                    //delete state.circles[circleId]
                 }
             })
         }

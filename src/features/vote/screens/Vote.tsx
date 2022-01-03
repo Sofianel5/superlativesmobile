@@ -21,7 +21,9 @@ const Vote = ({navigation}) => {
     const [showResults, setShowResults] = useState(false)
     const [results, setResults] = useState(null)
     //const [nextResults, setNextResults] = useState(null)
+    console.log(selectedCircle)
     React.useEffect(() => {
+        console.log(!!circles, !!votes,!!selectedCircle)
         if (circles && (votes != null) && !selectedCircle) {
             dispatch(getQuestion());
         }
@@ -128,11 +130,11 @@ const Vote = ({navigation}) => {
             </View>)
         } else if (loading) {
             return (<View style={styles.questionBar}>
-                        <Text style={styles.question}>Loading...</Text>
+                        <Text style={styles.questionThin}>Loading...</Text>
                     </View>)
         } else {
             return (<View style={styles.questionBar}>
-                        <Text style={styles.question}>No more questions</Text>
+                        <Text style={styles.questionThin}>No more questions :(</Text>
                     </View>)
         }
     }
@@ -203,6 +205,13 @@ const styles = StyleSheet.create({
     questionSmall: {
         color: 'black',
         fontFamily: 'Montserrat-SemiBold',
+        fontSize: 18,
+        textAlign: 'center',
+    },
+
+    questionThin: {
+        color: 'black',
+        fontFamily: 'Montserrat-Regular',
         fontSize: 18,
         textAlign: 'center',
     },

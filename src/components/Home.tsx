@@ -5,7 +5,7 @@ import Vote from '../features/vote/screens/Vote'
 import ProfileStackScreen from '../features/profile/screens/ProfileStack'
 import CirclesStackScreen from '../features/circles/screens/CirclesStack'
 import { useAppDispatch } from '../app/hooks';
-import { getCirclesAction } from '../features/circles/circlesSlice';
+import { getCirclesAction, getHiddenSuperlativesAction } from '../features/circles/circlesSlice';
 import { getRankingsAction } from '../features/profile/profileSlice';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
@@ -22,7 +22,8 @@ export default function Home() {
 
     React.useEffect(() => {
         dispatch(getCirclesAction());
-        dispatch(getRankingsAction())
+        dispatch(getRankingsAction());
+        dispatch(getHiddenSuperlativesAction());
     }, []);
     
     return (

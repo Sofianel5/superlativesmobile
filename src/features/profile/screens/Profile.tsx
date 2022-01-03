@@ -16,7 +16,7 @@ const Profile = ({navigation}) => {
 
     const [photo, setPhoto] = React.useState(null);
 
-    const {auth: {user}, profile: {rankings, loading}} = useAppSelector((state) => state);
+    const {auth: {user}, profile: {rankings, loading}, circles: {hiddenSuperlatives}} = useAppSelector((state) => state);
 
     const dispatch = useAppDispatch();
 
@@ -155,9 +155,9 @@ const Profile = ({navigation}) => {
                     <ImageBackground style={styles.backgroundImage} imageStyle={{borderRadius: 20}} source={{uri: photo ? photo.uri : user["profile-pic"]}} />
                     <View style={styles.plusSign}><EntypoIcon name="plus" size={35} color="white"/></View>
                 </TouchableOpacity>
-                {renderSuperlatives(rankings)}
+                {renderSuperlatives(rankings.filter(rank => !hiddenSuperlatives.includes(rank["rank/question"]["question/id"])))}
                 <Text style={styles.myRankingsTxt}>My Rankings</Text>
-                {renderNonSuperlatives(rankings)}
+                {renderNonSuperlatives(rankings.filter(rank => !hiddenSuperlatives.includes(rank["rank/question"]["question/id"])))}
             </ScrollView>
         </View>
     )

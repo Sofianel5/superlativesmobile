@@ -28,7 +28,7 @@ const initialState: VoteState = {
 
 export const getQuestion = createAsyncThunk('vote/getQuestion', async (_, {getState}) => {
     console.log('getQuestion');
-    var {circles: {circles}, vote: {selectedCircle, votes, question}, auth: {user}} = getState();
+    var {circles: {circles, hiddenSuperlatives}, vote: {selectedCircle, votes, question}, auth: {user}} = getState();
     if (!selectedCircle) {
         // Make sure that this circle has at least 2 other users
         const savedCircleId = await getSelectedCircleId();
@@ -39,7 +39,12 @@ export const getQuestion = createAsyncThunk('vote/getQuestion', async (_, {getSt
         }
     }
     //const currentVotes = await getVotes();
-    return getNewQuestion(selectedCircle, user, votes, question);
+    const res = await getNewQuestion(selectedCircle, user, votes, question, hiddenSuperlatives);
+    if (res) {
+        return {status: "success", data: res}
+    } else {
+        return {status: "failed", selectedCircle}
+    }
 })
 
 export const submitVoteAction = createAsyncThunk('vote/submitVote', async (data: any, {getState}) => {
@@ -66,12 +71,12 @@ export const getVotesAction = createAsyncThunk('vote/getVotes', async (_, {getSt
 
 export const selectCircleAction = createAsyncThunk('vote/selectCircle', async (circleId: string, {dispatch, getState}) => {
     console.log('selectCircle');
-    var { auth: {user}, vote: {selectedCircle}, circles: {circles}} = getState();
+    var { auth: {user}, vote: {selectedCircle}, circles: {circles, hiddenSuperlatives}} = getState();
     if (selectedCircle && selectedCircle["circle/id"] == circleId) {
         return;
     }
     saveSelectedCircleId(circleId);
-    return [circles[circleId], user];
+    return [circles[circleId], user, hiddenSuperlatives];
 });
 
 export const getResultsAction = createAsyncThunk('vote/getResults', async (data: any, {getState}) => {
@@ -100,12 +105,12 @@ export const voteSlice = createSlice({
         })
         .addCase(getQuestion.fulfilled, (state, action) => {
             console.log('getQuestion.fulfilled', action.payload);
-            if (action.payload) {
-                state.selectedCircle = action.payload.selectedCircle;
-                state.question = action.payload.selectedQuestion;
-                state.userA = action.payload.userA;
-                state.userB = action.payload.userB;
-                state.user = action.payload.user;
+            if (action.payload.status == "success") {
+                state.selectedCircle = action.payload.data.selectedCircle;
+                state.question = action.payload.data.selectedQuestion;
+                state.userA = action.payload.data.userA;
+                state.userB = action.payload.data.userB;
+                state.user = action.payload.data.user;
                 state.loading = false;
             } else {
                 state.loading = false;
@@ -113,6 +118,7 @@ export const voteSlice = createSlice({
                 state.userA = null;
                 state.userB = null;
                 state.question = null;
+                state.selectedCircle = action.payload.selectedCircle
             }
         })
         .addCase(submitVoteAction.pending, (state) => {
@@ -142,7 +148,7 @@ export const voteSlice = createSlice({
             console.log(action)
             if (action.payload) {
                 state.selectedCircle = action.payload[0];
-                const res = getNewQuestion(state.selectedCircle, action.payload[1], state.votes, state.question);
+                const res = getNewQuestion(state.selectedCircle, action.payload[1], state.votes, state.question, action.payload[2]);
                 if (res) {
                     state.question = res.selectedQuestion;
                     state.userA = res.userA;

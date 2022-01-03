@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ImageBackground } from 'react-native';
+import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ImageBackground, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import SuperlativeIcon from '../../../components/SuperlativeIcon';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
@@ -19,10 +19,13 @@ const AddQuestionPackSuperlativesScreen = ({route, navigation}) => {
     const [checked, setChecked] = useState([]);
     React.useEffect(() => {
         if (error) {
-            Snackbar.show({
-                text: error,
-                duration: Snackbar.LENGTH_SHORT,
-            });
+            Alert.alert(
+                "Could not add superlative.",
+                error,
+                [
+                    { text: "Ok" }
+                ]
+            )
         }
     }, [error]);
 

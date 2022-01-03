@@ -133,3 +133,27 @@ export async function removeMember(userId: string, authToken: string, circleId: 
         headers: genAuthHeaders(userId, authToken),
     });
 }
+
+export async function reportSuperlative(userId: string, authToken: string, circleId: string, superlativeId: string) {
+    return axios({
+        method: 'post',
+        params: {
+            "circle-id": circleId,
+            "question-id": superlativeId,
+        },
+        url: Urls.REPORT_SUPERLATIVE,
+        headers: genAuthHeaders(userId, authToken),
+    });
+}
+
+export async function block(userId: string, authToken: string, circleId: string, memberId: string) {
+    return axios({
+        method: 'post',
+        params: {
+            "circle-id": circleId,
+            "member-id": memberId,
+        },
+        url: Urls.BLOCK,
+        headers: genAuthHeaders(userId, authToken),
+    });
+}

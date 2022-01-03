@@ -1,12 +1,15 @@
 import React from 'react';
-import { StyleSheet, View, Text, ScrollView, Image } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, Image, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
+import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../app/hooks';
+import { hideSuperlativeAction } from '../features/circles/circlesSlice';
 import SuperlativeIcon from './SuperlativeIcon';
 
 const SuperlativeDetails = ({route, navigation}) => {
     const rankings = route.params;
     const user = useAppSelector(state => state.auth.user);
+    const dispatch = useDispatch();
     console.log(JSON.stringify(rankings));
     const sortedRanks = [...rankings["rank/question"]["question/ranks"]].sort((a, b) => b["rank/value"] - a["rank/value"]);
     function renderWinner() {
@@ -57,7 +60,6 @@ const SuperlativeDetails = ({route, navigation}) => {
         }
     }
 
-
     function renderLeftovers() {
         if (sortedRanks.length > 4) {
             return (
@@ -69,6 +71,22 @@ const SuperlativeDetails = ({route, navigation}) => {
             );
         }
     }
+
+    function renderReportButton() {
+        return (<Text style={styles.reportText} onPress={() => {Alert.alert(
+            "Report Superlative",
+            "Are you sure you want to report this superlative? You will no longer be able to view it.",
+            [
+              {
+                text: "Nah",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel"
+              },
+              { text: "Yes", onPress: () => dispatch(hideSuperlativeAction({questionId: rankings["rank/question"]["question/id"], circleId: rankings["rank/question"]["question/circle"]["circle/id"]})) }
+            ]
+          );}}>Report superlative</Text>);
+    }
+
     return (
         <View style={styles.container}>
             <Icon name="chevron-left" size={40} style={styles.back} color="white" onPress={() => navigation.pop()}/> 
@@ -88,6 +106,7 @@ const SuperlativeDetails = ({route, navigation}) => {
                     {sortedRanks.length > 4 ? <Text style={styles.nonWinnerTitle}>Leftovers</Text> : <View></View>}
                     {renderLeftovers()}
                 </View>
+                {renderReportButton()}
             </ScrollView>
         </View>
     )
@@ -105,6 +124,14 @@ const styles = StyleSheet.create({
         fontFamily: "Montserrat-SemiBold",
         textAlign: 'center',
         alignSelf: 'center',
+    },
+
+    reportText: {
+        color: 'white',
+        fontSize: 12,
+        textDecorationLine: 'underline',
+        alignSelf: 'center',
+        marginVertical: 30
     },
 
     back: {

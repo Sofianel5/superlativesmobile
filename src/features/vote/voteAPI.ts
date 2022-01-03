@@ -18,8 +18,11 @@ export async function submitVote(userId: string, authToken: string, question: st
     });
 }
 
-export function getNewQuestion(selectedCircle: any, user, votes, currentQuestion) {
-    const questions = selectedCircle["circle/questions"] 
+export function getNewQuestion(selectedCircle: any, user, votes, currentQuestion, hiddenSuperlatives: string[]) {
+    var questions = selectedCircle["circle/questions"]
+    if (hiddenSuperlatives) {
+        questions = selectedCircle["circle/questions"].filter(q => !hiddenSuperlatives.includes(q["question/id"]))
+    }
     console.log("getNewQuestion")
     console.log(votes);
     var i = 0;

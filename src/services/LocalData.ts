@@ -34,6 +34,8 @@ const VOTE_KEY = 'vote'
 
 const SELECTED_CIRCLE_ID_KEY = 'selectedCircleId'
 
+const HIDDEN_SUPERLATIVES = 'hiddenSuperlatives'
+
 export const getLocalUser = async () => {
     // const userStr = await storage.load({
     //     key: USER_KEY,
@@ -105,4 +107,18 @@ export const saveSelectedCircleId = async (selectedCircleId: string) => {
     //     data: selectedCircleId,
     // });
     return AsyncStorage.setItem(SELECTED_CIRCLE_ID_KEY, selectedCircleId);
+}
+
+export const getHiddenSuperlatives = async () => {
+  try {
+    const hiddenSuperlativesStr = await AsyncStorage.getItem(HIDDEN_SUPERLATIVES);
+    return hiddenSuperlativesStr ?? "";
+  } catch {
+    return ""
+  }
+}
+
+export const hideSuperlative = async (superlativeId: string) => {
+  const hiddenSuperlativesStr = await getHiddenSuperlatives();
+  AsyncStorage.setItem(HIDDEN_SUPERLATIVES, (!!hiddenSuperlativesStr ? hiddenSuperlativesStr : "") + superlativeId + ";");
 }

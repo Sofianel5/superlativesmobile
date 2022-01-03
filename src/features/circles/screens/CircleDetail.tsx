@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ImageBackground, RefreshControl } from 'react-native';
+import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ImageBackground, RefreshControl, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import SuperlativeIcon from '../../../components/SuperlativeIcon';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { getRankingsForCircleAction } from '../circlesSlice';
+import { blockAction, getRankingsForCircleAction } from '../circlesSlice';
 import SuperlativeCard from '../components/SuperlativeCard';
 import { superlativeManagePageOpened, memberManagePageOpened, addSuperlativePageOpened } from "../../../services/Analytics";
 
@@ -12,11 +12,13 @@ const CircleDetail = ({route, navigation}) => {
     const circle = useAppSelector((state) => state.circles.circles[route.params.circleId]);
     const user = useAppSelector((state) => state.auth.user);
     const loading = useAppSelector((state) => state.circles.loading);
+    const hiddenSuperlatives = useAppSelector((state) => state.circles.hiddenSuperlatives);
 
     const dispatch = useAppDispatch();
     React.useEffect(() => {
         dispatch(getRankingsForCircleAction(circle["circle/id"]));
     }, []);
+    console.log(hiddenSuperlatives);
 
     return (
         <View style={styles.container}>
@@ -49,14 +51,27 @@ const CircleDetail = ({route, navigation}) => {
                     </TouchableOpacity>
                     <Text style={styles.membersTitle}>Members ({Object.keys(circle["circle/members"]).length})</Text>
                     {Object.values(circle["circle/members"]).slice(0, 3).map((member: any) => (
-                        <View key={member["user/id"]} style={styles.memberCard}>
-                            <Image source={{uri: member["user/profile-pic"]}} style={styles.profilePic} />
-                            <Text style={styles.member}>{member["user/first-name"]} {member["user/last-name"]} {member["user/id"] == circle["circle/admin"]["user/id"] ? "(Admin)" : ""}</Text>
+                        <View key={member["user/id"]} style={styles.memberCard} >
+                            <TouchableOpacity style={styles.memberCardLeft} onLongPress={() => { if (member["user/id"] != user["id"]) Alert.alert(
+                                    "Block ".concat(member["user/first-name"]).concat(" ").concat(member["user/last-name"]).concat("?"),
+                                    "Are you sure you want to block this user?",
+                                    [
+                                    {
+                                        text: "Nah",
+                                        onPress: () => console.log("Cancel Pressed"),
+                                        style: "cancel"
+                                    },
+                                    { text: "Yes", onPress: () => dispatch(blockAction({memberId: member["user/id"], circleId: circle["circle/id"]})) }
+                                    ]
+                                );}}>
+                                <Image source={{uri: member["user/profile-pic"]}} style={styles.profilePic} />
+                                <Text style={styles.member}>{member["user/first-name"]} {member["user/last-name"]} {member["user/id"] == circle["circle/admin"]["user/id"] ? "(Admin)" : ""}</Text>
+                            </TouchableOpacity>
                         </View>
                     ))}
                     {Object.keys(circle["circle/members"]).length > 3 && <Text style={styles.seeAll} onPress={() => (user.id === circle["circle/admin"]["user/id"]) ? navigation.navigate('ModifyMembers', {circle}) : navigation.navigate('MemberList', {circle})}>See all...</Text>}
                     <Text style={styles.leaderboardsTitle}>Superlatives</Text>
-                    {Object.values(circle["circle/questions"]).map((question: any) => (
+                    {Object.values(circle["circle/questions"].filter(question => !hiddenSuperlatives.includes(question["question/id"]))).map((question: any) => (
                         <SuperlativeCard key={question["question/id"]} question={question} id={user.id} circle={circle} navigation={navigation} />
                     ))}
                     <View style={{height: 100}}></View>
@@ -139,10 +154,15 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
 
+    memberCardLeft: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+
     memberCard: {
         marginTop: 12,
         flexDirection: 'row',
-        alignItems: 'center',
+        justifyContent: 'space-between',
     },
 
     profilePic: {

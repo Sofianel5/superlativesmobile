@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
-    StyleSheet
+    StyleSheet, View,
 } from 'react-native';
+// import RNPickerSelect from 'react-native-picker-select';
+
 import DropDownPicker from 'react-native-dropdown-picker';
 
 function CirclePicker({circles, selectedCircle, onChange}) {
@@ -16,10 +18,11 @@ function CirclePicker({circles, selectedCircle, onChange}) {
     const [items, setItems] = useState(
         Object.values(circles).map((circle: any, idx: number) => {return {label: circle["circle/name"], value: idx}})
     );
-    //DropDownPicker.addTheme("QuestionPackPickerTheme", "require("./QuestionPackPickerTheme")");
-    DropDownPicker.setTheme("DARK"); 
+    // DropDownPicker.addTheme("QuestionPackPickerTheme", "require("./QuestionPackPickerTheme")");
+    DropDownPicker.setTheme("DARK");
 
     return (
+
         <DropDownPicker
             open={open}
             value={value}
@@ -27,6 +30,11 @@ function CirclePicker({circles, selectedCircle, onChange}) {
             placeholder="Choose pack"
             zIndex={1000}
             onChangeValue={onChange}
+            textStyle={
+                {
+                    fontFamily: "Montserrat-Regular"
+                }
+            }
             style={
                 {
                     backgroundColor: '#16161A',
@@ -43,7 +51,8 @@ function CirclePicker({circles, selectedCircle, onChange}) {
                     marginVertical: 20, 
                     width: 200, 
                     alignSelf: 'center',
-                    borderWidth: 0,
+                    //borderWidth: 0,
+                    
                 }
             }
             labelStyle={{color: 'white', fontSize: 20, fontWeight: 'bold', textAlign: 'center', fontFamily: 'Montserrat-SemiBold'}}

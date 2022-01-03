@@ -5,6 +5,8 @@ import { setPasswordAction } from '../authSlice';
 import PopinButton from 'react-native-popin-button';
 import Icon from 'react-native-vector-icons/Entypo';
 import { useWindowDimensions } from 'react-native';
+import CheckBox from '@react-native-community/checkbox';
+import Communications from 'react-native-communications';
 
 const SetPass = ({navigation}) => {
 
@@ -16,12 +18,14 @@ const SetPass = ({navigation}) => {
 
     const {auth: {status, globalErrorMessage}} = useAppSelector((state) => state);
 
+    const [tos, setTos] = React.useState(false);
+
     function handleSubmit() {
         dispatch(setPasswordAction(password));
     }
 
     function passwordValid(text: string) {
-        return !!(text && text.length >= 6);
+        return !!(text && text.length >= 6) && tos;
     }
 
     const renderButton = () => {
@@ -74,6 +78,22 @@ const SetPass = ({navigation}) => {
                 Maybe something kinky?
                 </Text>
             </View>
+            <View style={styles.checkRow}>
+                <CheckBox 
+                    boxType="square" 
+                    onCheckColor="#7F5AF0" 
+                    onFillColor="#7F5AF0" 
+                    onTintColor="rgba(0,0,0,0)" 
+                    animationDuration={0}
+                    style={{backgroundColor: "#16161A", borderColor: "#16161A"}}
+                    value={tos}
+                    onValueChange={(added) => {
+                        setTos(added);
+                    }}></CheckBox>
+                <Text style={styles.annoyingText}>
+                    I agree to <Text style={styles.linkText} onPress={() => Communications.web("https://superlatives-files.s3.amazonaws.com/tos.html")}>ToS </Text>
+                    & <Text style={styles.linkText} onPress={() => Communications.web("https://superlatives-files.s3.amazonaws.com/privacy.html")}>privacy policy</Text></Text>
+            </View>
             {passwordValid(password) && renderButton()}
         </View>
     )
@@ -88,6 +108,24 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingLeft: '5%',
         paddingBottom: '2%',
+    },
+
+    checkRow: {
+        flexDirection: 'row',
+        marginLeft: 30,
+        marginBottom: 20
+    },
+
+    annoyingText: {
+        color: 'white',
+        fontSize: 16,
+        marginLeft: 10,
+        lineHeight: 30
+    },
+
+    linkText: {
+        color: '#7F5AF0',
+        textDecorationLine: 'underline',
     },
 
     container: {

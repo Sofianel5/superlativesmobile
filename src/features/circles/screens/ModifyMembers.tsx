@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, ScrollView, Image, RefreshControl } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { StyleSheet, View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import { useAppDispatch } from '../../../app/hooks';
 import { removeMemberAction } from '../circlesSlice';
@@ -12,6 +11,7 @@ const ModifyMembers = ({route, navigation}) => {
     const dispatch = useAppDispatch();
 
     function handlePress(memberId: string) {
+        console.log("pressed")
         if (!removed.includes(memberId)) {
             setRemoved([...removed, memberId]);
             dispatch(removeMemberAction({circleId: circle["circle/id"], memberId}));

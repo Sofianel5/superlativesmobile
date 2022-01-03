@@ -21,6 +21,11 @@ function QuestionPackPicker({questionPacks, onChange}) {
         placeholder="Choose pack"
         zIndex={1000}
         onChangeValue={onChange}
+        textStyle={
+            {
+                fontFamily: "Montserrat-SemiBold"
+            }
+        }
         style={
             {
                 backgroundColor: '#16161A',

@@ -24,6 +24,8 @@ const Urls = {
     REMOVE_SUPERLATIVE: baseUrl + 'circles/remove-question',
     REMOVE_MEMBER: baseUrl + 'circles/remove-member',
     UPLOAD_DEVICE_TOKEN: baseUrl + 'profile/set-device-token',
+    REPORT_SUPERLATIVE: baseUrl + 'circles/report-superlative',
+    BLOCK: baseUrl + 'circles/block',
 }
 
 export const genAuthHeaders = (userId: string, authToken: string) => {
