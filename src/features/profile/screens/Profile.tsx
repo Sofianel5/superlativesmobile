@@ -13,7 +13,8 @@ import { navigate } from '../../../services/RootNavigation';
 // import { uploadProfilePictureAction } from '../authSlice';
 // import { launchImageLibrary } from 'react-native-image-picker';
 
-const Profile = ({navigation}) => {
+const Profile = ({route, navigation}) => {
+    console.log("newSuperlatives in profile", route?.params?.newSuperlative)
 
     const [photo, setPhoto] = React.useState(null);
 
@@ -75,9 +76,10 @@ const Profile = ({navigation}) => {
                             return accumulator;
                         }, []).map(res => (
                             <View style={styles.superlativeRowTwo}>
+                                {route?.params?.newSuperlative == res[0]["rank/question"]["question/id"] && 
                                 <View style={styles.notification}>
                                     <RedBadge />
-                                </View>
+                                </View>}
                                 <TouchableOpacity style={styles.superlativeSuperContainer} onPress={() => navigation.navigate('SuperlativeDetails', res[0])}>
                                     <SuperlativeIcon width={148.5} height={129.6} style={styles.superlativeIcon} />
                                     <InnerBadge fill="#7F5AF0" width={84.6} style={styles.innerBadge} />
@@ -87,6 +89,10 @@ const Profile = ({navigation}) => {
                                     </View>
                                     <Text style={styles.superlativeGroup} numberOfLines={1}>{res[0]["rank/question"]["question/circle"]["circle/name"]}</Text>
                                 </TouchableOpacity>
+                                {route?.params?.newSuperlative == res[1]["rank/question"]["question/id"] && 
+                                <View style={styles.notification}>
+                                    <RedBadge />
+                                </View>}
                                 {res[1] && <TouchableOpacity style={styles.superlativeSuperContainer} onPress={() => navigation.navigate('SuperlativeDetails', res[1])}>
                                     <SuperlativeIcon width={148.5} height={129.6} style={styles.superlativeIcon} />
                                     <InnerBadge fill="#7F5AF0" width={84.6} style={styles.innerBadge} />

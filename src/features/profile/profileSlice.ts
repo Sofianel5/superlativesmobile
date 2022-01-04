@@ -5,12 +5,14 @@ interface ProfileState {
     rankings: any[];
     loading: boolean;
     error: string;
+    newSuperlatives: string[];
 }
 
 const initialState: ProfileState = {
     rankings: null,
     loading: true,
     error: null,
+    newSuperlatives: [],
 };
 
 export const getRankingsAction = createAsyncThunk('profile/getRankings', async (_, {getState}) => {
@@ -58,6 +60,10 @@ export const profileSlice = createSlice({
     name: 'profile',
     initialState,
     reducers: {
+        markNewSuperlative: (state, action) => {
+            state.newSuperlatives.push(action.payload);
+            console.log(action, state.newSuperlatives)
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -82,6 +88,6 @@ export const profileSlice = createSlice({
     }
 });
 
-export const {  } = profileSlice.actions;
+export const { markNewSuperlative } = profileSlice.actions;
 
 export default profileSlice.reducer;

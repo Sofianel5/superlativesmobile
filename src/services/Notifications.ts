@@ -1,4 +1,7 @@
 import messaging from '@react-native-firebase/messaging';
+import { useAppDispatch } from '../app/hooks';
+import { store } from '../app/store';
+import { markNewSuperlative } from '../features/profile/profileSlice';
 import { uploadDeviceToken  } from './RemoteData';
 import { navigate } from './RootNavigation';
 
@@ -37,7 +40,18 @@ export async function requestNotificationPermission(userId: string, authToken: s
 
 export function handleNotification() {
   firebaseMessaging.onNotificationOpenedApp((message) => {
-    if ("route" in message.data && message.data.route in ["Profile", "Circles", "Vote"]) 
-      navigate(message.data.route, {})
+    if ("newSuperlative" in message.data) {
+      console.log('calling store.dispatch')
+      //markNewSuperlative(message.data.newSuperlative);
+      // console.log(store);
+    }
+    console.log(message, ["Profile", "Circles", "Vote"].includes(message.data.route))
+    if ("route" in message.data && ["Profile", "Circles", "Vote"].includes(message.data.route)) {
+      if ("props" in message.data) {
+        //navigate(message.data.route, message.data.props)
+      }
+      navigate(message.data.route, message.data)
+      console.log("navigating to" + message.data.route)
+    }
   });
 }
