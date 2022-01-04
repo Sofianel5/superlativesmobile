@@ -1,5 +1,5 @@
 import React, { Component, useCallback, useState } from 'react';
-import { FlatList, View, Text, StyleSheet, TouchableOpacity, Keyboard, TextInput, TouchableWithoutFeedback } from 'react-native';
+import { PermissionsAndroid, View, Text, StyleSheet, TouchableOpacity, Keyboard, TextInput, TouchableWithoutFeedback, Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import SuperlativeIcon from '../../../components/SuperlativeIcon';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
@@ -46,7 +46,27 @@ const InviteScreen = ({route, navigation}) => {
         console.log("sent invite");
     }
 
-    function handleContactSelection() {
+    async function requestAndroidPermission () {
+        const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
+            {
+              title: "Grant access to Contacts?",
+              message:
+                "Superlatives needs access to your contacts to invite people.",
+              buttonNeutral: "Ask Me Later",
+              buttonNegative: "Cancel",
+              buttonPositive: "OK"
+            })
+        return granted
+    }
+
+    async function handleContactSelection() {
+        if (Platform.OS == "android") {
+            const res = await requestAndroidPermission()
+            if (res != PermissionsAndroid.RESULTS.GRANTED) {
+                return;
+            }
+        }
         return selectContactPhone()
         .then(selection => {
             if (!selection) {

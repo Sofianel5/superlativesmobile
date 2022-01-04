@@ -8,6 +8,7 @@ import { useAppDispatch } from '../app/hooks';
 import { getCirclesAction, getHiddenSuperlativesAction } from '../features/circles/circlesSlice';
 import { getRankingsAction } from '../features/profile/profileSlice';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import { handleNotification } from '../services/Notifications';
 
 const options = {
     enableVibrateFallback: true,
@@ -24,6 +25,7 @@ export default function Home() {
         dispatch(getCirclesAction());
         dispatch(getRankingsAction());
         dispatch(getHiddenSuperlativesAction());
+        handleNotification();
     }, []);
     
     return (

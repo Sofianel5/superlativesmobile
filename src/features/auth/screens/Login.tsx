@@ -40,7 +40,7 @@ const Login = ({navigation}) => {
         } else {
             return <TouchableOpacity onPress={() => handleSubmit()} style={styles.readyBtn}>
                         <Text style={styles.readyText}>
-                            I'm Ready ;)
+                            I'm Back!
                         </Text>
                     </TouchableOpacity>
         }

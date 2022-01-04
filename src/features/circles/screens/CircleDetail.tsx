@@ -38,7 +38,7 @@ const CircleDetail = ({route, navigation}) => {
                 }>
                 <View style={{paddingLeft: 20, paddingRight: 20,}}>
                     { (user.id === circle["circle/admin"]["user/id"]) ? <TouchableOpacity style={styles.addSuperlativeContainer} onPress={() => {superlativeManagePageOpened();navigation.navigate('ManageSuperlatives', {circle})}}>
-                        <Text style={styles.superlativeText}>Manage superlatives</Text>
+                        <Text style={styles.superlativeText}>Manage Superlatives</Text>
                         <Icon name="chevron-right" size={30} style={styles.superlativeRight} color="white" /> 
                     </TouchableOpacity> : <View></View> }
                     { (user.id === circle["circle/admin"]["user/id"]) ? <TouchableOpacity style={styles.addSuperlativeContainer} onPress={() => {memberManagePageOpened();navigation.navigate('ModifyMembers', {circle})}}>

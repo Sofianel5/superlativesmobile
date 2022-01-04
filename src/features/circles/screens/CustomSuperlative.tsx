@@ -17,7 +17,7 @@ const CustomSuperlativeScreen = ({route, navigation}) => {
     React.useEffect(() => {
         if (error) {
             Alert.alert(
-                "Could not add superlative.",
+                "Could not add Superlative.",
                 error,
                 [
                 { text: "Ok" }

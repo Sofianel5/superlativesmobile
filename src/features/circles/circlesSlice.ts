@@ -85,7 +85,7 @@ export const addSuperlativesAction = createAsyncThunk('circles/addCustomSuperlat
         console.log("too many questions");
         return {
             status: "failed",
-            error: "Too many superlatives: add more people to your circle first!"
+            error: "Too many Superlatives: add more people to your circle first!"
         }
     }
     for (var i = 0; i < superlatives.length; i++) {
@@ -93,7 +93,7 @@ export const addSuperlativesAction = createAsyncThunk('circles/addCustomSuperlat
             console.log("too long");
             return {
                 status: "failed",
-                error: "A question is too long: shorten it to less than 36 characters."
+                error: "A Superlative is too long: shorten it to less than 36 characters."
             }
         }
     }
@@ -103,7 +103,7 @@ export const addSuperlativesAction = createAsyncThunk('circles/addCustomSuperlat
                 console.log("duplicate");
                 return {
                     status: "failed",
-                    error: "You have duplicate questions. Please remove one of them."
+                    error: "You have duplicate Superlatives. Please remove one of them."
                 }
             }
         }
@@ -220,6 +220,9 @@ export const circleSlice = createSlice({
                 if (action.payload.status === "success") {
                     console.log("Success in StateCircleRank")
                     state.circles[action.meta.arg]["circle/questions"] = action.payload.data["circle/questions"]
+                    if (action.payload.data["circle/members"]) {
+                        state.circles[action.meta.arg]["circle/members"] = action.payload.data["circle/members"]
+                    }
                     state.loading = false;
                 } else {
                     state.error = action.payload.error;
@@ -235,7 +238,7 @@ export const circleSlice = createSlice({
                     state.questionPacks = action.payload.data;
                     state.loading = false;
                 } else {
-                    state.error = "Failed to get superlatives";
+                    state.error = "Failed to get Superlatives";
                     state.loading = false;
                 }
             })

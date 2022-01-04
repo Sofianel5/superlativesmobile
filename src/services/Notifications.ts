@@ -1,5 +1,6 @@
 import messaging from '@react-native-firebase/messaging';
 import { uploadDeviceToken  } from './RemoteData';
+import { navigate } from './RootNavigation';
 
 const firebaseMessaging = messaging()
 
@@ -32,4 +33,11 @@ export async function requestNotificationPermission(userId: string, authToken: s
     const token = await firebaseMessaging.getToken();
     console.log('FirebaseNotifToken:', token);
     uploadDeviceToken(userId, authToken, token);
+}
+
+export function handleNotification() {
+  firebaseMessaging.onNotificationOpenedApp((message) => {
+    if ("route" in message.data && message.data.route in ["Profile", "Circles", "Vote"]) 
+      navigate(message.data.route, {})
+  });
 }
