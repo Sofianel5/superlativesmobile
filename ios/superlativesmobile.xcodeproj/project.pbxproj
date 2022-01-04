@@ -352,7 +352,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = JS2NN5XX7S;
+						DevelopmentTeam = J93YAW29U2;
 						LastSwiftMigration = 1250;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
@@ -797,7 +797,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = superlativesmobile/superlativesmobile.entitlements;
 				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = JS2NN5XX7S;
+				DEVELOPMENT_TEAM = J93YAW29U2;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = superlativesmobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -808,7 +808,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.outtacontrol.superlativesmobile;
+				PRODUCT_BUNDLE_IDENTIFIER = com.outtacontrol.superlativesmobiles;
 				PRODUCT_NAME = superlativesmobile;
 				SWIFT_OBJC_BRIDGING_HEADER = "superlativesmobile-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -825,7 +825,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = superlativesmobile/superlativesmobile.entitlements;
 				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = JS2NN5XX7S;
+				DEVELOPMENT_TEAM = J93YAW29U2;
 				INFOPLIST_FILE = superlativesmobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LD_VERIFY_BITCODE = NO;
@@ -835,7 +835,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.outtacontrol.superlativesmobile;
+				PRODUCT_BUNDLE_IDENTIFIER = com.outtacontrol.superlativesmobiles;
 				PRODUCT_NAME = superlativesmobile;
 				SWIFT_OBJC_BRIDGING_HEADER = "superlativesmobile-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

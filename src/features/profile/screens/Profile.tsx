@@ -4,6 +4,7 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import InnerBadge from '../../../../assets/icons/InnerBadge';
 import {useAppDispatch, useAppSelector} from '../../../app/hooks';
 import SuperlativeIcon from '../../../components/SuperlativeIcon';
+import RedBadge from '../../../components/RedBadge';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
 import ImageResizer from 'react-native-image-resizer';
@@ -74,6 +75,9 @@ const Profile = ({navigation}) => {
                             return accumulator;
                         }, []).map(res => (
                             <View style={styles.superlativeRowTwo}>
+                                <View style={styles.notification}>
+                                    <RedBadge />
+                                </View>
                                 <TouchableOpacity style={styles.superlativeSuperContainer} onPress={() => navigation.navigate('SuperlativeDetails', res[0])}>
                                     <SuperlativeIcon width={148.5} height={129.6} style={styles.superlativeIcon} />
                                     <InnerBadge fill="#7F5AF0" width={84.6} style={styles.innerBadge} />
@@ -117,6 +121,9 @@ const Profile = ({navigation}) => {
                         return accumulator;
                     }, []).map(res => (
                         <View style={styles.rankingRowTwo}>
+                            <View style={styles.notification2}>
+                                    <RedBadge />
+                                </View>
                             <TouchableOpacity style={styles.rankingContainer} onPress={() => navigation.navigate('SuperlativeDetails', res[0])}>
                                 <Text style={styles.rankingNumber} numberOfLines={1}>#{res[0]["index"]}</Text>
                                 <Text style={styles.rankingTitle} numberOfLines={1}>{res[0]["rank/question"]["question/text"]}</Text>
@@ -151,6 +158,7 @@ const Profile = ({navigation}) => {
                     }}
                 />
                 }>
+                
                 <TouchableOpacity onPress={() => handlePress()} style={photo ? styles.profileSel : styles.profileSelNoImage}>
                     <ImageBackground style={styles.backgroundImage} imageStyle={{borderRadius: 20}} source={{uri: photo ? photo.uri : user["profile-pic"]}} />
                     <View style={styles.plusSign}><EntypoIcon name="plus" size={35} color="white"/></View>
@@ -236,6 +244,20 @@ const styles = StyleSheet.create({
         width: 133.3,
         //borderRadius: 20,
         //overflow: "hidden",
+    },
+
+    notification: {
+        position: 'absolute',
+        left: 125,
+        bottom: 143,
+        zIndex: 800,
+    },
+
+    notification2: {
+        position: 'absolute',
+        left: 125,
+        bottom: 93,
+        zIndex: 800,
     },
 
     plusSign: {
